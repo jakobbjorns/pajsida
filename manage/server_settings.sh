@@ -1,0 +1,1 @@
+lxterminal --command='sudo nano /etc/nginx/sites-enabled/default'

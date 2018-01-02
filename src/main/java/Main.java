@@ -74,6 +74,31 @@ public class Main {
 				return response.body();
 			}
 		});
+		post("/login/set", new Route() {
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				//				for (String string : request.headers()) {
+				//				System.out.println(string+"  "+request.headers(string));
+				//			}
+				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+
+				if(request.ip().equals("127.0.0.1")){
+
+					System.out.println(request.body());
+					response.body("HEJSAN");
+					response.cookie("", "", "sessionID", SessionID()+"", 3600, true, true);
+					response.redirect("https://bjorns.tk/admin");
+				}
+
+				else{
+					response.body("forbidden");
+					response.status(403);
+				}
+				System.out.println("Responding with: " + response.status() + ", " + response.body());
+				System.out.println();
+				return response.body();
+			}
+		});
 	}
 	public  String SessionID () {
 		String id="";

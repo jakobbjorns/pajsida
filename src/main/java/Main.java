@@ -22,13 +22,57 @@ public class Main {
 		get("/hello", new Route() {
 			@Override
 			public Object handle(Request req, Response res) throws Exception {
-				return "Hello Worlds";
-			}
+				System.out.println(req.ip());
+				System.out.println(req.port());
+				System.out.println(req.protocol());
+				System.out.println(req.body());
+				return "<html>" +
+						"<head>" +
+						"<title>Test</title>" +
+						"<script>" +
+						"        function loadXMLDoc() {" +
+						"            var xhr = new XMLHttpRequest();" +
+						"            xhr.open('POST', 'hello', true);" +
+						"            xhr.setRequestHeader('Content-type', 'new');" +
+						"            xhr.onload = function() {" +
+						"                console.log(this.responseText);" +
+						"            };" +
+						"            xhr.send('hej');" +
+						"        }" +
+						"    </script>" +
+						"</head>" +
+						"<body>" +
+						"<h1>Detta fungerar</h1>" +
+						"<p>Din ip-adress är: "+req.ip()+"</p>"+
+						"    <h2>Using the XMLHttpRequest Object</h2>" +
+						"    <div id=\"demo\">" +
+								"        <button type=\"button\" onclick='loadXMLDoc()'>Change Content</button>" +
+										"    </div>" +
+										
+										"</body>";
+							}
 		});
 		post("/new", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
 				System.out.println("/new : " + request.body());
+
+				response.body("HEJSAN");
+
+				System.out.println("Responding with: " + response.status() + ", " + response.body());
+				System.out.println();
+
+				return response.body();
+			}
+		});
+		post("/hello", new Route() {
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				System.out.println(request.ip());
+				System.out.println(request.port());
+				System.out.println(request.ip());
+				System.out.println(request.protocol());
+				System.out.println(request.body());
 
 				response.body("HEJSAN");
 

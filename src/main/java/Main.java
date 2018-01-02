@@ -1,5 +1,7 @@
-import static spark.Spark.get;
-import static spark.Spark.port;
+import static spark.Spark.*;
+
+import com.google.gson.*;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -20,9 +22,36 @@ public class Main {
 		get("/hello", new Route() {
 			@Override
 			public Object handle(Request req, Response res) throws Exception {
-				return "Hello World";
+				return "Hello Worlds";
+			}
+		});
+		post("/new", new Route() {
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				System.out.println("/new : " + request.body());
+
+				response.body("HEJSAN");
+
+				System.out.println("Responding with: " + response.status() + ", " + response.body());
+				System.out.println();
+
+				return response.body();
 			}
 		});
 	}
 
 }
+class JSON {
+	/**
+	 * Parses an input string as a JSON object
+	 * @param theString the json to parse
+	 * @return the object of the string
+	 */
+	public static JsonObject parseStringToJSON(String theString) throws JsonSyntaxException {
+		JsonElement jsonElement = new JsonParser().parse(theString.trim());
+		JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+		return jsonObject;
+	}
+}
+

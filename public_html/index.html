@@ -4,4 +4,24 @@
 </head>
 <body>
 <h1>Detta fungerar</h1>
+
+
+    <h2>Using the XMLHttpRequest Object</h2>
+
+    <div id="demo">
+        <button type="button" onclick="loadXMLDoc()">Change Content</button>
+    </div>
+
+    <script>
+        function loadXMLDoc() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8181/hello', true);
+            xhr.setRequestHeader('Content-type', 'new');
+            xhr.onload = function() {
+                // do something to response
+                console.log(this.responseText);
+            };
+            xhr.send('hej');
+        }
+    </script>
 </body>

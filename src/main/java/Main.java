@@ -1,5 +1,7 @@
 import static spark.Spark.*;
 
+import javax.servlet.http.Cookie;
+
 import com.google.gson.*;
 
 import spark.Request;
@@ -49,8 +51,10 @@ public class Main {
 					System.out.println(request.body());
 					response.body("HEJSAN");
 
-
+					response.cookie("name", "100000");
+					response.
 				}
+				
 				else{
 					response.body("forbidden");
 					response.status(403);

@@ -76,7 +76,10 @@ input:checked + .slider:before {
 	}
 	element = document.getElementById("brytare");
 	var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "/login/lampstatus", false ); // false for synchronous request
-	element.checked=xmlHttp.responseText
+    xmlHttp.open( "GET", "/login/lampstatus", true );
+	xhr.onload = function() {
+                // do something to response
+               element.checked=this.responseText
+     };
 	</script>
 </body>

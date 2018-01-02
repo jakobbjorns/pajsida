@@ -61,7 +61,7 @@ input:checked + .slider:before {
 </head>
 <body>
 	<label class="switch">
-  <input onchange="lampa(this)" type="checkbox" checked>
+  <input id="brytare" onchange="lampa(this)" type="checkbox" checked>
   <span class="slider round"></span>
 </label>
 	<script>
@@ -74,6 +74,9 @@ input:checked + .slider:before {
             };
             xhr.send("lampa="+object.checked);
 	}
-	
+	element = document.getElementById("brytare");
+	var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", /login/lampstatus, false ); // false for synchronous request
+	element.checked=xmlHttp.responseText
 	</script>
 </body>

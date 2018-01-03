@@ -64,7 +64,7 @@ input:checked + .slider:before {
   <input id="brytare" onchange="lampa(this)" type="checkbox">
   <span class="slider round"></span>
 </label>
-  <input onchange="lampa(this)" type="checkbox"/>
+  <input id="hej" onchange="lampa(this)" type="checkbox"/>
 	<script>
 	function lampa(object){
 		var xhr = new XMLHttpRequest();
@@ -87,6 +87,7 @@ input:checked + .slider:before {
                 element = document.getElementById("brytare");
                 console.log(this.responseText);
                element.checked=this.responseText;
+               document.getElementById("hej").checked=this.responseText;
 	};
 	xmlHttp.send( null );
 	

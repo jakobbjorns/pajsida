@@ -18,8 +18,8 @@ public class Main {
 	 * @param args
 	 */
 	SecureRandom secureRandom;
-	String session;
-	boolean lampstatus;
+	static String session;
+	static boolean lampstatus;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Main();

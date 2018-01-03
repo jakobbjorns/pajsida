@@ -83,6 +83,7 @@ input:checked + .slider:before {
     xmlHttp.open( "GET", "/login/lampstatus", true );
 	xmlHttp.onload = function() {
                 // do something to response
+                console.log(this.responseText);
                element.checked=this.responseText;
 	};
 	xmlHttp.send( null );

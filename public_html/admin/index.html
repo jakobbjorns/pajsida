@@ -78,11 +78,13 @@ input:checked + .slider:before {
             xhr.send("lampa="+object.checked);
 	}
   		console.log('window - onload'); // 4th
-  		element = document.getElementById("brytare");
+  		
 	var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "/login/lampstatus", true );
 	xmlHttp.onload = function() {
                 // do something to response
+                element = document.getElementById("brytare");
+                console.log(this.responseText);
                element.checked=this.responseText;
 	};
 	xmlHttp.send( null );

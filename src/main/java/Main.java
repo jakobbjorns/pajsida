@@ -1,8 +1,12 @@
 import static spark.Spark.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.*;
 
 import spark.Request;
 import spark.Response;
@@ -20,11 +24,20 @@ public class Main {
 	SecureRandom secureRandom;
 	static String session;
 	static boolean lampstatus;
+	private Connection connect = null;
+	private Statement statement = null;
+	private PreparedStatement preparedStatement = null;
+	private ResultSet resultSet = null;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Main();
+		try {
+			new Main();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	public Main() {
+	public Main() throws SQLException, ClassNotFoundException {
 		// TODO Auto-generated constructor stub
 		try {
 			secureRandom= SecureRandom.getInstance("SHA1PRNG");
@@ -33,6 +46,13 @@ public class Main {
 			e.printStackTrace();
 		}
 		port(8181);
+		// Setup the connection with the DB
+		connect = DriverManager
+				.getConnection("jdbc:mysql://localhost/styrning?"
+						+ "user=jakob&password=furugatan10");
+
+		// Statements allow to issue SQL queries to the database
+		statement = connect.createStatement();
 
 		get("/login", new Route() {
 			@Override
@@ -45,6 +65,7 @@ public class Main {
 					response.body("forbidden");
 					response.status(403);
 				}
+				response.redirect("https://bjorns.tk/");
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
 				System.out.println();
 				return response.body();
@@ -57,9 +78,14 @@ public class Main {
 				//				System.out.println(string+"  "+request.headers(string));
 				//			}
 				System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+				String password=request.queryParams("password");
+				System.out.println(request.body());
+				System.out.println(password);
+				password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
+				System.out.println(password);
+				if(request.ip().equals("127.0.0.1")&&password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
 
-				if(request.ip().equals("127.0.0.1")){
-					System.out.println(request.body());
+					// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
 					response.body("HEJSAN");
 					String id=SessionID();
 					response.cookie("", "", "sessionID", id, 3600, true, true);
@@ -69,6 +95,7 @@ public class Main {
 				else{
 					response.body("forbidden");
 					response.status(403);
+					response.redirect("https://bjorns.tk/");
 				}
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
 				System.out.println();
@@ -78,6 +105,18 @@ public class Main {
 		get("/login/lampstatus", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
+				// Result set get the result of the SQL query
+				resultSet = statement
+						.executeQuery("select * from Data WHERE Data='Lyser'");
+				int status;
+				resultSet.next();
+				status=resultSet.getInt("Value");
+				if (status==0){
+					lampstatus=false;
+				}
+				else {
+					lampstatus=true;
+				}
 				response.body(lampstatus+"");
 				System.out.println(response.body());
 				return response.body();
@@ -98,16 +137,19 @@ public class Main {
 					if(request.cookie("sessionID").equals(session)){
 						//verified
 						if(request.body().startsWith("lampa")){
+
 							if(request.body().endsWith("true")){
 								System.err.println("tänd!");
 								response.body("tänder");
-								lampstatus=true;
+								//								lampstatus=true;
 							}
 							else if(request.body().endsWith("false")){
 								System.err.println("släck!");
 								response.body("släcker");
-								lampstatus=false;
+								//								lampstatus=false;
 							}
+
+							statement.executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
 						}
 					}
 					else {
@@ -124,7 +166,28 @@ public class Main {
 				return response.body();
 			}
 		});
+		while(true){
+			try {
+				//				System.out.println(Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2"));
+				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
+				p.waitFor();
 
+				BufferedReader reader =
+						new BufferedReader(new InputStreamReader(p.getInputStream()));
+				StringBuffer sb = new StringBuffer();
+				String line = "";
+				while ((line = reader.readLine())!= null) {
+					sb.append(line);
+				}
+				Thread.sleep(30000);
+				System.out.println(sb);
+
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	public  String SessionID () {
 		String id="";

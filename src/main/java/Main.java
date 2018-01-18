@@ -106,8 +106,16 @@ public class Main {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
 				// Result set get the result of the SQL query
-				resultSet = statement
-						.executeQuery("select * from Data WHERE Data='Lyser'");
+				try {
+					resultSet = statement
+							.executeQuery("select * from Data WHERE Data='Lyser'");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					statement = connect.createStatement();
+					return handle(request, response);
+
+				}
 				int status;
 				resultSet.next();
 				status=resultSet.getInt("Value");
@@ -134,7 +142,7 @@ public class Main {
 					//anslutning från webserver
 					System.err.println(session);
 					System.out.println(request.cookie("sessionID"));
-					if(request.cookie("sessionID").equals(session)){
+					if(request.cookie("sessionID")!=null&&request.cookie("sessionID").equals(session)){
 						//verified
 						if(request.body().startsWith("lampa")){
 

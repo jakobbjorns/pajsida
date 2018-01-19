@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Test</title>
 <style>
 .switch {
@@ -85,6 +86,9 @@ input:checked + .slider:before {
                 // do something to response
                 element = document.getElementById("brytare");
                 console.log(this.responseText);
+                if(this.responseText=="forbidden"){
+                	window.location.replace("/");
+                }
                element.checked=(this.responseText=='true');
                
                

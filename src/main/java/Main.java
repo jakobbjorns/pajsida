@@ -1,7 +1,6 @@
 import static spark.Spark.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,21 +11,15 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.util.ArrayList;
 import java.util.Base64;
 
 
 public class Main {
-
-	/**
-	 * @param args
-	 */
-	SecureRandom secureRandom;
-	static String session;
-	static boolean lampstatus;
+	private SecureRandom secureRandom;
+	private static String session;
+	private static boolean lampstatus;
 	private Connection connect = null;
 	private Statement statement = null;
-	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -46,26 +39,13 @@ public class Main {
 			e.printStackTrace();
 		}
 		port(8181);
-		// Setup the connection with the DB
-		connect = DriverManager
-				.getConnection("jdbc:mysql://localhost/styrning?"
-						+ "user=jakob&password=furugatan10");
-
-		// Statements allow to issue SQL queries to the database
-		statement = connect.createStatement();
-
+		sqlconnect();
 		get("/login", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
 				System.out.println("GET-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				if(request.ip().equals("127.0.0.1")){
-					response.body("hej");
-				}
-				else{
-					response.body("forbidden");
-					response.status(403);
-				}
-				response.redirect("https://bjorns.tk/");
+				validated(request, response,false);
+				response.redirect(request.headers("Origin"));
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
 				System.out.println();
 				return response.body();
@@ -74,28 +54,28 @@ public class Main {
 		post("/login", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
-				//				for (String string : request.headers()) {
-				//				System.out.println(string+"  "+request.headers(string));
-				//			}
+								for (String string : request.headers()) {
+								System.out.println(string+"  "+request.headers(string));
+							}
 				System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+				System.out.println(request.headers("Origin"));
 				String password=request.queryParams("password");
 				System.out.println(request.body());
 				System.out.println(password);
 				password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
 				System.out.println(password);
-				if(request.ip().equals("127.0.0.1")&&password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
-
+				if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
 					// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
-					response.body("HEJSAN");
-					String id=SessionID();
-					response.cookie("", "", "sessionID", id, 3600, true, true);
-					response.redirect("https://bjorns.tk/admin");
+					response.body("Inloggad");
+					String id=createSessionID();
+					response.cookie("", "", "sessionID", id, 60*60*24, true, true);
+					response.redirect(request.headers("Origin")+"/admin");
 					session=id;
 				}
 				else{
-					response.body("forbidden");
-					response.status(403);
-					response.redirect("https://bjorns.tk/");
+					String remotehost=request.headers("Origin");
+					forbiddenaccess(request, response);
+					response.redirect(remotehost);
 				}
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
 				System.out.println();
@@ -105,28 +85,20 @@ public class Main {
 		get("/login/lampstatus", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
-				// Result set get the result of the SQL query
-				try {
-					resultSet = statement
-							.executeQuery("select * from Data WHERE Data='Lyser'");
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					statement = connect.createStatement();
-					return handle(request, response);
-
+				if(validated(request, response,true)){
+					try {
+						resultSet = statement
+								.executeQuery("select * from Data WHERE Data='Lyser'");
+						resultSet.next();
+						response.body((resultSet.getInt("Value")==0?false:true)+"");
+						System.out.println(response.body());
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						sqlconnect();
+						return handle(request, response);
+					}
 				}
-				int status;
-				resultSet.next();
-				status=resultSet.getInt("Value");
-				if (status==0){
-					lampstatus=false;
-				}
-				else {
-					lampstatus=true;
-				}
-				response.body(lampstatus+"");
-				System.out.println(response.body());
 				return response.body();
 			}
 		});
@@ -138,36 +110,19 @@ public class Main {
 				}
 				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				System.out.println(request.body());
-				if(request.ip().equals("127.0.0.1")){
-					//anslutning från webserver
-					System.err.println(session);
-					System.out.println(request.cookie("sessionID"));
-					if(request.cookie("sessionID")!=null&&request.cookie("sessionID").equals(session)){
-						//verified
-						if(request.body().startsWith("lampa")){
-
-							if(request.body().endsWith("true")){
-								System.err.println("tänd!");
-								response.body("tänder");
-								//								lampstatus=true;
-							}
-							else if(request.body().endsWith("false")){
-								System.err.println("släck!");
-								response.body("släcker");
-								//								lampstatus=false;
-							}
-
-							statement.executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
-						}
+				if(validated(request, response, true)&&
+						request.body().startsWith("lampa")){
+					if(request.body().endsWith("true")){
+						System.err.println("tänd!");
+						response.body("tänder");
 					}
-					else {
-						response.body("forbidden");
-						response.status(403);
+					else if(request.body().endsWith("false")){
+						System.err.println("släck!");
+						response.body("släcker");
 					}
-				}
-				else{
-					response.body("forbidden");
-					response.status(403);
+
+					statement.executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
+
 				}
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
 				System.out.println();
@@ -187,8 +142,13 @@ public class Main {
 				while ((line = reader.readLine())!= null) {
 					sb.append(line);
 				}
+				String string = sb.toString();
+						
+				if (!string.endsWith("has not changed.")) {
+					System.out.println(string);
+				}
 				Thread.sleep(30000);
-				System.out.println(sb);
+				
 
 
 			} catch (Exception e) {
@@ -197,7 +157,38 @@ public class Main {
 			}
 		}
 	}
-	public  String SessionID () {
+	private boolean validated(Request request, Response response,boolean requireLogin){
+		//Kolla om anslutningen kommer från den lokala nginx-servern och
+		// om requireLogin är sann, kolla så att sessionID i cockie är samma som den inloggade
+		if(request.ip().equals("127.0.0.1")&&
+				requireLogin ? 
+						request.cookie("sessionID")!=null&&
+						request.cookie("sessionID").equals(session)
+						:true){
+			response.body("OK");
+			return true;
+		}
+		else{
+			forbiddenaccess(request, response);
+			return false;
+		}
+
+	}
+	private void forbiddenaccess(Request request, Response response){
+		System.err.println("Forbidden");
+		response.body("forbidden");
+		response.status(403);
+	}
+	private void sqlconnect() throws SQLException {
+		// Setup the connection with the DB
+		connect = DriverManager
+				.getConnection("jdbc:mysql://localhost/styrning?"
+						+ "user=jakob&password=furugatan10");
+
+		// Statements allow to issue SQL queries to the database
+		statement = connect.createStatement();
+	}
+	public  String createSessionID () {
 		String id="";
 
 		try {

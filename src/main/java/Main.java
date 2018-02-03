@@ -17,7 +17,6 @@ import java.util.Base64;
 public class Main {
 	private SecureRandom secureRandom;
 	private static String session;
-	private static boolean lampstatus;
 	private Connection connect = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
@@ -40,12 +39,38 @@ public class Main {
 		}
 		port(8181);
 		sqlconnect();
+		openHTTP();
+		while(true){
+			try {
+				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
+				p.waitFor();
+
+				BufferedReader reader =
+						new BufferedReader(new InputStreamReader(p.getInputStream()));
+				StringBuffer sb = new StringBuffer();
+				String line = "";
+				while ((line = reader.readLine())!= null) {
+					sb.append(line);
+				}
+				String string = sb.toString();
+						
+				if (!string.endsWith("has not changed.")) {
+					System.out.println(string);
+				}
+				Thread.sleep(30000);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	private void openHTTP(){
 		get("/login", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
 				System.out.println("GET-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				validated(request, response,false);
-				response.redirect(request.headers("Origin"));
+				response.redirect("https://"+request.headers("remote-host"));
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
 				System.out.println();
 				return response.body();
@@ -102,6 +127,30 @@ public class Main {
 				return response.body();
 			}
 		});
+		get("/login/dark", new Route() {
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				if(validated(request, response,false)){
+					try {
+						resultSet = statement
+								.executeQuery("select * from LampaMorkTid");
+						String data="";
+						while(resultSet.next()){
+							data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
+						}
+						
+						response.body(data);
+						System.out.println(response.body());
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						sqlconnect();
+						return handle(request, response);
+					}
+				}
+				return response.body();
+			}
+		});
 		post("/login/set", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
@@ -129,37 +178,12 @@ public class Main {
 				return response.body();
 			}
 		});
-		while(true){
-			try {
-				//				System.out.println(Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2"));
-				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
-				p.waitFor();
+		
 
-				BufferedReader reader =
-						new BufferedReader(new InputStreamReader(p.getInputStream()));
-				StringBuffer sb = new StringBuffer();
-				String line = "";
-				while ((line = reader.readLine())!= null) {
-					sb.append(line);
-				}
-				String string = sb.toString();
-						
-				if (!string.endsWith("has not changed.")) {
-					System.out.println(string);
-				}
-				Thread.sleep(30000);
-				
-
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 	private boolean validated(Request request, Response response,boolean requireLogin){
 		//Kolla om anslutningen kommer från den lokala nginx-servern och
-		// om requireLogin är sann, kolla så att sessionID i cockie är samma som den inloggade
+		// om requireLogin är true, kolla så att sessionID i cookie är sparad session
 		if(request.ip().equals("127.0.0.1")&&
 				requireLogin ? 
 						request.cookie("sessionID")!=null&&

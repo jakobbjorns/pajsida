@@ -1,100 +1,150 @@
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Test</title>
-<style>
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Test</title>
+        <style>
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
 
-.switch input {display:none;}
+            .switch input {
+                display: none;
+            }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
 
-input:checked + .slider {
-  background-color: #2196F3;
-}
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
 
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
 
-.slider.round:before {
-  border-radius: 50%;
-}
-</style>
-</head>
-<body>
-	<label class="switch">
-  <input id="brytare" onchange="lampa(this)" type="checkbox">
-  <span class="slider round"></span>
-</label>
-	<script>
-	function lampa(object){
-		var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/login/set', true);
-            xhr.onload = function() {
-                // do something to response
-                console.log(this.responseText);
-                if(this.responseText=="forbidden"){
-                	window.location.replace("/");
-                }
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Fönsterlampor</h1>
+        <div>
+            <label class="switch">
+                <input id="brytare" onchange="lampa(this)" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <form id="tider" action="/login/darks" method="post">
+            <h1>Släckta tider</h1>
+        </form>
+        <script>
+            function change() {
+                console.log("hej");
             };
-            xhr.send("lampa="+object.checked);
-	}
-  		console.log('window - onload'); // 4th
-  		
-	var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "/login/lampstatus", true );
-	xmlHttp.onload = function() {
+            function lampa(object) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/login/set', true);
+                xhr.onload = function() {
+                    // do something to response
+                    console.log(this.responseText);
+                    if (this.responseText == "forbidden") {
+                        window.location.replace("/");
+                    }
+                }
+                ;
+                xhr.send("lampa=" + object.checked);
+            }
+            console.log('window - onload');
+            // 4th
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", "/login/lampstatus", true);
+            xmlHttp.onload = function() {
                 // do something to response
                 element = document.getElementById("brytare");
                 console.log(this.responseText);
-                if(this.responseText=="forbidden"){
-                	window.location.replace("/");
+                if (this.responseText == "forbidden") {
+                    window.location.replace("/");
                 }
-               element.checked=(this.responseText=='true');
-               
-               
-               
-	};
-	xmlHttp.send( null );
-	
-	</script>
-</body>
+                element.checked = (this.responseText == 'true');
+
+            }
+            ;
+
+            xmlHttp.send(null);
+
+            var servertider = new XMLHttpRequest();
+
+            servertider.open("GET", "/login/dark", true);
+            servertider.onload = function() {
+                // do something to response
+                element = document.getElementById("tider");
+                console.log(this.responseText);
+                if (this.responseText == "forbidden") {
+                    window.location.replace("/");
+                }
+                var times = this.responseText.slice(0, -1).split(";");
+                times.forEach(function(entry) {
+                    entry = entry.split("-");
+                    console.log(entry);
+                    var div = document.createElement("div");
+                    for (i = 0; i < 2; i++) {
+                        var line = document.createElement("input");
+                        line.onchange = "change()";
+                        line.type = "time";
+                        var x = entry[i].split(".");
+                        x[0] = ("0" + x[0]).slice(-2);
+                        x[1] = (x[1] + "0").slice(-2);
+
+                        line.value = x.join(":");
+                        
+                        div.appendChild(line);
+                    }
+
+                    element.appendChild(div);
+                });
+                var submit = document.createElement("input");
+                submit.type = "submit";
+                element.appendChild(submit);
+            }
+            ;
+            servertider.send(null);
+        </script>
+    </body>

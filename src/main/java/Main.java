@@ -14,15 +14,18 @@ import spark.Route;
 import java.util.Base64;
 
 
+
+
 public class Main {
 	private SecureRandom secureRandom;
 	private static String session;
 	private Connection connect = null;
-	private Statement statement = null;
-	private ResultSet resultSet = null;
+	//	private Statement statement = null;
+	//	private ResultSet resultSet = null;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
+			
 			new Main();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -53,7 +56,7 @@ public class Main {
 					sb.append(line);
 				}
 				String string = sb.toString();
-						
+
 				if (!string.endsWith("has not changed.")) {
 					System.out.println(string);
 				}
@@ -79,9 +82,9 @@ public class Main {
 		post("/login", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
-								for (String string : request.headers()) {
-								System.out.println(string+"  "+request.headers(string));
-							}
+				for (String string : request.headers()) {
+					System.out.println(string+"  "+request.headers(string));
+				}
 				System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				System.out.println(request.headers("Origin"));
 				String password=request.queryParams("password");
@@ -112,7 +115,8 @@ public class Main {
 			public Object handle(Request request, Response response) throws Exception {
 				if(validated(request, response,true)){
 					try {
-						resultSet = statement
+
+						ResultSet resultSet = connect.createStatement()
 								.executeQuery("select * from Data WHERE Data='Lyser'");
 						resultSet.next();
 						response.body((resultSet.getInt("Value")==0?false:true)+"");
@@ -132,13 +136,13 @@ public class Main {
 			public Object handle(Request request, Response response) throws Exception {
 				if(validated(request, response,false)){
 					try {
-						resultSet = statement
+						ResultSet resultSet = connect.createStatement()
 								.executeQuery("select * from LampaMorkTid");
 						String data="";
 						while(resultSet.next()){
 							data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
 						}
-						
+
 						response.body(data);
 						System.out.println(response.body());
 					} catch (SQLException e) {
@@ -146,6 +150,35 @@ public class Main {
 						e.printStackTrace();
 						sqlconnect();
 						return handle(request, response);
+					}
+				}
+				return response.body();
+			}
+		});
+		post("/login/dark", new Route() {
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				if(validated(request, response,false)){
+					try {
+						String body = request.body();
+						System.out.println(body);
+						Statement statement=connect.createStatement();
+						statement.executeUpdate("TRUNCATE LampaMorkTid");
+						if (!body.equals("")) {
+
+
+							String[] tider=body.substring(0,body.length()-1).split(";");
+
+
+							for (int i = 0; i < tider.length; i++) {
+								String[] tid= tider[i].split("-");
+								statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");
+							}
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						sqlconnect();
 					}
 				}
 				return response.body();
@@ -162,15 +195,15 @@ public class Main {
 				if(validated(request, response, true)&&
 						request.body().startsWith("lampa")){
 					if(request.body().endsWith("true")){
-						System.err.println("tÃ¤nd!");
-						response.body("tÃ¤nder");
+						System.err.println("tänd!");
+						response.body("tänder");
 					}
 					else if(request.body().endsWith("false")){
-						System.err.println("slÃ¤ck!");
-						response.body("slÃ¤cker");
+						System.err.println("släck!");
+						response.body("släcker");
 					}
 
-					statement.executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
+					connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
 
 				}
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
@@ -178,12 +211,12 @@ public class Main {
 				return response.body();
 			}
 		});
-		
+
 
 	}
 	private boolean validated(Request request, Response response,boolean requireLogin){
-		//Kolla om anslutningen kommer frÃ¥n den lokala nginx-servern och
-		// om requireLogin Ã¤r true, kolla sÃ¥ att sessionID i cookie Ã¤r sparad session
+		//Kolla om anslutningen kommer från den lokala nginx-servern och
+		// om requireLogin är true, kolla så att sessionID i cookie är sparad session
 		if(request.ip().equals("127.0.0.1")&&
 				requireLogin ? 
 						request.cookie("sessionID")!=null&&
@@ -204,13 +237,9 @@ public class Main {
 		response.status(403);
 	}
 	private void sqlconnect() throws SQLException {
-		// Setup the connection with the DB
 		connect = DriverManager
 				.getConnection("jdbc:mysql://localhost/styrning?"
 						+ "user=jakob&password=furugatan10");
-
-		// Statements allow to issue SQL queries to the database
-		statement = connect.createStatement();
 	}
 	public  String createSessionID () {
 		String id="";

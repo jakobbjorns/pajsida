@@ -165,11 +165,7 @@ public class Main {
 						Statement statement=connect.createStatement();
 						statement.executeUpdate("TRUNCATE LampaMorkTid");
 						if (!body.equals("")) {
-
-
 							String[] tider=body.substring(0,body.length()-1).split(";");
-
-
 							for (int i = 0; i < tider.length; i++) {
 								String[] tid= tider[i].split("-");
 								statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");

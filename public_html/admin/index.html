@@ -71,14 +71,15 @@
                 <span class="slider round"></span>
             </label>
         </div>
-        <form id="tider" action="/login/darks" method="post">
+        <div id="tider">
             <h1>Släckta tider</h1>
-        </form>
+        </div>
+ <button onclick="createline('0.0-0.0')">Lägg till</button>
         <script>
             function change() {
                 console.log("hej");
-            };
-            function lampa(object) {
+            }
+            ;function lampa(object) {
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/login/set', true);
                 xhr.onload = function() {
@@ -121,30 +122,60 @@
                     window.location.replace("/");
                 }
                 var times = this.responseText.slice(0, -1).split(";");
-                times.forEach(function(entry) {
-                    entry = entry.split("-");
-                    console.log(entry);
-                    var div = document.createElement("div");
-                    for (i = 0; i < 2; i++) {
-                        var line = document.createElement("input");
-                        line.onchange = "change()";
-                        line.type = "time";
-                        var x = entry[i].split(".");
-                        x[0] = ("0" + x[0]).slice(-2);
-                        x[1] = (x[1] + "0").slice(-2);
+                times.forEach(createline);
 
-                        line.value = x.join(":");
-                        
-                        div.appendChild(line);
-                    }
-
-                    element.appendChild(div);
-                });
-                var submit = document.createElement("input");
-                submit.type = "submit";
-                element.appendChild(submit);
             }
             ;
             servertider.send(null);
+            function createline(entry) {
+                entry = entry.split("-");
+                console.log(entry);
+                var div = document.createElement("div");
+                for (i = 0; i < 2; i++) {
+                    var line = document.createElement("input");
+                    line.className = "tid";
+                    line.type = "time";
+                    var x = entry[i].split(".");
+                    x[0] = ("0" + x[0]).slice(-2);
+                    x[1] = (x[1] + "0").slice(0, 2);
+                    line.value = x.join(":");
+                    line.onchange = function() {
+                            var empty=-1;
+                        var tider = document.getElementsByClassName("tid");
+                        console.log(tider);
+                        var result = "";
+                        for (var k = 0; k < tider.length; k++) {
+                                var a=tider[k].value.split(":").join(".") + "-" + tider[++k].value.split(":").join(".") + ";";
+                            console.log(a.length);
+                            if(a.length==12){
+                                    result+=a;
+                            }
+                            else{
+                                    empty=k;
+                            }
+                        }
+                        if(empty>0){
+                                tider[empty].parentElement.outerHTML = "";
+                        }
+                        tider[empty]
+                        console.log(result);
+                        var skicka = new XMLHttpRequest();
+                        skicka.open("POST", "/login/dark", true);
+                        skicka.onload = function() {
+                            // do something to response
+                            console.log(this.responseText);
+                            if (this.responseText == "forbidden") {
+                                window.location.replace("/");
+                            }
+                        }
+                        ;
+
+                        skicka.send(result);
+                    }
+                    ;
+                    div.appendChild(line);
+                }
+                element.appendChild(div);
+            }
         </script>
     </body>

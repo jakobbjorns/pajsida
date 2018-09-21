@@ -13,9 +13,6 @@ import spark.Route;
 
 import java.util.Base64;
 
-
-
-
 public class Main {
 	private SecureRandom secureRandom;
 	private static String session;

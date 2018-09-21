@@ -1,0 +1,4 @@
+cd git/pajsida
+git pull
+mvn compile
+mvn exec:java

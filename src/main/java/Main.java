@@ -78,7 +78,7 @@ public class Main {
 		}
 	}
 	private void openHTTP(){
-		get("/stop", new Route() {
+		get("/login/stop", new Route() {
 			
 			@Override
 			public Object handle(Request request, Response response) throws Exception {

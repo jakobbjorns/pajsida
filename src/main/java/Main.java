@@ -1,5 +1,6 @@
 import static spark.Spark.*;
 
+import java.awt.Robot;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
@@ -77,6 +78,16 @@ public class Main {
 		}
 	}
 	private void openHTTP(){
+		get("/stop", new Route() {
+			
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				// TODO Auto-generated method stub
+				System.out.println("Avslutar");
+				System.exit(0);
+				return response.body();
+			}
+		});
 		get("/login", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {

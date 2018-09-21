@@ -1,6 +1,5 @@
 #!/bin/sh
 # Bash script by Jakob
-cd ${HOME}/git/pajsida
 git pull
 mvn compile
 mvn exec:java

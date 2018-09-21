@@ -1,3 +1,5 @@
+#!/bin/bash
+# Bash script by Jakob
 cd ~/git/pajsida
 git pull
 mvn compile

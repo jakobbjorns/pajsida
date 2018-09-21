@@ -49,7 +49,7 @@ public class Main {
 			e.printStackTrace();
 		}
 //		port(8181);
-		port(8181);
+		port(port);
 		sqlconnect();
 		openHTTP();
 		while(true){

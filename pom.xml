@@ -42,7 +42,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>my.package.to.my.MainClass</mainClass>
+							<mainClass>Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

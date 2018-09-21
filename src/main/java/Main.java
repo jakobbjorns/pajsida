@@ -232,7 +232,7 @@ public class Main {
 	private void sqlconnect() throws SQLException {
 		connect = DriverManager
 				.getConnection("jdbc:mysql://localhost/styrning?"
-						+ "user=jakob&password=furugatan10");
+						+ "user=jakob&password=furugatan10&serverTimezone=UTC");
 	}
 	public  String createSessionID () {
 		String id="";

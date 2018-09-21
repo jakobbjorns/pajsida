@@ -21,6 +21,8 @@ public class Main {
 	//	private ResultSet resultSet = null;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		System.out.println("Välkommen");
+		System.out.println(args);
 		try {
 			if (args.length>0) {
 				new Main(Integer.parseInt(args[0]));

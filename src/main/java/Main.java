@@ -22,14 +22,23 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			
-			new Main();
+			if (args.length>0) {
+				new Main(Integer.parseInt(args[0]));
+			}
+			else {
+				new Main(8181);
+
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.err.println("Ange endast portnummer som argument");
+		}
 	}
-	public Main() throws SQLException, ClassNotFoundException {
+	public Main(int port) throws SQLException, ClassNotFoundException {
 		// TODO Auto-generated constructor stub
 		try {
 			secureRandom= SecureRandom.getInstance("SHA1PRNG");
@@ -37,6 +46,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		port(8181);
 		port(8181);
 		sqlconnect();
 		openHTTP();

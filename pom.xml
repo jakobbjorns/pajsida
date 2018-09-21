@@ -64,7 +64,6 @@
 				<configuration>
 					<mainClass>Main</mainClass>
 					<arguments>
-						<argument>8181</argument>
 					</arguments>
 				</configuration>
 			</plugin>

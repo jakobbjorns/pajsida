@@ -188,12 +188,12 @@ public class Main {
 				if(validated(request, response, true)&&
 						request.body().startsWith("lampa")){
 					if(request.body().endsWith("true")){
-						System.err.println("t‰nd!");
-						response.body("t‰nder");
+						System.err.println("t√§nd!");
+						response.body("t√§nder");
 					}
 					else if(request.body().endsWith("false")){
-						System.err.println("sl‰ck!");
-						response.body("sl‰cker");
+						System.err.println("sl√§ck!");
+						response.body("sl√§cker");
 					}
 
 					connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
@@ -208,8 +208,8 @@ public class Main {
 
 	}
 	private boolean validated(Request request, Response response,boolean requireLogin){
-		//Kolla om anslutningen kommer frÂn den lokala nginx-servern och
-		// om requireLogin ‰r true, kolla sÂ att sessionID i cookie ‰r sparad session
+		//Kolla om anslutningen kommer fr√•n den lokala nginx-servern och
+		// om requireLogin √§r true, kolla s√• att sessionID i cookie √§r sparad session
 		if(request.ip().equals("127.0.0.1")&&
 				requireLogin ? 
 						request.cookie("sessionID")!=null&&

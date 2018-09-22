@@ -251,7 +251,7 @@ public class Main {
 					svar+=meddelanden.get(j)+"\n";
 				}
 				response.body(svar);
-				response.header("LastMessage", size+"");
+				response.header("NextMessage", (size+1)+"");
 				return response.body();
 			}
 		});

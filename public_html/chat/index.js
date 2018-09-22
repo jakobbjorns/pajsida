@@ -35,7 +35,7 @@ function getMessages(){
 		window.setTimeout(getMessages,5000);
 	}
 	;
-	xhr.send(last+"");
+	xhr.send(next+"");
 }
 function sendMessage() {
 	var message = document.getElementById('chat').value;

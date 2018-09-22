@@ -262,8 +262,10 @@ public class Main {
 					System.out.println(string+"  "+request.headers(string));
 				}
 				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				System.out.println(request.body());
-				meddelanden.add(request.body());
+				String body=request.body();
+				System.out.println(body);
+				meddelanden.add(body);
+				
 				return response.body();
 			}
 		});

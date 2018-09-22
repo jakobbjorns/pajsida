@@ -232,12 +232,12 @@ public class Main {
 		post("/login/chat/read", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
-				for (String string : request.headers()) {
-					System.out.println(string+"  "+request.headers(string));
-				}
-				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+//				for (String string : request.headers()) {
+//					System.out.println(string+"  "+request.headers(string));
+//				}
+//				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				String body=request.body();
-				System.out.println(body);
+//				System.out.println(body);
 				
 				int i=0;
 				try {

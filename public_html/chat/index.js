@@ -1,5 +1,5 @@
 
-window.setTimeout(setup,5000);
+window.setTimeout(setup,2000);
 var next = 0
 function setup() {
 	document.getElementById('chat').onkeydown = function(event) {

@@ -13,24 +13,28 @@ function getMessages(){
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', '/login/chat/read', true);
 	xhr.onload = function() {
-		var console = document.getElementById('console');
-		var p = document.createElement('p');
+		var text=this.responseText;
+		if (text!="") {
+			var console = document.getElementById('console');
+			var p = document.createElement('p');
 
-		p.style.wordWrap = 'break-word';
-		p.innerHTML = this.responseText;
-		next = this.getResponseHeader("NextMessage");
-				
-		console.appendChild(p);
-		//while (console.childNodes.length > 40) {
-		//	console.removeChild(console.firstChild);
-		//}
-		console.scrollTop = console.scrollHeight;
-		var title = document.title;
-		document.title = "Nytt meddelande";
-		//playSound();
-		setTimeout(function(){
-			document.title = "Chat";
-		},3000);
+			p.style.wordWrap = 'break-word';
+			p.innerHTML = text
+			next = this.getResponseHeader("NextMessage");
+					
+			console.appendChild(p);
+			//while (console.childNodes.length > 40) {
+			//	console.removeChild(console.firstChild);
+			//}
+			console.scrollTop = console.scrollHeight;
+			var title = document.title;
+			document.title = "Nytt meddelande";
+			//playSound();
+			setTimeout(function(){
+				document.title = "Chat";
+			},3000);
+		}
+
 		
 		window.setTimeout(getMessages,2000);
 	}

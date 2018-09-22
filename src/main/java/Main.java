@@ -265,7 +265,7 @@ public class Main {
 				String body=request.body();
 				System.out.println(body);
 				meddelanden.add(body);
-				
+				response.body("OK");
 				return response.body();
 			}
 		});

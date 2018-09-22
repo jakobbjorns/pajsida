@@ -1,12 +1,18 @@
-document.getElementById('chat').onkeydown = function(event) {
-	if (event.keyCode == 13) {
-		sendMessage();
-	}
-};
+
+window.setTimeout(setup,5000);
+
+function setup() {
+	document.getElementById('chat').onkeydown = function(event) {
+		if (event.keyCode == 13) {
+			sendMessage();
+		}
+	};
+}
+
 function sendMessage() {
 	var message = document.getElementById('chat').value;
 	if (message !== '') {
-		
+
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', '/login/chat/post', true);
 		xhr.onload = function() {

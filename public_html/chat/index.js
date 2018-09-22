@@ -21,9 +21,9 @@ function getMessages(){
 		next = this.getResponseHeader("NextMessage");
 				
 		console.appendChild(p);
-		while (console.childNodes.length > 40) {
-			console.removeChild(console.firstChild);
-		}
+		//while (console.childNodes.length > 40) {
+		//	console.removeChild(console.firstChild);
+		//}
 		console.scrollTop = console.scrollHeight;
 		var title = document.title;
 		document.title = "Nytt meddelande";

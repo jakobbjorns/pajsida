@@ -32,7 +32,7 @@ function getMessages(){
 			document.title = "Chat";
 		},3000);
 		
-		window.setTimeout(getMessages,5000);
+		window.setTimeout(getMessages,2000);
 	}
 	;
 	xhr.send(next+"");

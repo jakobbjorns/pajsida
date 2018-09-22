@@ -243,7 +243,7 @@ public class Main {
 				try {
 					i=Integer.parseInt(body);
 				} catch (Exception e) {
-					// TODO: handle exception
+					System.err.println("default");
 				}
 				String svar="";
 				int size=meddelanden.size();

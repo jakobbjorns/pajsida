@@ -7,6 +7,7 @@ function setup() {
 			sendMessage();
 		}
 	};
+	getMessages()
 }
 function getMessages(){
 	var xhr = new XMLHttpRequest();
@@ -35,8 +36,6 @@ function getMessages(){
 	}
 	;
 	xhr.send(last+"");
-	
-	
 }
 function sendMessage() {
 	var message = document.getElementById('chat').value;

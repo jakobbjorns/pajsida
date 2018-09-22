@@ -1,6 +1,5 @@
 import static spark.Spark.*;
 
-import java.awt.Robot;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
@@ -12,12 +11,14 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class Main {
 	private SecureRandom secureRandom;
 	private static String session;
 	private Connection connect = null;
+	private ArrayList<String> meddelanden=new ArrayList<>();
 	//	private Statement statement = null;
 	//	private ResultSet resultSet = null;
 	public static void main(String[] args) {
@@ -53,6 +54,7 @@ public class Main {
 		port(port);
 		sqlconnect();
 		openHTTP();
+		new SnakeServer();
 		while(true){
 			try {
 				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
@@ -224,6 +226,44 @@ public class Main {
 				}
 				System.out.println("Responding with: " + response.status() + ", " + response.body());
 				System.out.println();
+				return response.body();
+			}
+		});
+		post("/login/chat/read", new Route() {
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				for (String string : request.headers()) {
+					System.out.println(string+"  "+request.headers(string));
+				}
+				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+				String body=request.body();
+				System.out.println(body);
+				
+				int i=0;
+				try {
+					i=Integer.parseInt(body);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				String svar="";
+				int size=meddelanden.size();
+				for (int j = i; j < size; j++) {
+					svar+=meddelanden.get(j)+"\n";
+				}
+				response.body(svar);
+				response.header("LastMessage", size+"");
+				return response.body();
+			}
+		});
+		post("/login/chat/post", new Route() {
+			@Override
+			public Object handle(Request request, Response response) throws Exception {
+				for (String string : request.headers()) {
+					System.out.println(string+"  "+request.headers(string));
+				}
+				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+				System.out.println(request.body());
+				meddelanden.add(request.body());
 				return response.body();
 			}
 		});

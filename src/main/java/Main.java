@@ -50,7 +50,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		port(8181);
+		//		port(8181);
 		port(port);
 		sqlconnect();
 		openHTTP();
@@ -80,15 +80,10 @@ public class Main {
 		}
 	}
 	private void openHTTP(){
-		get("/login/stop", new Route() {
-			
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				// TODO Auto-generated method stub
-				System.out.println("Avslutar");
-				System.exit(0);
-				return response.body();
-			}
+		get("/login/stop", (request, response) -> {
+			System.out.println("Avslutar");
+			System.exit(0);
+			return response.body();
 		});
 		get("/login", new Route() {
 			@Override
@@ -232,13 +227,13 @@ public class Main {
 		post("/login/chat/read", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
-//				for (String string : request.headers()) {
-//					System.out.println(string+"  "+request.headers(string));
-//				}
-//				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+				//				for (String string : request.headers()) {
+				//					System.out.println(string+"  "+request.headers(string));
+				//				}
+				//				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				String body=request.body();
-//				System.out.println(body);
-				
+				//				System.out.println(body);
+
 				int i=0;
 				try {
 					i=Integer.parseInt(body);

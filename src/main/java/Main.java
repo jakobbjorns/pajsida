@@ -143,9 +143,7 @@ public class Main {
 					}
 					else{
 						String remotehost=request.headers("Origin");
-						forbiddenaccess(request, response,remotehost);
-						response.redirect(remotehost);
-					}
+						forbiddenaccess(request, response,remotehost);					}
 					System.out.println("Responding with: " + response.status() + ", " + response.body());
 					System.out.println();
 					return response.body();

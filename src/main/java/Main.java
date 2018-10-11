@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.stream.Collectors;
 
-import com.jcraft.jsch.*;
-
 
 public class Main {
 	private SecureRandom secureRandom;

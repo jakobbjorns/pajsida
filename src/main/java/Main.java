@@ -1,7 +1,13 @@
 import static spark.Spark.*;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -13,6 +19,10 @@ import spark.Route;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.stream.Collectors;
+
+import com.jcraft.jsch.*;
+
 
 public class Main {
 	private SecureRandom secureRandom;
@@ -55,78 +65,127 @@ public class Main {
 		sqlconnect();
 		openHTTP();
 		new SnakeServer();
-		while(true){
+		//		while(true){
+		//			try {
+		//				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
+		//				p.waitFor();
+		//
+		//				BufferedReader reader =
+		//						new BufferedReader(new InputStreamReader(p.getInputStream()));
+		//				StringBuffer sb = new StringBuffer();
+		//				String line = "";
+		//				while ((line = reader.readLine())!= null) {
+		//					sb.append(line);
+		//				}
+		//				String string = sb.toString();
+		//
+		//				if (!string.endsWith("has not changed.")) {
+		//					System.out.println(string);
+		//				}
+		//				Thread.sleep(30000);
+		//			} catch (Exception e) {
+		//				// TODO Auto-generated catch block
+		//				e.printStackTrace();
+		//			}
+		//		}
+	}
+	static void connect(HttpURLConnection connection) throws IOException, InterruptedException {
+		while (connection.getResponseCode()!=200) {
+			Thread.sleep(100);
+			System.out.println(connection.getResponseCode());
+			System.out.println(connection.getResponseMessage());
+		}
+		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
+		BufferedReader bufferedReader = new BufferedReader(reader);
+		System.out.println(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())));
+	}
+	private void openHTTP(){
+		path("/login", () -> {
+			before((request, response) -> {
+				System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+				String remotehost=request.headers("Origin");
+				if(request.ip().equals("127.0.0.1")){
+					response.body("OK");
+				}
+				else{
+					forbiddenaccess(request,response,remotehost);
+				}
+			});
+			get("", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					System.out.println("GET-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+					validated(request, response,false);
+					response.redirect("https://"+request.headers("remote-host"));
+					System.out.println("Responding with: " + response.status() + ", " + response.body());
+					System.out.println();
+					return response.body();
+				}
+			});
+			post("", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					for (String string : request.headers()) {
+						System.out.println(string+"  "+request.headers(string));
+					}
+					System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+					System.out.println(request.headers("Origin"));
+					String password=request.queryParams("password");
+					System.out.println(request.body());
+					System.out.println(password);
+					password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
+					System.out.println(password);
+					if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
+						// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
+						response.body("Inloggad");
+						String id=createSessionID();
+						response.cookie("", "", "sessionID", id, 60*60*24, true, true);
+						response.redirect(request.headers("Origin")+"/admin");
+						session=id;
+					}
+					else{
+						String remotehost=request.headers("Origin");
+						forbiddenaccess(request, response,remotehost);
+						response.redirect(remotehost);
+					}
+					System.out.println("Responding with: " + response.status() + ", " + response.body());
+					System.out.println();
+					return response.body();
+				}
+			});
+			before("/*",(request, response) -> {
+				if (validated(request, response, true)) {
+					
+				}
+			});
+			
+		});
+		post("/login/hueF56/*", (request, response) -> {
 			try {
-				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
-				p.waitFor();
-
-				BufferedReader reader =
-						new BufferedReader(new InputStreamReader(p.getInputStream()));
-				StringBuffer sb = new StringBuffer();
-				String line = "";
-				while ((line = reader.readLine())!= null) {
-					sb.append(line);
-				}
-				String string = sb.toString();
-
-				if (!string.endsWith("has not changed.")) {
-					System.out.println(string);
-				}
-				Thread.sleep(30000);
+				String[] splats=request.splat();
+				System.out.println(splats);;
+				int id=request.attribute("id");
+				URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
+				HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("PUT");
+				connection.setDoOutput(true);
+				OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+				writer.write(request.body());
+				writer.close();
+				connect(connection);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-	}
-	private void openHTTP(){
+
+			return response.body();
+		});
 		get("/login/stop", (request, response) -> {
 			System.out.println("Avslutar");
 			System.exit(0);
 			return response.body();
 		});
-		get("/login", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				System.out.println("GET-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				validated(request, response,false);
-				response.redirect("https://"+request.headers("remote-host"));
-				System.out.println("Responding with: " + response.status() + ", " + response.body());
-				System.out.println();
-				return response.body();
-			}
-		});
-		post("/login", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				for (String string : request.headers()) {
-					System.out.println(string+"  "+request.headers(string));
-				}
-				System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				System.out.println(request.headers("Origin"));
-				String password=request.queryParams("password");
-				System.out.println(request.body());
-				System.out.println(password);
-				password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
-				System.out.println(password);
-				if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
-					// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
-					response.body("Inloggad");
-					String id=createSessionID();
-					response.cookie("", "", "sessionID", id, 60*60*24, true, true);
-					response.redirect(request.headers("Origin")+"/admin");
-					session=id;
-				}
-				else{
-					String remotehost=request.headers("Origin");
-					forbiddenaccess(request, response);
-					response.redirect(remotehost);
-				}
-				System.out.println("Responding with: " + response.status() + ", " + response.body());
-				System.out.println();
-				return response.body();
-			}
-		});
+
 		get("/login/lampstatus", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
@@ -279,20 +338,26 @@ public class Main {
 			return true;
 		}
 		else{
-			forbiddenaccess(request, response);
+			forbiddenaccess(request, response,"bjorns.tk");
 			return false;
 		}
 
 	}
-	private void forbiddenaccess(Request request, Response response){
+	private void forbiddenaccess(Request request, Response response,String remotehost){
 		System.err.println("Forbidden");
 		response.body("forbidden");
 		response.status(403);
+		response.redirect(remotehost);
 	}
-	private void sqlconnect() throws SQLException {
-		connect = DriverManager
-				.getConnection("jdbc:mysql://localhost/styrning?"
-						+ "user=jakob&password=furugatan10&serverTimezone=UTC");
+	private void sqlconnect(){
+		try {
+			connect = DriverManager
+					.getConnection("jdbc:mysql://localhost/styrning?"
+							+ "user=jakob&password=furugatan10&serverTimezone=UTC");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public  String createSessionID () {
 		String id="";
@@ -307,5 +372,7 @@ public class Main {
 
 		return id;
 	}
+
+
 
 }

@@ -99,7 +99,7 @@ public class Main {
 	}
 	private void openHTTP(){
 		path("/login", () -> {
-			before((request, response) -> {
+			before("*",(request, response) -> {
 				System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				String remotehost=request.headers("Origin");
 				if(request.ip().equals("127.0.0.1")){

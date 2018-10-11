@@ -104,8 +104,11 @@ public class Main {
 				String remotehost=request.headers("Origin");
 				if(request.ip().equals("127.0.0.1")){
 					response.body("OK");
+					System.out.println("PASS");
 				}
 				else{
+					System.out.println("NO");
+
 					forbiddenaccess(request,response,remotehost);
 				}
 			});

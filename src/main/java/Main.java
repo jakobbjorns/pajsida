@@ -101,6 +101,11 @@ public class Main {
 	}
 	private void openHTTP(){
 		path("/login", () -> {
+			get("stop", (request, response) -> {
+				System.out.println("Avslutar");
+				System.exit(0);
+				return response.body();
+			});
 			before("/*",(request, response) -> {
 				System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				System.out.println("\n"+request.body());

@@ -138,7 +138,7 @@ public class Main {
 					System.out.println(password);
 					if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
 						// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
-						response.body("Inloggad");
+						response.body("Inloggad!!!!");
 						String id=createSessionID();
 						response.cookie("", "", "sessionID", id, 60*60*24, true, true);
 						response.redirect(request.headers("Origin")+"/admin");

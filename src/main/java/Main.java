@@ -328,7 +328,11 @@ public class Main {
 		System.err.println("Forbidden");
 		response.body("forbidden");
 		response.status(403);
-		response.redirect(remotehost);
+		try {
+			response.redirect(remotehost);
+		} catch (IllegalArgumentException e) {
+			response.redirect("https://bjrns.tk/");
+		}
 	}
 	private void sqlconnect(){
 		try {

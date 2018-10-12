@@ -99,24 +99,18 @@ public class Main {
 	}
 	private void openHTTP(){
 		path("/login", () -> {
-			before("",(request, response) -> {
+			before("/*",(request, response) -> {
 				System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+				System.out.println("\n"+request.body());
 				String remotehost=request.headers("Origin");
-				if(request.ip().equals("127.0.0.1")){
-					response.body("OK");
-					System.out.println("PASS");
-				}
-				else{
-					System.out.println("NO");
-
-					forbiddenaccess(request,response,remotehost);
-				}
+				validated(request, response, true,remotehost);
+			});
+			after("/*",(request,response)->{
+				System.out.println("Responding with: " + response.status() + ", " + response.body());
 			});
 			get("", new Route() {
 				@Override
 				public Object handle(Request request, Response response) throws Exception {
-					System.out.println("GET-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-					validated(request, response,false);
 					response.redirect("https://"+request.headers("remote-host"));
 					System.out.println("Responding with: " + response.status() + ", " + response.body());
 					System.out.println();
@@ -152,64 +146,47 @@ public class Main {
 					return response.body();
 				}
 			});
-			before("/*",(request, response) -> {
-				if (validated(request, response, true)) {
-					
+			post("/hueF56/*", (request, response) -> {
+				try {
+					String[] splats=request.splat();
+					System.out.println(splats);;
+					int id=request.attribute("id");
+					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
+					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+					connection.setRequestMethod("PUT");
+					connection.setDoOutput(true);
+					OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+					writer.write(request.body());
+					writer.close();
+					connect(connection);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+
+				return response.body();
 			});
-			
-		});
-		post("/login/hueF56/*", (request, response) -> {
-			try {
-				String[] splats=request.splat();
-				System.out.println(splats);;
-				int id=request.attribute("id");
-				URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
-				HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("PUT");
-				connection.setDoOutput(true);
-				OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-				writer.write(request.body());
-				writer.close();
-				connect(connection);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return response.body();
-		});
-		get("/login/stop", (request, response) -> {
-			System.out.println("Avslutar");
-			System.exit(0);
-			return response.body();
-		});
-
-		get("/login/lampstatus", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				if(validated(request, response,true)){
+			get("/lampstatus", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
 					try {
-
 						ResultSet resultSet = connect.createStatement()
 								.executeQuery("select * from Data WHERE Data='Lyser'");
 						resultSet.next();
 						response.body((resultSet.getInt("Value")==0?false:true)+"");
-						System.out.println(response.body());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 						sqlconnect();
 						return handle(request, response);
 					}
+					return response.body();
 				}
-				return response.body();
-			}
-		});
-		get("/login/dark", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				if(validated(request, response,false)){
+			});
+
+			get("/dark", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
 					try {
 						ResultSet resultSet = connect.createStatement()
 								.executeQuery("select * from LampaMorkTid");
@@ -217,23 +194,20 @@ public class Main {
 						while(resultSet.next()){
 							data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
 						}
-
 						response.body(data);
-						System.out.println(response.body());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 						sqlconnect();
 						return handle(request, response);
 					}
+
+					return response.body();
 				}
-				return response.body();
-			}
-		});
-		post("/login/dark", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				if(validated(request, response,false)){
+			});
+			post("/dark", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
 					try {
 						String body = request.body();
 						System.out.println(body);
@@ -251,37 +225,37 @@ public class Main {
 						e.printStackTrace();
 						sqlconnect();
 					}
-				}
-				return response.body();
-			}
-		});
-		post("/login/set", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				for (String string : request.headers()) {
-					System.out.println(string+"  "+request.headers(string));
-				}
-				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				System.out.println(request.body());
-				if(validated(request, response, true)&&
-						request.body().startsWith("lampa")){
-					if(request.body().endsWith("true")){
-						System.err.println("tänd!");
-						response.body("tänder");
-					}
-					else if(request.body().endsWith("false")){
-						System.err.println("släck!");
-						response.body("släcker");
-					}
 
-					connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
-
+					return response.body();
 				}
-				System.out.println("Responding with: " + response.status() + ", " + response.body());
-				System.out.println();
-				return response.body();
-			}
+			});
+			post("/set", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					if(request.body().startsWith("lampa")){
+						if(request.body().endsWith("true")){
+							System.err.println("tänd!");
+							response.body("tänder");
+						}
+						else if(request.body().endsWith("false")){
+							System.err.println("släck!");
+							response.body("släcker");
+						}
+
+						connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
+					}
+					return response.body();
+				}
+			});
 		});
+
+		get("/login/stop", (request, response) -> {
+			System.out.println("Avslutar");
+			System.exit(0);
+			return response.body();
+		});
+
+
 		post("/login/chat/read", new Route() {
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
@@ -325,7 +299,7 @@ public class Main {
 
 
 	}
-	private boolean validated(Request request, Response response,boolean requireLogin){
+	private boolean validated(Request request, Response response,boolean requireLogin,String remotehost){
 		//Kolla om anslutningen kommer från den lokala nginx-servern och
 		// om requireLogin är true, kolla så att sessionID i cookie är sparad session
 		if(request.ip().equals("127.0.0.1")&&
@@ -337,7 +311,7 @@ public class Main {
 			return true;
 		}
 		else{
-			forbiddenaccess(request, response,"/");
+			forbiddenaccess(request, response,remotehost);
 			return false;
 		}
 

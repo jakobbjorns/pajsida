@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.stream.Collectors;
 
+import oracle.jrockit.jfr.events.DynamicValueDescriptor;
+
 
 public class Main {
 	private SecureRandom secureRandom;
@@ -103,6 +105,7 @@ public class Main {
 				System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 				System.out.println("\n"+request.body());
 				String remotehost=request.headers("Origin");
+				System.out.println("Remotehost: "+remotehost);
 				validated(request, response, true,remotehost);
 			});
 			after("/*",(request,response)->{

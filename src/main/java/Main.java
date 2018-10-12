@@ -252,7 +252,7 @@ public class Main {
 			});
 		});
 
-		get("/login/stop", (request, response) -> {
+		get("/loginstop", (request, response) -> {
 			System.out.println("Avslutar");
 			System.exit(0);
 			return response.body();

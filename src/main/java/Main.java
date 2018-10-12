@@ -331,7 +331,7 @@ public class Main {
 		try {
 			response.redirect(remotehost);
 		} catch (IllegalArgumentException e) {
-			response.redirect("https://bjrns.tk/");
+			response.redirect("https://bjorns.tk/");
 		}
 	}
 	private void sqlconnect(){

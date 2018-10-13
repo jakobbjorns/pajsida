@@ -104,7 +104,13 @@ public class Main {
 		path("/spark", ()->{
 			path("/test", ()->{
 				before((request,response)->{
-					System.out.println("hej");
+					System.out.println("before");
+				});
+				before("*",(request,response)->{
+					System.out.println("before2");
+				});
+				before("",(request,response)->{
+					System.out.println("before3");
 				});
 				get("",(request,response)->{
 					System.out.println("hej");

@@ -61,7 +61,16 @@ public class Main {
 		port(port);
 		sqlconnect();
 		openHTTP();
-		new SnakeServer();
+		
+		try {
+			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn");
+			pb.inheritIO();
+			pb.start();
+			System.out.println("ssh mot glenn");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		new SnakeServer();
 		//		while(true){
 		//			try {
 		//				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");

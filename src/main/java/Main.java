@@ -112,7 +112,7 @@ public class Main {
 				});
 				get("/restart", (request, response) -> {
 					System.out.println("Startar om");
-					ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns start");
+					ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns", "start");
 					pb.inheritIO();
 					pb.start();
 					return response.body();

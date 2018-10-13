@@ -355,9 +355,9 @@ public class Main {
 		response.body("forbidden");
 		response.status(403);
 		try {
-			response.redirect(remotehost,302);
+			response.redirect(remotehost,403);
 		} catch (IllegalArgumentException e) {
-			response.redirect("https://bjorns.tk/",302);
+			response.redirect("https://bjorns.tk/",403);
 		}
 	}
 	private void sqlconnect(){

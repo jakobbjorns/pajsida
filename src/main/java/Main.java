@@ -100,6 +100,9 @@ public class Main {
 		System.out.println(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())));
 	}
 	private void openHTTP(){
+		before((request,response)->{
+			System.out.println("hej");
+		});
 		path("/login", () -> {
 			get("stop", (request, response) -> {
 				System.out.println("Avslutar");

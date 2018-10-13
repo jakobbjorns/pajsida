@@ -178,6 +178,7 @@ public class Main {
 						}
 						else{
 							String remotehost=request.headers("Origin");
+							response.status(403);
 							response.redirect(remotehost);
 						}
 						return response.body();

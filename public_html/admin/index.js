@@ -16,7 +16,7 @@ function lampa(object) {
 }
 function lampa2(object) {
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/spark/login/F56', true);
+	xhr.open('POST', '/spark/login/F56/lights/2/state', true);
 	xhr.onload = function() {
 		// do something to response
 		console.log(this.responseText);
@@ -27,7 +27,8 @@ function lampa2(object) {
 		}
 	}
 	;
-	xhr.send("lampa=" + object.checked);
+	var data = JSON.stringify({"on": object.checked, "bri": "254"});
+	xhr.send(data);
 }
 console.log('window - onload');
 //4th

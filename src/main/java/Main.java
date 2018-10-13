@@ -97,6 +97,7 @@ public class Main {
 	}
 	private void openHTTP(){
 		before("/*",(request,response)->{
+			System.out.println();
 			System.out.println(request.requestMethod()+"-request (" +request.uri() +" "+ request.protocol()+") från: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 			System.out.println("hejsan");
 		});
@@ -177,7 +178,7 @@ public class Main {
 						}
 						else{
 							String remotehost=request.headers("Origin");
-							forbiddenaccess(request, response,remotehost);
+							response.redirect(remotehost);
 						}
 						return response.body();
 					}

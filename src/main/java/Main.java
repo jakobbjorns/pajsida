@@ -99,6 +99,7 @@ public class Main {
 		before("/*",(request,response)->{
 			System.out.println(request.requestMethod()+"-request (" +request.uri() +" "+ request.protocol()+") från: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 			System.out.println("\n"+request.body());
+			
 		});
 		path("/spark", ()->{
 			path("/manage", ()->{

@@ -97,13 +97,9 @@ public class Main {
 	}
 	private void openHTTP(){
 		before("/*",(request,response)->{
-<<<<<<< HEAD
 			System.out.println(request.requestMethod()+"-request (" +request.uri() +" "+ request.protocol()+") från: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 			System.out.println("\n"+request.body());
-			
-=======
 			System.out.println("hejsan");
->>>>>>> branch 'master' of git@github.com:jakobbjorns/pajsida.git
 		});
 		path("/spark", ()->{
 			path("/manage", ()->{

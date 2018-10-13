@@ -103,6 +103,11 @@ public class Main {
 			get("", (request, response) -> {
 				return response.body();
 			});
+			get("/stop", (request, response) -> {
+				System.out.println("Avslutar");
+				stop();
+				return response.body();
+			});
 		});
 		path("/login", () -> {
 			get("stop", (request, response) -> {
@@ -260,13 +265,6 @@ public class Main {
 				}
 			});
 		});
-
-		get("/loginstop", (request, response) -> {
-			System.out.println("Avslutar");
-			System.exit(0);
-			return response.body();
-		});
-
 
 		post("/login/chat/read", new Route() {
 			@Override

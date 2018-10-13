@@ -14,6 +14,7 @@ import java.sql.*;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.RouteGroup;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -104,10 +105,9 @@ public class Main {
 		after("/*",(request,response)->{
 			System.out.println("Responding with: " + response.status() + ", " + response.body());
 		});
-		//		before("/*",(request,response)->{
-		//			response.redirect("http://bjorns.tk/",302);	
-		//		});
 		path("/spark", ()->{
+			path("/login", loginRoute());
+			path("/manage", manageroute());
 			path("/test", ()->{
 				before((request,response)->{
 					System.out.println("before");
@@ -122,168 +122,6 @@ public class Main {
 					System.out.println("hej");
 					response.body("hejsan");
 					return response.body();
-				});
-			});
-			path("/manage", ()->{
-				get("", (request, response) -> {
-					return response.body();
-				});
-				get("/stop", (request, response) -> {
-					System.out.println("Avslutar");
-					stop();
-					System.out.println("Avslutad");
-					System.exit(0);
-					return response.body();
-				});
-				get("/restart", (request, response) -> {
-					System.out.println("Startar om");
-					ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns", "start");
-					pb.inheritIO();
-					pb.start();
-					return response.body();
-				});
-			});
-			path("/login", () -> {
-				before("/*",(request, response) -> {
-					String remotehost=request.headers("Origin");
-					System.out.println("Remotehost: "+remotehost);
-					validated(request, response, true,remotehost);
-				});
-				get("", new Route() {
-					@Override
-					public Object handle(Request request, Response response) throws Exception {
-						response.redirect("https://"+request.headers("remote-host"));
-						System.out.println("Responding with: " + response.status() + ", " + response.body());
-						System.out.println();
-						return response.body();
-					}
-				});
-				post("", new Route() {
-					@Override
-					public Object handle(Request request, Response response) throws Exception {
-						//						for (String string : request.headers()) {
-						//							System.out.println(string+"  "+request.headers(string));
-						//						}
-						String password=request.queryParams("password");
-						System.out.println(password);
-						password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
-						System.out.println(password);
-						if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
-							// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
-							response.body("Inloggad!!!!");
-							String id=createSessionID();
-							response.cookie("", "", "sessionID", id, 60*60*24, true, true);
-							response.redirect(request.headers("Origin")+"/admin");
-							session=id;
-						}
-						else{
-							String remotehost=request.headers("Origin");
-							response.status(403);
-							response.redirect(remotehost);
-						}
-						return response.body();
-					}
-				});
-				post("/hueF56/*", (request, response) -> {
-					try {
-						String[] splats=request.splat();
-						System.out.println(splats);;
-						int id=request.attribute("id");
-						URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
-						HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-						connection.setRequestMethod("PUT");
-						connection.setDoOutput(true);
-						OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-						writer.write(request.body());
-						writer.close();
-						connect(connection);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					return response.body();
-				});
-				get("/lampstatus", new Route() {
-					@Override
-					public Object handle(Request request, Response response) throws Exception {
-						try {
-							ResultSet resultSet = connect.createStatement()
-									.executeQuery("select * from Data WHERE Data='Lyser'");
-							resultSet.next();
-							response.body((resultSet.getInt("Value")==0?false:true)+"");
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							sqlconnect();
-							return handle(request, response);
-						}
-						return response.body();
-					}
-				});
-
-				get("/dark", new Route() {
-					@Override
-					public Object handle(Request request, Response response) throws Exception {
-						try {
-							ResultSet resultSet = connect.createStatement()
-									.executeQuery("select * from LampaMorkTid");
-							String data="";
-							while(resultSet.next()){
-								data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
-							}
-							response.body(data);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							sqlconnect();
-							return handle(request, response);
-						}
-
-						return response.body();
-					}
-				});
-				post("/dark", new Route() {
-					@Override
-					public Object handle(Request request, Response response) throws Exception {
-						try {
-							String body = request.body();
-							System.out.println(body);
-							Statement statement=connect.createStatement();
-							statement.executeUpdate("TRUNCATE LampaMorkTid");
-							if (!body.equals("")) {
-								String[] tider=body.substring(0,body.length()-1).split(";");
-								for (int i = 0; i < tider.length; i++) {
-									String[] tid= tider[i].split("-");
-									statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");
-								}
-							}
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							sqlconnect();
-						}
-
-						return response.body();
-					}
-				});
-				post("/set", new Route() {
-					@Override
-					public Object handle(Request request, Response response) throws Exception {
-						if(request.body().startsWith("lampa")){
-							if(request.body().endsWith("true")){
-								System.err.println("tänd!");
-								response.body("tänder");
-							}
-							else if(request.body().endsWith("false")){
-								System.err.println("släck!");
-								response.body("släcker");
-							}
-
-							connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
-						}
-						return response.body();
-					}
 				});
 			});
 
@@ -328,7 +166,171 @@ public class Main {
 				}
 			});
 		});
-
+	}
+	private RouteGroup manageroute() {
+		return ()->{
+			get("", (request, response) -> {
+				return response.body();
+			});
+			get("/stop", (request, response) -> {
+				System.out.println("Avslutar");
+				stop();
+				System.out.println("Avslutad");
+				System.exit(0);
+				return response.body();
+			});
+			get("/restart", (request, response) -> {
+				System.out.println("Startar om");
+				ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns", "restart");
+				pb.inheritIO();
+				pb.start();
+				return response.body();
+			});
+		};
+	}
+	private RouteGroup loginRoute() {
+		return () -> {
+			before("/*",(request1, response1) -> {
+				String remotehost=request1.headers("Origin");
+				System.out.println("Remotehost: "+remotehost);
+				validated(request1, response1, true,remotehost);
+			});
+			get("", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					response.redirect("https://"+request.headers("remote-host"));
+					System.out.println("Responding with: " + response.status() + ", " + response.body());
+					System.out.println();
+					return response.body();
+				}
+			});
+			post("", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					//						for (String string : request.headers()) {
+					//							System.out.println(string+"  "+request.headers(string));
+					//						}
+					String password=request.queryParams("password");
+					System.out.println(password);
+					password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
+					System.out.println(password);
+					if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
+						// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
+						response.body("Inloggad!!!!");
+						String id=createSessionID();
+						response.cookie("", "", "sessionID", id, 60*60*24, true, true);
+						response.redirect(request.headers("Origin")+"/admin");
+						session=id;
+					}
+					else{
+						String remotehost=request.headers("Origin");
+						response.redirect(remotehost);
+					}
+					return response.body();
+				}
+			});
+			post("/hueF56/*", (request2, response2) -> {
+				try {
+					String[] splats=request2.splat();
+					System.out.println(splats);;
+					int id=request2.attribute("id");
+					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
+					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+					connection.setRequestMethod("PUT");
+					connection.setDoOutput(true);
+					OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+					writer.write(request2.body());
+					writer.close();
+					connect(connection);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
+				return response2.body();
+			});
+			get("/lampstatus", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					try {
+						ResultSet resultSet = connect.createStatement()
+								.executeQuery("select * from Data WHERE Data='Lyser'");
+						resultSet.next();
+						response.body((resultSet.getInt("Value")==0?false:true)+"");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						sqlconnect();
+						return handle(request, response);
+					}
+					return response.body();
+				}
+			});
+	
+			get("/dark", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					try {
+						ResultSet resultSet = connect.createStatement()
+								.executeQuery("select * from LampaMorkTid");
+						String data="";
+						while(resultSet.next()){
+							data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
+						}
+						response.body(data);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						sqlconnect();
+						return handle(request, response);
+					}
+	
+					return response.body();
+				}
+			});
+			post("/dark", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					try {
+						String body = request.body();
+						System.out.println(body);
+						Statement statement=connect.createStatement();
+						statement.executeUpdate("TRUNCATE LampaMorkTid");
+						if (!body.equals("")) {
+							String[] tider=body.substring(0,body.length()-1).split(";");
+							for (int i = 0; i < tider.length; i++) {
+								String[] tid= tider[i].split("-");
+								statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");
+							}
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						sqlconnect();
+					}
+	
+					return response.body();
+				}
+			});
+			post("/set", new Route() {
+				@Override
+				public Object handle(Request request, Response response) throws Exception {
+					if(request.body().startsWith("lampa")){
+						if(request.body().endsWith("true")){
+							System.err.println("tänd!");
+							response.body("tänder");
+						}
+						else if(request.body().endsWith("false")){
+							System.err.println("släck!");
+							response.body("släcker");
+						}
+	
+						connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
+					}
+					return response.body();
+				}
+			});
+		};
 	}
 	private boolean validated(Request request, Response response,boolean requireLogin,String remotehost){
 		//Kolla om anslutningen kommer från den lokala nginx-servern och
@@ -367,6 +369,7 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
+
 	public  String createSessionID () {
 		String id="";
 
@@ -380,7 +383,4 @@ public class Main {
 
 		return id;
 	}
-
-
-
 }

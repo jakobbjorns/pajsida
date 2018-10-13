@@ -4,4 +4,3 @@ cd /home/pi/git/pajsida
 git pull
 mvn compile
 mvn exec:java
-ssh glenn

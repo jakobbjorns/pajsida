@@ -252,26 +252,29 @@ public class Main {
 				}
 			});
 			post("/F56/*", (request2, response2) -> {
-				System.out.println("HUE");
-				System.out.println(request2.body());
-				try {
-					String[] splats=request2.splat();
-					String splat=String.join("/", splats);
-					System.out.println(splat);
-					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
-					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-					connection.setRequestMethod("PUT");
-					connection.setDoOutput(true);
-					OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-					writer.write(request2.body());
-					writer.close();
-					connect(connection);
-					response2.body(getResponse(connection));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (validated(request2, response2, true, null)) {
+					System.out.println("HUE");
+					System.out.println(request2.body());
+					try {
+						String[] splats=request2.splat();
+						String splat=String.join("/", splats);
+						System.out.println(splat);
+						URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
+						HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+						connection.setRequestMethod("PUT");
+						connection.setDoOutput(true);
+						OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+						writer.write(request2.body());
+						writer.close();
+						connect(connection);
+						response2.body(getResponse(connection));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		
 				}
-	
+				
 				return response2.body();
 			});
 			get("/lampstatus", new Route() {

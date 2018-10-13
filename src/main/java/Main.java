@@ -97,7 +97,7 @@ public class Main {
 	}
 	private void openHTTP(){
 		path("/spark", ()->{
-			before((request,response)->{
+			before("",(request,response)->{
 				System.out.println("hej");
 			});
 			path("/manage", ()->{

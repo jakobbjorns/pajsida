@@ -96,10 +96,11 @@ public class Main {
 		System.out.println(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())));
 	}
 	private void openHTTP(){
+		before("/*",(request,response)->{
+			System.out.println(request.requestMethod()+"-request (" +request.uri() +" "+ request.protocol()+") från: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+			System.out.println("\n"+request.body());
+		});
 		path("/spark", ()->{
-			before("",(request,response)->{
-				System.out.println("hej");
-			});
 			path("/manage", ()->{
 				get("", (request, response) -> {
 					return response.body();

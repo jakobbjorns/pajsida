@@ -101,11 +101,11 @@ public class Main {
 			System.out.println("hejsan");
 		});
 		after("/*",(request,response)->{
-			System.out.println("\n"+request.body());
+			System.out.println("Responding with: " + response.status() + ", " + response.body());
 		});
-//		before("/*",(request,response)->{
-//			response.redirect("http://bjorns.tk/",302);	
-//		});
+		//		before("/*",(request,response)->{
+		//			response.redirect("http://bjorns.tk/",302);	
+		//		});
 		path("/spark", ()->{
 			path("/test", ()->{
 				before((request,response)->{
@@ -148,9 +148,6 @@ public class Main {
 					System.out.println("Remotehost: "+remotehost);
 					validated(request, response, true,remotehost);
 				});
-				after("/*",(request,response)->{
-					System.out.println("Responding with: " + response.status() + ", " + response.body());
-				});
 				get("", new Route() {
 					@Override
 					public Object handle(Request request, Response response) throws Exception {
@@ -163,13 +160,10 @@ public class Main {
 				post("", new Route() {
 					@Override
 					public Object handle(Request request, Response response) throws Exception {
-						for (String string : request.headers()) {
-							System.out.println(string+"  "+request.headers(string));
-						}
-						System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-						System.out.println(request.headers("Origin"));
+						//						for (String string : request.headers()) {
+						//							System.out.println(string+"  "+request.headers(string));
+						//						}
 						String password=request.queryParams("password");
-						System.out.println(request.body());
 						System.out.println(password);
 						password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
 						System.out.println(password);
@@ -183,9 +177,8 @@ public class Main {
 						}
 						else{
 							String remotehost=request.headers("Origin");
-							forbiddenaccess(request, response,remotehost);					}
-						System.out.println("Responding with: " + response.status() + ", " + response.body());
-						System.out.println();
+							forbiddenaccess(request, response,remotehost);
+						}
 						return response.body();
 					}
 				});

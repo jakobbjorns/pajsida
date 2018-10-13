@@ -96,217 +96,226 @@ public class Main {
 		System.out.println(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())));
 	}
 	private void openHTTP(){
-		before((request,response)->{
-			System.out.println("hej");
-		});
-		path("/manage", ()->{
-			get("", (request, response) -> {
-				return response.body();
+		path("/spark", ()->{
+			before((request,response)->{
+				System.out.println("hej");
 			});
-			get("/stop", (request, response) -> {
-				System.out.println("Avslutar");
-				stop();
-				return response.body();
+			path("/manage", ()->{
+				get("", (request, response) -> {
+					return response.body();
+				});
+				get("/stop", (request, response) -> {
+					System.out.println("Avslutar");
+					stop();
+					System.out.println("Avslutad");
+					return response.body();
+				});
+				get("/restart", (request, response) -> {
+					System.out.println("Startar om");
+					ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns start");
+					pb.inheritIO();
+					pb.start();
+					return response.body();
+				});
 			});
-		});
-		path("/login", () -> {
-			get("stop", (request, response) -> {
-				System.out.println("Avslutar");
-				System.exit(0);
-				return response.body();
+			path("/login", () -> {
+				get("stop", (request, response) -> {
+					System.out.println("Avslutar");
+					System.exit(0);
+					return response.body();
+				});
+				before("/*",(request, response) -> {
+					System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+					System.out.println("\n"+request.body());
+					String remotehost=request.headers("Origin");
+					System.out.println("Remotehost: "+remotehost);
+					validated(request, response, true,remotehost);
+				});
+				after("/*",(request,response)->{
+					System.out.println("Responding with: " + response.status() + ", " + response.body());
+				});
+				get("", new Route() {
+					@Override
+					public Object handle(Request request, Response response) throws Exception {
+						response.redirect("https://"+request.headers("remote-host"));
+						System.out.println("Responding with: " + response.status() + ", " + response.body());
+						System.out.println();
+						return response.body();
+					}
+				});
+				post("", new Route() {
+					@Override
+					public Object handle(Request request, Response response) throws Exception {
+						for (String string : request.headers()) {
+							System.out.println(string+"  "+request.headers(string));
+						}
+						System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+						System.out.println(request.headers("Origin"));
+						String password=request.queryParams("password");
+						System.out.println(request.body());
+						System.out.println(password);
+						password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
+						System.out.println(password);
+						if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
+							// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
+							response.body("Inloggad!!!!");
+							String id=createSessionID();
+							response.cookie("", "", "sessionID", id, 60*60*24, true, true);
+							response.redirect(request.headers("Origin")+"/admin");
+							session=id;
+						}
+						else{
+							String remotehost=request.headers("Origin");
+							forbiddenaccess(request, response,remotehost);					}
+						System.out.println("Responding with: " + response.status() + ", " + response.body());
+						System.out.println();
+						return response.body();
+					}
+				});
+				post("/hueF56/*", (request, response) -> {
+					try {
+						String[] splats=request.splat();
+						System.out.println(splats);;
+						int id=request.attribute("id");
+						URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
+						HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+						connection.setRequestMethod("PUT");
+						connection.setDoOutput(true);
+						OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+						writer.write(request.body());
+						writer.close();
+						connect(connection);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					return response.body();
+				});
+				get("/lampstatus", new Route() {
+					@Override
+					public Object handle(Request request, Response response) throws Exception {
+						try {
+							ResultSet resultSet = connect.createStatement()
+									.executeQuery("select * from Data WHERE Data='Lyser'");
+							resultSet.next();
+							response.body((resultSet.getInt("Value")==0?false:true)+"");
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							sqlconnect();
+							return handle(request, response);
+						}
+						return response.body();
+					}
+				});
+
+				get("/dark", new Route() {
+					@Override
+					public Object handle(Request request, Response response) throws Exception {
+						try {
+							ResultSet resultSet = connect.createStatement()
+									.executeQuery("select * from LampaMorkTid");
+							String data="";
+							while(resultSet.next()){
+								data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
+							}
+							response.body(data);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							sqlconnect();
+							return handle(request, response);
+						}
+
+						return response.body();
+					}
+				});
+				post("/dark", new Route() {
+					@Override
+					public Object handle(Request request, Response response) throws Exception {
+						try {
+							String body = request.body();
+							System.out.println(body);
+							Statement statement=connect.createStatement();
+							statement.executeUpdate("TRUNCATE LampaMorkTid");
+							if (!body.equals("")) {
+								String[] tider=body.substring(0,body.length()-1).split(";");
+								for (int i = 0; i < tider.length; i++) {
+									String[] tid= tider[i].split("-");
+									statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");
+								}
+							}
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							sqlconnect();
+						}
+
+						return response.body();
+					}
+				});
+				post("/set", new Route() {
+					@Override
+					public Object handle(Request request, Response response) throws Exception {
+						if(request.body().startsWith("lampa")){
+							if(request.body().endsWith("true")){
+								System.err.println("tänd!");
+								response.body("tänder");
+							}
+							else if(request.body().endsWith("false")){
+								System.err.println("släck!");
+								response.body("släcker");
+							}
+
+							connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
+						}
+						return response.body();
+					}
+				});
 			});
-			before("/*",(request, response) -> {
-				System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				System.out.println("\n"+request.body());
-				String remotehost=request.headers("Origin");
-				System.out.println("Remotehost: "+remotehost);
-				validated(request, response, true,remotehost);
-			});
-			after("/*",(request,response)->{
-				System.out.println("Responding with: " + response.status() + ", " + response.body());
-			});
-			get("", new Route() {
+
+			post("/login/chat/read", new Route() {
 				@Override
 				public Object handle(Request request, Response response) throws Exception {
-					response.redirect("https://"+request.headers("remote-host"));
-					System.out.println("Responding with: " + response.status() + ", " + response.body());
-					System.out.println();
+					//				for (String string : request.headers()) {
+					//					System.out.println(string+"  "+request.headers(string));
+					//				}
+					//				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+					String body=request.body();
+					//				System.out.println(body);
+
+					int i=0;
+					try {
+						i=Integer.parseInt(body);
+					} catch (Exception e) {
+						System.err.println("default");
+					}
+					String svar="";
+					int size=meddelanden.size();
+					for (int j = i; j < size; j++) {
+						svar+=meddelanden.get(j)+"\n";
+					}
+					response.body(svar);
+					response.header("NextMessage", (size)+"");
 					return response.body();
 				}
 			});
-			post("", new Route() {
+			post("/login/chat/post", new Route() {
 				@Override
 				public Object handle(Request request, Response response) throws Exception {
 					for (String string : request.headers()) {
 						System.out.println(string+"  "+request.headers(string));
 					}
-					System.out.println("POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-					System.out.println(request.headers("Origin"));
-					String password=request.queryParams("password");
-					System.out.println(request.body());
-					System.out.println(password);
-					password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
-					System.out.println(password);
-					if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
-						// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
-						response.body("Inloggad!!!!");
-						String id=createSessionID();
-						response.cookie("", "", "sessionID", id, 60*60*24, true, true);
-						response.redirect(request.headers("Origin")+"/admin");
-						session=id;
-					}
-					else{
-						String remotehost=request.headers("Origin");
-						forbiddenaccess(request, response,remotehost);					}
-					System.out.println("Responding with: " + response.status() + ", " + response.body());
-					System.out.println();
-					return response.body();
-				}
-			});
-			post("/hueF56/*", (request, response) -> {
-				try {
-					String[] splats=request.splat();
-					System.out.println(splats);;
-					int id=request.attribute("id");
-					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
-					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-					connection.setRequestMethod("PUT");
-					connection.setDoOutput(true);
-					OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-					writer.write(request.body());
-					writer.close();
-					connect(connection);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				return response.body();
-			});
-			get("/lampstatus", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					try {
-						ResultSet resultSet = connect.createStatement()
-								.executeQuery("select * from Data WHERE Data='Lyser'");
-						resultSet.next();
-						response.body((resultSet.getInt("Value")==0?false:true)+"");
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						sqlconnect();
-						return handle(request, response);
-					}
-					return response.body();
-				}
-			});
-
-			get("/dark", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					try {
-						ResultSet resultSet = connect.createStatement()
-								.executeQuery("select * from LampaMorkTid");
-						String data="";
-						while(resultSet.next()){
-							data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
-						}
-						response.body(data);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						sqlconnect();
-						return handle(request, response);
-					}
-
-					return response.body();
-				}
-			});
-			post("/dark", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					try {
-						String body = request.body();
-						System.out.println(body);
-						Statement statement=connect.createStatement();
-						statement.executeUpdate("TRUNCATE LampaMorkTid");
-						if (!body.equals("")) {
-							String[] tider=body.substring(0,body.length()-1).split(";");
-							for (int i = 0; i < tider.length; i++) {
-								String[] tid= tider[i].split("-");
-								statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");
-							}
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						sqlconnect();
-					}
-
-					return response.body();
-				}
-			});
-			post("/set", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					if(request.body().startsWith("lampa")){
-						if(request.body().endsWith("true")){
-							System.err.println("tänd!");
-							response.body("tänder");
-						}
-						else if(request.body().endsWith("false")){
-							System.err.println("släck!");
-							response.body("släcker");
-						}
-
-						connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
-					}
+					System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
+					String body=request.body();
+					System.out.println(body);
+					meddelanden.add(body);
+					response.body("OK");
 					return response.body();
 				}
 			});
 		});
-
-		post("/login/chat/read", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				//				for (String string : request.headers()) {
-				//					System.out.println(string+"  "+request.headers(string));
-				//				}
-				//				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				String body=request.body();
-				//				System.out.println(body);
-
-				int i=0;
-				try {
-					i=Integer.parseInt(body);
-				} catch (Exception e) {
-					System.err.println("default");
-				}
-				String svar="";
-				int size=meddelanden.size();
-				for (int j = i; j < size; j++) {
-					svar+=meddelanden.get(j)+"\n";
-				}
-				response.body(svar);
-				response.header("NextMessage", (size)+"");
-				return response.body();
-			}
-		});
-		post("/login/chat/post", new Route() {
-			@Override
-			public Object handle(Request request, Response response) throws Exception {
-				for (String string : request.headers()) {
-					System.out.println(string+"  "+request.headers(string));
-				}
-				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-				String body=request.body();
-				System.out.println(body);
-				meddelanden.add(body);
-				response.body("OK");
-				return response.body();
-			}
-		});
-
 
 	}
 	private boolean validated(Request request, Response response,boolean requireLogin,String remotehost){

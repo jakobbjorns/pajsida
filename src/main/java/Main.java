@@ -96,6 +96,9 @@ public class Main {
 		System.out.println(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())));
 	}
 	private void openHTTP(){
+		before("/*",(request,response)->{
+			System.out.println("hejsan");
+		});
 		path("/spark", ()->{
 			before("",(request,response)->{
 				System.out.println("hej");

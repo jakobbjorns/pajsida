@@ -3,7 +3,20 @@ function change() {
 };
 function lampa(object) {
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/login/set', true);
+	xhr.open('POST', '/spark/login/set', true);
+	xhr.onload = function() {
+		// do something to response
+		console.log(this.responseText);
+		if (this.responseText == "forbidden") {
+			window.location.replace("/");
+		}
+	}
+	;
+	xhr.send("lampa=" + object.checked);
+}
+function lampa(object) {
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', '/spark/login/lampa2', true);
 	xhr.onload = function() {
 		// do something to response
 		console.log(this.responseText);
@@ -15,10 +28,10 @@ function lampa(object) {
 	xhr.send("lampa=" + object.checked);
 }
 console.log('window - onload');
-// 4th
+//4th
 
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open("GET", "/login/lampstatus", true);
+xmlHttp.open("GET", "/spark/login/lampstatus", true);
 xmlHttp.onload = function() {
 	// do something to response
 	element = document.getElementById("brytare");
@@ -35,7 +48,7 @@ xmlHttp.send(null);
 
 var servertider = new XMLHttpRequest();
 
-servertider.open("GET", "/login/dark", true);
+servertider.open("GET", "/spark/login/dark", true);
 servertider.onload = function() {
 	// do something to response
 	element = document.getElementById("tider");
@@ -82,7 +95,7 @@ function createline(entry) {
 			tider[empty]
 			console.log(result);
 			var skicka = new XMLHttpRequest();
-			skicka.open("POST", "/login/dark", true);
+			skicka.open("POST", "/spark/login/dark", true);
 			skicka.onload = function() {
 				// do something to response
 				console.log(this.responseText);

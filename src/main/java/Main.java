@@ -105,6 +105,16 @@ public class Main {
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		System.out.println(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())));
 	}
+	String getResponse(HttpURLConnection connection) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String inputLine;
+		StringBuffer content = new StringBuffer();
+		while ((inputLine = in.readLine()) != null) {
+			content.append(inputLine);
+		}
+		in.close();
+		return content.toString();
+	}
 	private void openHTTP(){
 		before("/*",(request,response)->{
 			System.out.println();
@@ -238,11 +248,11 @@ public class Main {
 					return response.body();
 				}
 			});
-			post("/hueF56/*", (request2, response2) -> {
+			post("/F56/*", (request2, response2) -> {
+				System.out.println("HUE");
 				try {
 					String[] splats=request2.splat();
-					System.out.println(splats);;
-					int id=request2.attribute("id");
+					System.out.println(splats);
 					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
 					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 					connection.setRequestMethod("PUT");
@@ -251,6 +261,7 @@ public class Main {
 					writer.write(request2.body());
 					writer.close();
 					connect(connection);
+					response2.body(	getResponse(connection));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

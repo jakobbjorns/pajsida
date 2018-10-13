@@ -102,7 +102,7 @@ public class Main {
 			System.out.println("hejsan");
 		});
 		path("/spark", ()->{
-			path("/manage", ()->{
+			path("/test", ()->{
 				before((request,response)->{
 					System.out.println("hej");
 				});

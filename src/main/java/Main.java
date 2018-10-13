@@ -100,6 +100,9 @@ public class Main {
 			Thread.sleep(100);
 			System.out.println(connection.getResponseCode());
 			System.out.println(connection.getResponseMessage());
+			if (connection.getResponseCode()==400) {
+				break;
+			}
 		}
 		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
 		BufferedReader bufferedReader = new BufferedReader(reader);
@@ -250,6 +253,7 @@ public class Main {
 			});
 			post("/F56/*", (request2, response2) -> {
 				System.out.println("HUE");
+				System.out.println(request2.body());
 				try {
 					String[] splats=request2.splat();
 					System.out.println(splats);
@@ -261,7 +265,7 @@ public class Main {
 					writer.write(request2.body());
 					writer.close();
 					connect(connection);
-					response2.body(	getResponse(connection));
+					response2.body(getResponse(connection));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -63,7 +63,7 @@ public class Main {
 		openHTTP();
 		
 		try {
-			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn");
+			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","&");
 			pb.inheritIO();
 			pb.start();
 			System.out.println("ssh mot glenn");

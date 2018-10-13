@@ -20,7 +20,9 @@ function lampa(object) {
 	xhr.onload = function() {
 		// do something to response
 		console.log(this.responseText);
-		if (this.responseText == "forbidden") {
+		var status=this.status
+		console.log(status);
+		if (status == 403) {
 			window.location.replace("/");
 		}
 	}
@@ -36,7 +38,9 @@ xmlHttp.onload = function() {
 	// do something to response
 	element = document.getElementById("brytare");
 	console.log(this.responseText);
-	if (this.responseText == "forbidden") {
+	var status=this.status
+	console.log(status);
+	if (status == 403) {
 		window.location.replace("/");
 	}
 	element.checked = (this.responseText == 'true');
@@ -53,7 +57,9 @@ servertider.onload = function() {
 	// do something to response
 	element = document.getElementById("tider");
 	console.log(this.responseText);
-	if (this.responseText == "forbidden") {
+	var status=this.status
+	console.log(status);
+	if (status == 403) {
 		window.location.replace("/");
 	}
 	var times = this.responseText.slice(0, -1).split(";");
@@ -99,7 +105,9 @@ function createline(entry) {
 			skicka.onload = function() {
 				// do something to response
 				console.log(this.responseText);
-				if (this.responseText == "forbidden") {
+				var status=this.status
+				console.log(status);
+				if (status == 403) {
 					window.location.replace("/");
 				}
 			}

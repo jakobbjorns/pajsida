@@ -101,9 +101,9 @@ public class Main {
 			System.out.println("\n"+request.body());
 			System.out.println("hejsan");
 		});
-		before("/*",(request,response)->{
-			response.redirect("http://bjorns.tk/",302);	
-		});
+//		before("/*",(request,response)->{
+//			response.redirect("http://bjorns.tk/",302);	
+//		});
 		path("/spark", ()->{
 			path("/test", ()->{
 				before((request,response)->{

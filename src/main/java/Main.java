@@ -110,6 +110,7 @@ public class Main {
 					System.out.println("Avslutar");
 					stop();
 					System.out.println("Avslutad");
+					System.exit(0);
 					return response.body();
 				});
 				get("/restart", (request, response) -> {

@@ -27,7 +27,7 @@ function lampa2(object) {
 		}
 	}
 	;
-	var data = JSON.stringify({"on": object.checked, "bri": "254"});
+	var data = JSON.stringify({"on": object.checked, "bri": 254});
 	xhr.send(data);
 }
 console.log('window - onload');

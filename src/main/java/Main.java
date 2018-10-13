@@ -256,8 +256,9 @@ public class Main {
 				System.out.println(request2.body());
 				try {
 					String[] splats=request2.splat();
-					System.out.println(splats);
-					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splats);
+					String splat=String.join("/", splats);
+					System.out.println(splat);
+					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
 					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 					connection.setRequestMethod("PUT");
 					connection.setDoOutput(true);

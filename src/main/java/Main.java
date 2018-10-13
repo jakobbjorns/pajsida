@@ -142,8 +142,6 @@ public class Main {
 			});
 			path("/login", () -> {
 				before("/*",(request, response) -> {
-					System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-					System.out.println("\n"+request.body());
 					String remotehost=request.headers("Origin");
 					System.out.println("Remotehost: "+remotehost);
 					validated(request, response, true,remotehost);
@@ -357,9 +355,9 @@ public class Main {
 		response.body("forbidden");
 		response.status(403);
 		try {
-			response.redirect(remotehost);
+			response.redirect(remotehost,302);
 		} catch (IllegalArgumentException e) {
-			response.redirect("https://bjorns.tk/");
+			response.redirect("https://bjorns.tk/",302);
 		}
 	}
 	private void sqlconnect(){

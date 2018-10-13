@@ -98,8 +98,10 @@ public class Main {
 	private void openHTTP(){
 		before("/*",(request,response)->{
 			System.out.println(request.requestMethod()+"-request (" +request.uri() +" "+ request.protocol()+") från: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-			System.out.println("\n"+request.body());
 			System.out.println("hejsan");
+		});
+		after("/*",(request,response)->{
+			System.out.println("\n"+request.body());
 		});
 //		before("/*",(request,response)->{
 //			response.redirect("http://bjorns.tk/",302);	

@@ -14,9 +14,9 @@ function lampa(object) {
 	;
 	xhr.send("lampa=" + object.checked);
 }
-function lampa(object) {
+function lampa2(object) {
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/spark/login/lampa2', true);
+	xhr.open('POST', '/spark/login/F56', true);
 	xhr.onload = function() {
 		// do something to response
 		console.log(this.responseText);

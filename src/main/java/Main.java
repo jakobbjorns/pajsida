@@ -103,6 +103,16 @@ public class Main {
 		});
 		path("/spark", ()->{
 			path("/manage", ()->{
+				before((request,response)->{
+					System.out.println("hej");
+				});
+				get("",(request,response)->{
+					System.out.println("hej");
+					response.body("hejsan");
+					return response.body();
+				});
+			});
+			path("/manage", ()->{
 				get("", (request, response) -> {
 					return response.body();
 				});
@@ -122,11 +132,6 @@ public class Main {
 				});
 			});
 			path("/login", () -> {
-				get("stop", (request, response) -> {
-					System.out.println("Avslutar");
-					System.exit(0);
-					return response.body();
-				});
 				before("/*",(request, response) -> {
 					System.out.println(request.requestMethod()+"-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 					System.out.println("\n"+request.body());

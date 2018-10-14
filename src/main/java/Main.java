@@ -96,7 +96,7 @@ public class Main {
 		//			}
 		//		}
 	}
-	static void connect(HttpURLConnection connection) throws IOException, InterruptedException {
+	static String connect(HttpURLConnection connection) throws IOException, InterruptedException {
 		while (connection.getResponseCode()!=200) {
 			Thread.sleep(100);
 			System.out.println(connection.getResponseCode());
@@ -107,7 +107,9 @@ public class Main {
 		}
 		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
 		BufferedReader bufferedReader = new BufferedReader(reader);
-		System.out.println(bufferedReader.lines().collect(Collectors.joining(System.lineSeparator())));
+		String string=bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
+		System.out.println(string);
+		return string;
 	}
 	String getResponse(HttpURLConnection connection) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -276,8 +278,8 @@ public class Main {
 					OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 					writer.write(request2.body());
 					writer.close();
-					connect(connection);
-					response2.body(getResponse(connection));
+					response2.body(connect(connection));
+					response2.status(connection.getResponseCode());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

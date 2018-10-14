@@ -256,7 +256,7 @@ public class Main {
 					return response.body();
 				}
 			});
-			post("/F56/*", (request2, response2) -> {
+			Route hue = (request2, response2) -> {
 				System.out.println("HUE");
 				System.out.println(request2.body());
 				try {
@@ -265,18 +265,22 @@ public class Main {
 					System.out.println(splat);
 					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
 					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-					connection.setRequestMethod("PUT");
-					connection.setDoOutput(true);
-					OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-					writer.write(request2.body());
-					writer.close();
+					connection.setRequestMethod(request2.requestMethod());
+					if (!request2.requestMethod().equals("GET")) {
+						connection.setDoOutput(true);
+						OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+						writer.write(request2.body());
+						writer.close();
+					}
 					response2.body(connect(connection));
 					response2.status(connection.getResponseCode());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				return response2.body();
-			});
+			};
+			post("/F56/*", hue);
+			get("/F56/*", hue);
 			get("/lampstatus", new Route() {
 				@Override
 				public Object handle(Request request, Response response) throws Exception {
@@ -368,7 +372,6 @@ public class Main {
 						request.cookie("sessionID")!=null&&
 						request.cookie("sessionID").equals(session)
 						:true){
-			response.body("OK");
 			return true;
 		}
 		else{

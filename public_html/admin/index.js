@@ -40,7 +40,7 @@ function git(object) {
 }
 function lampa2(object) {
 	var xhr = new XMLHttpRequest();
-	xhr.open('POST', '/spark/login/F56/lights/2/state', true);
+	xhr.open('PUT', '/spark/login/F56/lights/2/state', true);
 	xhr.onload = function() {
 		// do something to response
 		console.log(this.responseText);

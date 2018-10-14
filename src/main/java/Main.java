@@ -282,6 +282,7 @@ public class Main {
 			};
 			post("/F56/*", hue);
 			get("/F56/*", hue);
+			put("/F56/*", hue);
 			get("/lampstatus", new Route() {
 				@Override
 				public Object handle(Request request, Response response) throws Exception {

@@ -248,6 +248,9 @@ public class Main {
 						response.body("Inloggad!!!!");
 						String id=createSessionID();
 						response.cookie("", "", "sessionID", id, 60*60*24, true, true);
+						if (remotehost==null||remotehost=="null") {
+							remotehost="https://bjorns.tk";
+						}
 						response.redirect(remotehost+"/admin");
 						session=id;
 					}

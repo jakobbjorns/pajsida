@@ -271,7 +271,6 @@ public class Main {
 					response2.body(connect(connection));
 					response2.status(connection.getResponseCode());
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return response2.body();

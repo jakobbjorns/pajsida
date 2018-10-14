@@ -111,16 +111,6 @@ public class Main {
 		System.out.println(string);
 		return string;
 	}
-	String getResponse(HttpURLConnection connection) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		String inputLine;
-		StringBuffer content = new StringBuffer();
-		while ((inputLine = in.readLine()) != null) {
-			content.append(inputLine);
-		}
-		in.close();
-		return content.toString();
-	}
 	private void openHTTP(){
 		before("/*",(request,response)->{
 			System.out.println();
@@ -284,9 +274,6 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-
-
 				return response2.body();
 			});
 			get("/lampstatus", new Route() {

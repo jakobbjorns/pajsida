@@ -26,6 +26,18 @@ function restart(object) {
 	};
 	xhr.send("hej");
 }
+function git(object) {
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', '/spark/manage/git', true);
+	xhr.onload = function() {
+		// do something to response
+		console.log(this.responseText);
+		if (this.responseText == "forbidden") {
+			window.location.replace("/");
+		}
+	};
+	xhr.send("hej");
+}
 function lampa2(object) {
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', '/spark/login/F56/lights/2/state', true);

@@ -1,6 +1,7 @@
 import static spark.Spark.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -204,6 +205,14 @@ public class Main {
 			get("/restart", (request, response) -> {
 				System.out.println("Startar om");
 				ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns", "restart");
+				pb.inheritIO();
+				pb.start();
+				return response.body();
+			});
+			get("/git", (request, response) -> {
+				System.out.println("Startar om");
+				ProcessBuilder pb = new ProcessBuilder("git", "pull");
+				pb.directory(new File("~/git/pajsida"));
 				pb.inheritIO();
 				pb.start();
 				return response.body();

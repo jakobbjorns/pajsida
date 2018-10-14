@@ -211,6 +211,7 @@ public class Main {
 				pb.directory(file);
 				pb.inheritIO();
 				pb.start();
+				response.body("OK");
 				return response.body();
 			});
 		};

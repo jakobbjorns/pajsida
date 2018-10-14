@@ -27,6 +27,7 @@ public class Main {
 	private static String session;
 	private Connection connect = null;
 	private ArrayList<String> meddelanden=new ArrayList<>();
+	private Process ssh;
 	//	private Statement statement = null;
 	//	private ResultSet resultSet = null;
 	public static void main(String[] args) {
@@ -66,7 +67,7 @@ public class Main {
 		try {
 			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","-N");
 			pb.inheritIO();
-			pb.start();
+			ssh=pb.start();
 			System.out.println("ssh mot glenn");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -190,6 +191,7 @@ public class Main {
 			get("/stop", (request, response) -> {
 				System.out.println("Avslutar");
 				stop();
+				ssh.destroy();
 				System.out.println("Avslutad");
 				System.exit(0);
 				return response.body();

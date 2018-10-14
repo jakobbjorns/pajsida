@@ -61,7 +61,7 @@ public class Main {
 		port(port);
 		sqlconnect();
 		openHTTP();
-		
+
 		try {
 			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","-N");
 			pb.inheritIO();
@@ -70,7 +70,7 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		new SnakeServer();
+		//		new SnakeServer();
 		//		while(true){
 		//			try {
 		//				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
@@ -232,6 +232,7 @@ public class Main {
 					//						for (String string : request.headers()) {
 					//							System.out.println(string+"  "+request.headers(string));
 					//						}
+					String remotehost=request.headers("Origin");
 					String password=request.queryParams("password");
 					System.out.println(password);
 					password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
@@ -241,40 +242,38 @@ public class Main {
 						response.body("Inloggad!!!!");
 						String id=createSessionID();
 						response.cookie("", "", "sessionID", id, 60*60*24, true, true);
-						response.redirect(request.headers("Origin")+"/admin");
+						response.redirect(remotehost+"/admin");
 						session=id;
 					}
 					else{
-						String remotehost=request.headers("Origin");
 						response.redirect(remotehost);
 					}
 					return response.body();
 				}
 			});
 			post("/F56/*", (request2, response2) -> {
-				if (validated(request2, response2, true, null)) {
-					System.out.println("HUE");
-					System.out.println(request2.body());
-					try {
-						String[] splats=request2.splat();
-						String splat=String.join("/", splats);
-						System.out.println(splat);
-						URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
-						HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-						connection.setRequestMethod("PUT");
-						connection.setDoOutput(true);
-						OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-						writer.write(request2.body());
-						writer.close();
-						connect(connection);
-						response2.body(getResponse(connection));
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		
+				System.out.println("HUE");
+				System.out.println(request2.body());
+				try {
+					String[] splats=request2.splat();
+					String splat=String.join("/", splats);
+					System.out.println(splat);
+					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
+					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
+					connection.setRequestMethod("PUT");
+					connection.setDoOutput(true);
+					OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+					writer.write(request2.body());
+					writer.close();
+					connect(connection);
+					response2.body(getResponse(connection));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
+
+
+
 				return response2.body();
 			});
 			get("/lampstatus", new Route() {
@@ -294,7 +293,7 @@ public class Main {
 					return response.body();
 				}
 			});
-	
+
 			get("/dark", new Route() {
 				@Override
 				public Object handle(Request request, Response response) throws Exception {
@@ -312,7 +311,7 @@ public class Main {
 						sqlconnect();
 						return handle(request, response);
 					}
-	
+
 					return response.body();
 				}
 			});
@@ -336,7 +335,7 @@ public class Main {
 						e.printStackTrace();
 						sqlconnect();
 					}
-	
+
 					return response.body();
 				}
 			});
@@ -352,7 +351,7 @@ public class Main {
 							System.err.println("släck!");
 							response.body("släcker");
 						}
-	
+
 						connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
 					}
 					return response.body();
@@ -379,13 +378,7 @@ public class Main {
 	}
 	private void forbiddenaccess(Request request, Response response,String remotehost){
 		System.err.println("Forbidden");
-		response.body("forbidden");
-		response.status(403);
-		try {
-			response.redirect(remotehost,403);
-		} catch (IllegalArgumentException e) {
-			response.redirect("https://bjorns.tk/",403);
-		}
+		halt(403);
 	}
 	private void sqlconnect(){
 		try {

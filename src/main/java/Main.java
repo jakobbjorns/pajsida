@@ -212,7 +212,9 @@ public class Main {
 			get("/git", (request, response) -> {
 				System.out.println("Startar om");
 				ProcessBuilder pb = new ProcessBuilder("git", "pull");
-				pb.directory(new File("~/git/pajsida"));
+				File homedir = new File(System.getProperty("user.home"));
+				File file = new File(homedir, "git/pajsida");
+				pb.directory(file);
 				pb.inheritIO();
 				pb.start();
 				return response.body();

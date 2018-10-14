@@ -2,5 +2,4 @@
 # Bash script by Jakob
 cd /home/pi/git/pajsida
 git pull
-mvn compile
-mvn exec:java
+mvn compile exec:java

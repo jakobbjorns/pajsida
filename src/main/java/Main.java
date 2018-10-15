@@ -1,37 +1,13 @@
 import static spark.Spark.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.sql.*;
-
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import spark.RouteGroup;
-
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.stream.Collectors;
-
-
 public class Main {
-	private SecureRandom secureRandom;
-	private static String session;
-	private Connection connect = null;
 	private ArrayList<String> meddelanden=new ArrayList<>();
-	private Process ssh;
-	//	private Statement statement = null;
-	//	private ResultSet resultSet = null;
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("Välkommen");
 		System.out.println(args);
 		try {
@@ -40,10 +16,8 @@ public class Main {
 			}
 			else {
 				new Main(8181);
-
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		catch (NumberFormatException e) {
@@ -51,96 +25,36 @@ public class Main {
 			System.err.println("Ange endast portnummer som argument");
 		}
 	}
-	public Main(int port) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated constructor stub
-		try {
-			secureRandom= SecureRandom.getInstance("SHA1PRNG");
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//		port(8181);
+	public Main(int port) throws ClassNotFoundException {
 		port(port);
-		sqlconnect();
 		openHTTP();
+	}
 
-		try {
-			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","-N");
-			pb.inheritIO();
-			ssh=pb.start();
-			System.out.println("ssh mot glenn");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//		new SnakeServer();
-		//		while(true){
-		//			try {
-		//				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
-		//				p.waitFor();
-		//
-		//				BufferedReader reader =
-		//						new BufferedReader(new InputStreamReader(p.getInputStream()));
-		//				StringBuffer sb = new StringBuffer();
-		//				String line = "";
-		//				while ((line = reader.readLine())!= null) {
-		//					sb.append(line);
-		//				}
-		//				String string = sb.toString();
-		//
-		//				if (!string.endsWith("has not changed.")) {
-		//					System.out.println(string);
-		//				}
-		//				Thread.sleep(30000);
-		//			} catch (Exception e) {
-		//				// TODO Auto-generated catch block
-		//				e.printStackTrace();
-		//			}
-		//		}
-	}
-	static String connect(HttpURLConnection connection) throws IOException, InterruptedException {
-		while (connection.getResponseCode()!=200) {
-			Thread.sleep(100);
-			System.out.println(connection.getResponseCode());
-			System.out.println(connection.getResponseMessage());
-			if (connection.getResponseCode()==400) {
-				break;
-			}
-		}
-		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
-		BufferedReader bufferedReader = new BufferedReader(reader);
-		String string=bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
-		System.out.println(string);
-		return string;
-	}
 	private void openHTTP(){
-		before("/*",(request,response)->{
-			System.out.println();
-			System.out.println(request.requestMethod()+"-request (" +request.uri() +" "+ request.protocol()+") från: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-			System.out.println("hejsan");
-		});
-		after("/*",(request,response)->{
-			System.out.println("Responding with: " + response.status() + ", " + response.body());
-		});
-		path("/spark", ()->{
-			path("/login", loginRoute());
-			path("/manage", manageroute());
-			path("/test", ()->{
-				before((request,response)->{
-					System.out.println("before");
-				});
-				before("*",(request,response)->{
-					System.out.println("before2");
-				});
-				before("",(request,response)->{
-					System.out.println("before3");
-				});
-				get("",(request,response)->{
-					System.out.println("hej");
-					response.body("hejsan");
-					return response.body();
-				});
-			});
+		LoginAPI loginAPI=new LoginAPI();
+		HueAPI hueAPI=new HueAPI();
+		LampAPI lampAPI=new LampAPI();
+		ManageAPI manageAPI= new ManageAPI();
 
+		before("/*",manageAPI.beforeAll);
+		after("/*",manageAPI.afterAll);
+		path("/spark", ()->{
+			path("/login", ()->{
+				before("/*",loginAPI.validated);
+				post("", loginAPI.login);
+				post("/F56/*",hueAPI.send);
+				get("/F56/*", hueAPI.send);
+				put("/F56/*", hueAPI.send);
+				get("/lampstatus",lampAPI.lampstatus);
+				get("/dark", lampAPI.getDarkTimes);
+				post("/dark", lampAPI.postDarkTimes);
+				post("/set", lampAPI.setstatus);});
+			
+			path("/manage", ()->{
+				get("/stop",manageAPI.stop);
+				get("/restart", manageAPI.restart);
+				get("/git", manageAPI.git);});
+			webSocket("chat", ChatAPI.class);
 			post("/login/chat/read", new Route() {
 				@Override
 				public Object handle(Request request, Response response) throws Exception {
@@ -182,237 +96,5 @@ public class Main {
 				}
 			});
 		});
-	}
-	private RouteGroup manageroute() {
-		return ()->{
-			get("", (request, response) -> {
-				return response.body();
-			});
-			get("/stop", (request, response) -> {
-				System.out.println("Avslutar");
-				stop();
-				ssh.destroy();
-				System.out.println("Avslutad");
-				System.exit(0);
-				return response.body();
-			});
-			get("/restart", (request, response) -> {
-				System.out.println("Startar om");
-				ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns", "restart");
-				pb.inheritIO();
-				pb.start();
-				return response.body();
-			});
-			get("/git", (request, response) -> {
-				System.out.println("Git refresh");
-				ProcessBuilder pb = new ProcessBuilder("sh", "autogit");
-				File homedir = new File(System.getProperty("user.home"));
-				File file = new File(homedir, "git/pajsida");
-				pb.directory(file);
-				pb.inheritIO();
-				pb.start();
-				response.body("OK");
-				return response.body();
-			});
-		};
-	}
-	private RouteGroup loginRoute() {
-		return () -> {
-			before("/*",(request1, response1) -> {
-				String remotehost=request1.headers("Origin");
-				System.out.println("Remotehost: "+remotehost);
-				validated(request1, response1, true,remotehost);
-			});
-			get("", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					response.redirect("https://"+request.headers("remote-host"));
-					System.out.println("Responding with: " + response.status() + ", " + response.body());
-					System.out.println();
-					return response.body();
-				}
-			});
-			post("", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					//						for (String string : request.headers()) {
-					//							System.out.println(string+"  "+request.headers(string));
-					//						}
-					String remotehost=request.headers("Origin");
-					String password=request.queryParams("password");
-					System.out.println(password);
-					password=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest(password.getBytes())));
-					System.out.println(password);
-					if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
-						// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
-						response.body("Inloggad!!!!");
-						String id=createSessionID();
-						response.cookie("", "", "sessionID", id, 60*60*24, true, true);
-						if (remotehost==null||remotehost=="null") {
-							remotehost="https://bjorns.tk";
-						}
-						response.redirect(remotehost+"/admin");
-						session=id;
-					}
-					else{
-						response.redirect(remotehost);
-					}
-					return response.body();
-				}
-			});
-			Route hue = (request2, response2) -> {
-				System.out.println("HUE");
-				System.out.println(request2.body());
-				try {
-					String[] splats=request2.splat();
-					String splat=String.join("/", splats);
-					System.out.println(splat);
-					URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
-					HttpURLConnection connection= (HttpURLConnection) url.openConnection();
-					connection.setRequestMethod(request2.requestMethod());
-					if (!request2.requestMethod().equals("GET")) {
-						connection.setDoOutput(true);
-						OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-						writer.write(request2.body());
-						writer.close();
-					}
-					response2.body(connect(connection));
-					response2.status(connection.getResponseCode());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return response2.body();
-			};
-			post("/F56/*", hue);
-			get("/F56/*", hue);
-			put("/F56/*", hue);
-			get("/lampstatus", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					try {
-						ResultSet resultSet = connect.createStatement()
-								.executeQuery("select * from Data WHERE Data='Lyser'");
-						resultSet.next();
-						response.body((resultSet.getInt("Value")==0?false:true)+"");
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						sqlconnect();
-						return handle(request, response);
-					}
-					return response.body();
-				}
-			});
-
-			get("/dark", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					try {
-						ResultSet resultSet = connect.createStatement()
-								.executeQuery("select * from LampaMorkTid");
-						String data="";
-						while(resultSet.next()){
-							data+=resultSet.getString(1)+"-"+resultSet.getString(2)+";";
-						}
-						response.body(data);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						sqlconnect();
-						return handle(request, response);
-					}
-
-					return response.body();
-				}
-			});
-			post("/dark", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					try {
-						String body = request.body();
-						System.out.println(body);
-						Statement statement=connect.createStatement();
-						statement.executeUpdate("TRUNCATE LampaMorkTid");
-						if (!body.equals("")) {
-							String[] tider=body.substring(0,body.length()-1).split(";");
-							for (int i = 0; i < tider.length; i++) {
-								String[] tid= tider[i].split("-");
-								statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");
-							}
-						}
-						response.body("OK");
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						sqlconnect();
-						response.status(HttpURLConnection.HTTP_INTERNAL_ERROR);
-					}
-
-					return response.body();
-				}
-			});
-			post("/set", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					if(request.body().startsWith("lampa")){
-						if(request.body().endsWith("true")){
-							System.err.println("tänd!");
-							response.body("tänder");
-						}
-						else if(request.body().endsWith("false")){
-							System.err.println("släck!");
-							response.body("släcker");
-						}
-
-						connect.createStatement().executeUpdate("UPDATE Data SET Value='1' WHERE Data='Switch'");
-					}
-					return response.body();
-				}
-			});
-		};
-	}
-	private boolean validated(Request request, Response response,boolean requireLogin,String remotehost){
-		//Kolla om anslutningen kommer från den lokala nginx-servern och
-		// om requireLogin är true, kolla så att sessionID i cookie är sparad session
-		if(request.ip().equals("127.0.0.1")&&
-				requireLogin ? 
-						request.cookie("sessionID")!=null&&
-						request.cookie("sessionID").equals(session)
-						:true){
-			return true;
-		}
-		else{
-			forbiddenaccess(request, response,remotehost);
-			return false;
-		}
-
-	}
-	private void forbiddenaccess(Request request, Response response,String remotehost){
-		System.err.println("Forbidden");
-		halt(403);
-	}
-	private void sqlconnect(){
-		try {
-			connect = DriverManager
-					.getConnection("jdbc:mysql://localhost/styrning?"
-							+ "user=jakob&password=furugatan10&serverTimezone=UTC");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public  String createSessionID () {
-		String id="";
-
-		try {
-			id=new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-1").digest((secureRandom.nextInt()+"").getBytes())));
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("SessionID: " + id);
-
-		return id;
 	}
 }

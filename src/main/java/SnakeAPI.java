@@ -93,6 +93,7 @@ public class SnakeAPI {
 
 
 	Thread sendloop;
+	
 	@OnWebSocketConnect
 	public void open(Session session){
 		this.session=session;
@@ -127,7 +128,7 @@ public class SnakeAPI {
 									e.printStackTrace();
 									sendAll(e.getStackTrace().toString());
 								}
-								send(message);
+								send(SnakeAPI.message);
 							}
 						};
 					};

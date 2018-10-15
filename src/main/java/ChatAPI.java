@@ -20,7 +20,8 @@ public class ChatAPI {
 	private Person person;
 
 	@OnWebSocketConnect
-	public void start(Session session) {
+	public void onConnect(Session session)throws Exception {
+		System.out.println("Nämen Hallå");
 		person=new Person(session);
 		isoFormat.setTimeZone(TimeZone.getTimeZone("CET"));
 		utgående(person, "välkommen");

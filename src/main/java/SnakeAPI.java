@@ -118,7 +118,8 @@ public class SnakeAPI {
 				try {
 					sendloop=new Thread(){
 						public void run() {
-							while(session.isOpen()){				
+							while(session.isOpen()){
+								System.out.println("hehhuijk");
 								try {
 									synchronized(LOCK){
 										LOCK.wait();

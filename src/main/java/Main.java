@@ -30,8 +30,10 @@ public class Main {
 		HueAPI hueAPI=new HueAPI();
 		LampAPI lampAPI=new LampAPI();
 		ManageAPI manageAPI= new ManageAPI();
-		webSocket("/chat", ChatAPI.class);
+		
+		webSocket("/ws/chat", ChatAPI.class);
 		init();
+		
 		before("/*",manageAPI.beforeAll);
 		after("/*",manageAPI.afterAll);
 		path("/spark", ()->{

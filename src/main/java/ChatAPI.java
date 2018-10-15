@@ -1,3 +1,6 @@
+import static spark.Spark.init;
+import static spark.Spark.webSocket;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +12,8 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
+import spark.Spark;
+
 
 @WebSocket
 public class ChatAPI {
@@ -18,7 +23,11 @@ public class ChatAPI {
 
 	private static ArrayList<Person> removelist = new ArrayList<>();
 	private Person person;
-
+	public static void main(String[] args) {
+		Spark.port(1000);
+		webSocket("/chat", ChatAPI.class);
+		init();
+	}
 	@OnWebSocketConnect
 	public void onConnect(Session session)throws Exception {
 		System.out.println("Nämen Hallå");
@@ -43,7 +52,7 @@ public class ChatAPI {
 				utgående(person,"*Welcome to GoJbs Chat "+person.name+"! Users online: "+getPersonerNamn());
 			}
 			else if (person.isSwe()) {
-				
+
 				utgående(person,"*Hej och välkommen till GoJbs Chat "+person.name+"! Klockan är "+ isoFormat.format(new Date()) +" och "+getPersonerNamn()+"är online.");
 			}
 			else {
@@ -94,7 +103,7 @@ public class ChatAPI {
 				utgående(person,"*" + namn + " har lämnat.");
 			}
 		}
-		
+
 		removelist();
 	}
 	public static void removelist(){

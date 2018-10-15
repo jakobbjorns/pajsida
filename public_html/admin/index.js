@@ -114,6 +114,8 @@ function createline(entry) {
 	entry = entry.split("-");
 	console.log(entry);
 	var div = document.createElement("div");
+	//Skapa 2 rutor på raden
+
 	for (i = 0; i < 2; i++) {
 		var line = document.createElement("input");
 		line.className = "tid";
@@ -156,9 +158,9 @@ function createline(entry) {
 			;
 
 			skicka.send(result);
-		}
-		;
+		};
 		div.appendChild(line);
 	}
+	element = document.getElementById("tider");
 	element.appendChild(div);
 }

@@ -340,7 +340,7 @@ public class Main {
 								statement.executeUpdate("INSERT INTO LampaMorkTid (Start,Slut) VALUES ("+tid[0]+","+tid[1]+");");
 							}
 						}
-						response.status(200);
+						response.body("OK");
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -204,8 +204,8 @@ public class Main {
 				return response.body();
 			});
 			get("/git", (request, response) -> {
-				System.out.println("Startar om");
-				ProcessBuilder pb = new ProcessBuilder("git", "pull");
+				System.out.println("Git refresh");
+				ProcessBuilder pb = new ProcessBuilder("sh", "autogit");
 				File homedir = new File(System.getProperty("user.home"));
 				File file = new File(homedir, "git/pajsida");
 				pb.directory(file);

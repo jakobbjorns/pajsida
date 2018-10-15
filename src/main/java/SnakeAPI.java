@@ -77,6 +77,7 @@ public class SnakeAPI {
 		//		timer.start();
 		plupp();
 		gameloop.start();;
+		System.out.println("Running");
 	}
 
 
@@ -111,7 +112,6 @@ public class SnakeAPI {
 	public void open(Session session){
 		this.session=session;
 		send("OPEN");
-
 	}
 	@OnWebSocketMessage
 	public void in(Session user, String message){
@@ -129,7 +129,12 @@ public class SnakeAPI {
 
 			}
 			else if (string.equals("INIT")) {
-				sendloop.start();
+				try {
+					sendloop.start();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				färg = scanner.next();
 				scanner.useDelimiter("\\z"); 
 				namn = scanner.next().substring(1);

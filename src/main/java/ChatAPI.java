@@ -23,6 +23,7 @@ public class ChatAPI {
 	public void start(Session session) {
 		person=new Person(session);
 		isoFormat.setTimeZone(TimeZone.getTimeZone("CET"));
+		utgående(person, "välkommen");
 	}
 	@OnWebSocketClose
 	public void close(Session user, int statusCode, String reason) {

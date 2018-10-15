@@ -1,6 +1,7 @@
 function change() {
 	console.log("hejsan svejsan");
 };
+
 function lampa(object) {
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', '/spark/login/set', true);

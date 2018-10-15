@@ -197,8 +197,8 @@ public class SnakeAPI {
 			}
 			scanner.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			StringWriter errors = new StringWriter();
-			e.printStackTrace(new PrintWriter(errors));
 			send("E "+errors.toString());
 		}
 

@@ -92,22 +92,7 @@ public class SnakeAPI {
 	//	int clear;
 
 
-	Thread sendloop=new Thread(){
-		public void run() {
-			while(session.isOpen()){				
-				try {
-					synchronized(LOCK){
-						LOCK.wait();
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					sendAll(e.getStackTrace().toString());
-				}
-				send(message);
-			}
-		};
-	};
+	Thread sendloop;
 	@OnWebSocketConnect
 	public void open(Session session){
 		this.session=session;
@@ -130,6 +115,22 @@ public class SnakeAPI {
 			}
 			else if (string.equals("INIT")) {
 				try {
+					sendloop=new Thread(){
+						public void run() {
+							while(session.isOpen()){				
+								try {
+									synchronized(LOCK){
+										LOCK.wait();
+									}
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+									sendAll(e.getStackTrace().toString());
+								}
+								send(message);
+							}
+						};
+					};
 					sendloop.start();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -138,6 +139,8 @@ public class SnakeAPI {
 				färg = scanner.next();
 				scanner.useDelimiter("\\z"); 
 				namn = scanner.next().substring(1);
+				x=new int[1000];
+				y=new int[1000];
 				snakes.add(this);
 				reset();
 				JSONObject object=new JSONObject();

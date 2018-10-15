@@ -32,6 +32,7 @@ public class Main {
 		ManageAPI manageAPI= new ManageAPI();
 		
 		webSocket("/ws/chat", ChatAPI.class);
+		webSocket("/ws/snake", SnakeAPI.class);
 		init();
 		
 		before("/*",manageAPI.beforeAll);

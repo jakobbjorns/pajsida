@@ -1,12 +1,7 @@
 import static spark.Spark.*;
 
-import spark.Request;
-import spark.Response;
-import spark.Route;
 import java.util.ArrayList;
 public class Main {
-	private ArrayList<String> meddelanden=new ArrayList<>();
-
 	public static void main(String[] args) {
 		System.out.println("Välkommen");
 		System.out.println(args);
@@ -54,47 +49,8 @@ public class Main {
 				get("/stop",manageAPI.stop);
 				get("/restart", manageAPI.restart);
 				get("/git", manageAPI.git);});
-			webSocket("chat", ChatAPI.class);
-			post("/login/chat/read", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					//				for (String string : request.headers()) {
-					//					System.out.println(string+"  "+request.headers(string));
-					//				}
-					//				System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-					String body=request.body();
-					//				System.out.println(body);
-
-					int i=0;
-					try {
-						i=Integer.parseInt(body);
-					} catch (Exception e) {
-						System.err.println("default");
-					}
-					String svar="";
-					int size=meddelanden.size();
-					for (int j = i; j < size; j++) {
-						svar+=meddelanden.get(j)+"\n";
-					}
-					response.body(svar);
-					response.header("NextMessage", (size)+"");
-					return response.body();
-				}
-			});
-			post("/login/chat/post", new Route() {
-				@Override
-				public Object handle(Request request, Response response) throws Exception {
-					for (String string : request.headers()) {
-						System.out.println(string+"  "+request.headers(string));
-					}
-					System.out.println("(SET) POST-request " + request.protocol()+" from: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
-					String body=request.body();
-					System.out.println(body);
-					meddelanden.add(body);
-					response.body("OK");
-					return response.body();
-				}
-			});
+			webSocket("/chat", ChatAPI.class);
 		});
+		init();
 	}
 }

@@ -13,9 +13,11 @@ public class LoginAPI {
 	Filter validated=(request, response) -> {
 		String remotehost=request.headers("Origin");
 		System.out.println("Remotehost: "+remotehost);
-		if((request.ip().equals("127.0.0.1")&&
-				request.cookie("sessionID")!=null&&
-				request.cookie("sessionID").equals(session))){
+		String cookie=request.cookie("sessionID");
+		System.out.println(cookie);
+		if(!(request.ip().equals("127.0.0.1")&&
+				cookie!=null&&
+				cookie.equals(session))){
 			System.err.println("Forbidden");
 			halt(403);
 		}

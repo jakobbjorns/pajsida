@@ -146,8 +146,8 @@ class SnakeServer{
 							//									snake.x[1]==snake2.x[0]&&snake.y[1]==snake2.y[0]) {
 							else if (snake.käkar(snake2, 1)&&
 									snake2.käkar(snake, 0)) {
-								snake.gameover("krock");
-								snake2.gameover("krock");
+								snake.gameover("dubbelkrock");
+								snake2.gameover("dubbelkrock");
 							}
 							else{
 								for (int i = 1; i < snake2.length; i++) {
@@ -208,10 +208,11 @@ class SnakeServer{
 				.put("type", "players")
 				.put("players", array));
 
-		long b=System.currentTimeMillis();
+		
 		if (highscoreBool) {
 			highscore();
 		}
+		long b=System.currentTimeMillis();
 		message=new JSONObject().put("data", arrayBuilder).toString();
 		arrayBuilder=new JSONArray();
 		return b;

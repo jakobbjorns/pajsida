@@ -33,7 +33,6 @@ public class Main {
 		
 		webSocket("/ws/chat", ChatAPI.class);
 		webSocket("/ws/snake", SnakeAPI.class);
-		new SnakeAPI();
 		init();
 		
 		before("/*",manageAPI.beforeAll);

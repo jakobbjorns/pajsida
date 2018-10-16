@@ -136,7 +136,7 @@ class SnakeServer{
 					for (Snake snake2 : sessions.values()) {
 						if (snake2!=snake) {
 							//							if (snake.x[0]==snake2.x[0]&&snake.y[0]==snake2.y[0]) {
-							if(snake.käkar(snake, 0)) {
+							if(snake.käkar(snake2, 0)) {
 								if (snake2.fördröjning<0) {
 									snake.gameover("krock");
 								}

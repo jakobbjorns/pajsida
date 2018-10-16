@@ -13,6 +13,8 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import spark.Spark;
+
 @WebSocket
 public class SnakeAPI {
 	public static ArrayList<SnakeAPI> snakes = new ArrayList<>(),
@@ -27,7 +29,11 @@ public class SnakeAPI {
 	static String message;	
 
 	private static final Object LOCK = new Object();
-
+	public static void main(String[] args) {
+		Spark.port(1000);
+		Spark.webSocket("/snake", SnakeAPI.class);
+		Spark.init();
+	}
 	public static Thread gameloop=new Thread(){
 		@Override
 		public void run() {
@@ -79,7 +85,7 @@ public class SnakeAPI {
 		gameloop.start();;
 		System.out.println("Running");
 	}
-	
+
 
 
 	private Session session;
@@ -94,7 +100,7 @@ public class SnakeAPI {
 
 
 	Thread sendloop;
-	
+
 	@OnWebSocketConnect
 	public void open(Session session){
 		this.session=session;
@@ -120,7 +126,6 @@ public class SnakeAPI {
 					sendloop=new Thread(){
 						public void run() {
 							while(session.isOpen()){
-								System.out.println("hehhuijk");
 								try {
 									synchronized(LOCK){
 										LOCK.wait();
@@ -146,32 +151,27 @@ public class SnakeAPI {
 				y=new int[1000];
 				snakes.add(this);
 				reset();
-				JSONObject object=new JSONObject();
-				JSONArray array=new JSONArray();
-				JSONObject object2=new JSONObject();
-				object2.append("type", "plupp");
-				object2.append("X", pluppX);
-				object2.append("Y", pluppY);
-				array.put(object2);
-				object.append("data", array);
-//				send(Json.createObjectBuilder()
-//						.add("data",Json.createArrayBuilder().add(Json.createObjectBuilder()
-//								.add("type", "plupp")
-//								.add("X", pluppX)
-//								.add("Y", pluppY)
-//								)).build().toString());
-				send(object.toString());
+				//				send(Json.createObjectBuilder()
+				//						.add("data",Json.createArrayBuilder().add(Json.createObjectBuilder()
+				//								.add("type", "plupp")
+				//								.add("X", pluppX)
+				//								.add("Y", pluppY)
+				//								)).build().toString());
+				send(new JSONObject()
+						.put("data",new JSONArray()
+								.put(new JSONObject()
+										.put("type", "plupp")
+										.put("X", pluppX)
+										.put("Y", pluppY))).toString());
 				send("START");
 				fördröjning=-1;
 				starta();
 				if (pause) {
-					object=new JSONObject();
-					array=new JSONArray();
-					object2=new JSONObject();
-					object2.append("type", "pause");
-					array.put(object2);
-					object.append("data", array);
-					send(object.toString());
+					send(new JSONObject()
+							.put("data", new JSONArray()
+									.put(new JSONObject()
+											.put("type", "pause")))
+							.toString());
 					databuild();
 					sendAll();
 				}
@@ -188,20 +188,12 @@ public class SnakeAPI {
 			else if(string.equals("PAUSE")){
 				pause=!pause;
 				if (pause) {
-					JSONObject object=new JSONObject();
-					object.append("type", "pause");
-					arrayBuilder.put(object);
-//					arrayBuilder.add(Json.createObjectBuilder()
-//							.add("type", "pause"));
+					arrayBuilder.put(new JSONObject().put("type", "pause"));
 					databuild();
 					sendAll();
 				}
 				else {
-					JSONObject object=new JSONObject();
-					object.append("type", "unpause");
-					arrayBuilder.put(object);
-//					arrayBuilder.add(Json.createObjectBuilder()
-//							.add("type", "unpause"));
+					arrayBuilder.put(new JSONObject().put("type", "unpause"));
 					databuild();
 					sendAll();
 				}
@@ -273,11 +265,11 @@ public class SnakeAPI {
 
 	}
 	void gameover(String orsak){
-//		arrayBuilder.add(Json.createObjectBuilder()
-//				.add("type", "gameover")
-//				.add("namn", namn)
-//				.add("orsak", orsak)
-//				);
+		//		arrayBuilder.add(Json.createObjectBuilder()
+		//				.add("type", "gameover")
+		//				.add("namn", namn)
+		//				.add("orsak", orsak)
+		//				);
 		reset();
 	}
 	private boolean setRiktning(String nyRiktning) {
@@ -312,28 +304,28 @@ public class SnakeAPI {
 		synchronized(LOCK){
 			LOCK.notifyAll();
 		}
-//				sendAll(message);
-		arrayBuilder=new JSONArray();
+		//				sendAll(message);
+
 	}
 	static void plupp(){
 		pluppX = random.nextInt(width);
 		pluppY = random.nextInt(height);
 		JSONObject object = new JSONObject();
-		object.append("type", "plupp");
-		object.append("X", pluppX);
-		object.append("Y", pluppY);
+		object.put("type", "plupp");
+		object.put("X", pluppX);
+		object.put("Y", pluppY);
 		arrayBuilder.put(object);
-//		arrayBuilder.add(Json.createObjectBuilder()
-//				.add("type", "plupp")
-//				.add("X", pluppX)
-//				.add("Y", pluppY));
+		//		arrayBuilder.add(Json.createObjectBuilder()
+		//				.add("type", "plupp")
+		//				.add("X", pluppX)
+		//				.add("Y", pluppY));
 		highscoreBool=true;
 	}
 	static void highscore(){
 		ArrayList<SnakeAPI> snakes=new ArrayList<>(SnakeAPI.snakes);
 		snakes.sort(comparator);
 
-//		JsonArrayBuilder array=Json.createArrayBuilder();
+		//		JsonArrayBuilder array=Json.createArrayBuilder();
 		JSONArray array=new JSONArray();
 		for (SnakeAPI snake : snakes) {
 
@@ -344,22 +336,22 @@ public class SnakeAPI {
 				snake.highscore=poäng;
 			}
 			JSONObject object=new JSONObject();
-			object.append("färg",snake.färg);     
-			object.append("namn", snake.namn);            
-			object.append("poäng", poäng)      ;          
-			object.append("highscore", snake.highscore);
-			
-//			array.add(Json.createObjectBuilder()
-//					.add("färg",snake.färg)
-//					.add("namn", snake.namn)
-//					.add("poäng", poäng)
-//					.add("highscore", snake.highscore));
+			object.put("färg",snake.färg);     
+			object.put("namn", snake.namn);            
+			object.put("poäng", poäng)      ;          
+			object.put("highscore", snake.highscore);
+
+			//			array.add(Json.createObjectBuilder()
+			//					.add("färg",snake.färg)
+			//					.add("namn", snake.namn)
+			//					.add("poäng", poäng)
+			//					.add("highscore", snake.highscore));
 			array.put(object);
 		}
-//		arrayBuilder.add(Json.createObjectBuilder().add("type", "highscore").add("highscore", array));
+		//		arrayBuilder.add(Json.createObjectBuilder().add("type", "highscore").add("highscore", array));
 		JSONObject object=new JSONObject();
-		object.append("type", "highscore");
-		object.append("highscore", array);
+		object.put("type", "highscore");
+		object.put("highscore", array);
 		arrayBuilder.put(object);
 		highscoreBool=false;
 	}
@@ -397,8 +389,8 @@ public class SnakeAPI {
 				}
 				else{
 					if (--snake.fördröjning<=0) {
-//						arrayBuilder.add(Json.createObjectBuilder()
-//								.add("type", "cleangameover"));
+						//						arrayBuilder.add(Json.createObjectBuilder()
+						//								.add("type", "cleangameover"));
 						snake.starta();
 					}
 				}
@@ -474,36 +466,21 @@ public class SnakeAPI {
 		long diff=date8-date;
 		if (diff>4) {
 			JSONObject object=new JSONObject();
-			object.append("type", "delay");
-			object.append("delay", "Total:"+diff+
-							" Rem:"+(date2-date)+
-							" Move:"+(date3-date2)+
-							" Förl:"+(date4-date3)+
-							" Poäng:"+(date5-date4)+
-							" BuildLoad:"+(date6-date5)+
-							" Build:"+(date7-date6)+
-							" Send:"+(date8-date7));
+			object.put("type", "delay");
+			object.put("delay", "Total:"+diff+
+					" Rem:"+(date2-date)+
+					" Move:"+(date3-date2)+
+					" Förl:"+(date4-date3)+
+					" Poäng:"+(date5-date4)+
+					" BuildLoad:"+(date6-date5)+
+					" Build:"+(date7-date6)+
+					" Send:"+(date8-date7));
 			arrayBuilder.put(object);
-//			arrayBuilder.add(Json.createObjectBuilder().add("type", "delay")
-//					.add("delay", "Total:"+diff+
-//							" Rem:"+(date2-date)+
-//							" Move:"+(date3-date2)+
-//							" Förl:"+(date4-date3)+
-//							" Poäng:"+(date5-date4)+
-//							" BuildLoad:"+(date6-date5)+
-//							" Build:"+(date7-date6)+
-//							" Send:"+(date8-date7)));
 		}
 	}
-	//	private JsonArrayBuilder pixels;
 	private static long databuild() {
-//		JsonArrayBuilder array=Json.createArrayBuilder();
 		JSONArray array=new JSONArray();
-
 		for (SnakeAPI snake : snakes) {
-//			JsonArrayBuilder X=Json.createArrayBuilder();
-//			JsonArrayBuilder Y=Json.createArrayBuilder();
-//			JsonArrayBuilder player=Json.createArrayBuilder();
 			JSONArray player=new JSONArray();
 			player.put(snake.färg);
 			for (int i = 0; i < snake.length; i++) {
@@ -511,45 +488,17 @@ public class SnakeAPI {
 				player.put(snake.y[i]);
 			}
 			array.put(player);
-			//			if (snake.lastlength=snake.length) {
-			//				
-			//			}
-			//			snake.pixels.set
-			//			if (snake.pixels.size()==snake.length) {
-			//				snake.pixels.remove(snake.length-1);
-			//			}
-			//			snake.pixels.add(Json.createObjectBuilder()
-			//						.add("X", snake.x[0])
-			//						.add("Y", snake.y[0]).build());
-			//
-			//			pixels.add(Json.createObjectBuilder()
-			//					.add("X", snake.x[snake.length-1])
-			//					.add("Y", snake.y[snake.length-1]));
-//			array.add(Json.createObjectBuilder()
-//					.add("färg", snake.färg)
-//					.add("X", X)
-//					.add("Y", Y));
-
-			//			if (snake.clear==0) {
-			//				
-			//			}
 		}
-		JSONObject object=new JSONObject();
-		object.append("type", "players");
-		object.append("players", array);
-		arrayBuilder.put(object);
-//		arrayBuilder.add(Json.createObjectBuilder()
-//				.add("type", "players")
-//				.add("players", array));
+		arrayBuilder.put(new JSONObject()
+				.put("type", "players")
+				.put("players", array));
 
 		long b=System.currentTimeMillis();
 		if (highscoreBool) {
 			highscore();
 		}
-		JSONObject object2=new JSONObject();
-		object2.append("data", arrayBuilder);
-		message=object2.toString();
-//		message=Json.createObjectBuilder().add("data",arrayBuilder).build().toString();
+		message=new JSONObject().put("data", arrayBuilder).toString();
+		arrayBuilder=new JSONArray();
 		return b;
 	}
 }

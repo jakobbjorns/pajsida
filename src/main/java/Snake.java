@@ -105,11 +105,11 @@ public class Snake {
 
 	}
 	void gameover(String orsak){
-		//		arrayBuilder.add(Json.createObjectBuilder()
-		//				.add("type", "gameover")
-		//				.add("namn", namn)
-		//				.add("orsak", orsak)
-		//				);
+				SnakeServer.arrayBuilder.put(new JSONObject()
+						.put("type", "gameover")
+						.put("namn", namn)
+						.put("orsak", orsak)
+						);
 		reset();
 	}
 	boolean setRiktning(String nyRiktning) {

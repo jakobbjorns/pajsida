@@ -1,32 +1,31 @@
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Styrning av fönsterlampor</title>
-<link href="index.css" rel=stylesheet type="text/css" class="menucss">
-<script type="text/javascript" src="index.js"></script>
-</head>
-<body>
-	<h1>Fönsterlampor</h1>
-	<div>
-		<label class="switch"> <input id="brytare"
-			onchange="lampa(this)" type="checkbox"><span
-			class="slider round"></span>
-		</label>
-	</div>
-	<h1>Lampa Stockholm</h1>
-	<div>
-		<label class="switch"> <input id="brytare2"
-			onchange="lampa2(this)" type="checkbox"><span
-			class="slider round"></span>
-		</label>
-	</div>
-	<h1>Serverhantering</h1>
-	<button onclick="restart()">Starta om server</button>
-	<button onclick="git()">Git pull</button>
-
-	<div id="tider">
-		<h1>Släckta tider</h1>
-	</div>
-	<button onclick="createline('0.0-0.0')">Lägg till</button>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Styrning av fönsterlampor</title>
+        <link href="index.css" rel=stylesheet type="text/css" class="menucss">
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body>
+        <h1>Fönsterlampor</h1>
+        <label class="switch">
+            <input id="brytare" onchange="lampa(this)" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+        <h1>Lampa Stockholm</h1>
+        <label class="switch">
+            <input id="brytare2" onchange="lampa2()" type="checkbox">
+            <span class="round"></span>
+        </label>
+        <div class="slidecontainer">
+            <input type="range" min="1" max="254" value="1" 
+            class="slider" id="ljusstyrka" oninput="lampa2()">
+        </div>
+        <h1>Serverhantering</h1>
+        <button onclick="restart()">Starta om server</button>
+        <button onclick="git()">Git pull</button>
+        <div id="tider">
+            <h1>Släckta tider</h1>
+        </div>
+        <button onclick="createline('0.0-0.0')">Lägg till</button>
+    </body>

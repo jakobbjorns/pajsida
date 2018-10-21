@@ -5,23 +5,26 @@
 	height: 34px;
 }
 
+
 .switch input {
 	display: none;
 }
-
-.slider {
-	position: absolute;
+.switch .round {
+	border-radius: 34px;
+	display: block;
+	width: 100%;
+	height: 100%;
 	cursor: pointer;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
 	background-color: #ccc;
 	-webkit-transition: .4s;
 	transition: .4s;
+	opacity: 0.7;
 }
-
-.slider:before {
+.switch .round:hover{
+	opacity: 1;
+}
+/*pricken*/
+.switch .round:before {
 	position: absolute;
 	content: "";
 	height: 26px;
@@ -31,27 +34,47 @@
 	background-color: white;
 	-webkit-transition: .4s;
 	transition: .4s;
+	border-radius: 50%;
 }
 
-input:checked+.slider {
+input:checked+.round {
 	background-color: #2196F3;
 }
 
-input:focus+.slider {
-	box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked+.slider:before {
+input:checked+.round:before {
 	-webkit-transform: translateX(26px);
 	-ms-transform: translateX(26px);
 	transform: translateX(26px);
 }
 
-/* Rounded sliders */
-.slider.round {
-	border-radius: 34px;
+.slidecontainer {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
 }
 
-.slider.round:before {
-	border-radius: 50%;
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #ccc; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    /* -webkit-transition: .2s; */ /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) */ 
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #2196F3;
+    cursor: pointer; /* Cursor on hover */
 }

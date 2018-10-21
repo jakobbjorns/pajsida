@@ -95,17 +95,6 @@ class SnakeServer{
 	}
 	public static void update() {
 		long date = System.currentTimeMillis(),date2,date3 = 0,date4=0,date5=0,date6=0,date7 = 0,date8=0;
-		//		try {
-		//			if (removeList.size()>0) {
-		//				for (SnakeAPI snakeServer : removeList) {
-		//
-		//					snakes.remove(snakeServer);
-		//				}
-		//			}
-		//		} 
-		//		catch (Exception e) {
-		//			e.printStackTrace();
-		//		}
 		date2 = System.currentTimeMillis() ;
 		try{
 			//Gör alla förflyttningar
@@ -117,7 +106,7 @@ class SnakeServer{
 			for (Snake snake : sessions.values()) {
 				dennasnake:if(snake.fördröjning<0){
 					//Kolla om munnen åker ur bild
-//					if (snake.x[0]<0||snake.y[0]<0||snake.x[0]>=width||snake.y[0]>=height) {
+					//					if (snake.x[0]<0||snake.y[0]<0||snake.x[0]>=width||snake.y[0]>=height) {
 					if (snake.urbild(width, height)) {
 						snake.gameover("urBild");
 						break dennasnake;
@@ -208,11 +197,12 @@ class SnakeServer{
 				.put("type", "players")
 				.put("players", array));
 
-		
+
 		if (highscoreBool) {
 			highscore();
 		}
 		long b=System.currentTimeMillis();
+
 		message=new JSONObject().put("data", arrayBuilder).toString();
 		arrayBuilder=new JSONArray();
 		return b;
@@ -223,13 +213,10 @@ class SnakeServer{
 		}
 	}
 	public static void sendAll(){
-
-		//			snake.send(message);
-
-
-		synchronized(LOCK){
+		synchronized (LOCK) {
 			LOCK.notifyAll();
 		}
+
 		//				sendAll(message);
 
 	}

@@ -37,7 +37,7 @@ public class HueAPI {
 			Thread.sleep(100);
 			System.out.println(connection.getResponseCode());
 			System.out.println(connection.getResponseMessage());
-			if (connection.getResponseCode()==400) {
+			if (connection.getResponseCode()>=400) {
 				break;
 			}
 		}

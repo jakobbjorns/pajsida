@@ -33,14 +33,7 @@ public class HueAPI {
 		return response2.body();
 	};
 	private String connect(HttpURLConnection connection) throws IOException, InterruptedException {
-		while (connection.getResponseCode()!=200) {
-			Thread.sleep(100);
-			System.out.println(connection.getResponseCode());
-			System.out.println(connection.getResponseMessage());
-			if (connection.getResponseCode()>=400) {
-				break;
-			}
-		}
+		connection.connect();
 		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		String string=bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));

@@ -24,6 +24,7 @@ class SnakeServer{
 	static String message;	
 
 	static final Object LOCK = new Object();
+	static final Object INACTIVE = new Object();
 	private static Map<Session, Snake> sessions = SnakeAPI.sessions;
 	public static void main(String[] args) {
 		Spark.port(1000);
@@ -35,6 +36,11 @@ class SnakeServer{
 		public void run() {
 			while (true) {
 				try {
+					if (sessions.isEmpty()) {
+						synchronized (INACTIVE) {
+							INACTIVE.wait();
+						}
+					}
 					long i = System.currentTimeMillis();
 					if (!pause) {
 						update();
@@ -44,15 +50,12 @@ class SnakeServer{
 					} 
 					catch (IllegalArgumentException e) {
 						e.printStackTrace();
-						sendAll("E "+e.toString());
 					}catch (InterruptedException e) {
 						e.printStackTrace();
-						sendAll("E "+e.toString());
 					}
 
 				} catch (Exception e) {
 					e.printStackTrace();
-					sendAll("E "+e.toString());
 				}
 			}
 		}
@@ -251,6 +254,9 @@ class SnakeServer{
 		if (string.equals("INIT")) {
 			Snake newsnake=new Snake(user,scanner);
 			sessions.put(user, newsnake);
+			synchronized (INACTIVE) {
+				INACTIVE.notify();
+			}
 			if (pause) {
 				newsnake.send(new JSONObject()
 						.put("data", new JSONArray()

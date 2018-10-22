@@ -16,26 +16,26 @@ public class Snake {
 	int highscore;
 	int fördröjning;
 	public Random random = new Random();
-
+	private Thread sendloop=new Thread(){
+		public void run() {
+			while(session.isOpen()){
+				try {
+					synchronized(SnakeServer.LOCK){
+						SnakeServer.LOCK.wait();
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				send(SnakeServer.message);
+			}
+		};
+	};
 	//	int clear;
 	public Snake(Session session, Scanner scanner) {
 		this.session=session;
 		System.out.println("nytt objekt");
-		Thread sendloop=new Thread(){
-			public void run() {
-				while(session.isOpen()){
-					try {
-						synchronized(SnakeServer.LOCK){
-							SnakeServer.LOCK.wait();
-						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					send(SnakeServer.message);
-				}
-			};
-		};
+		
 		try {
 			sendloop.start();
 		} catch (Exception e) {

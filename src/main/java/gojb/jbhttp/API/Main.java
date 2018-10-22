@@ -1,4 +1,8 @@
+package gojb.jbhttp.API;
 import static spark.Spark.*;
+
+import gojb.jbhttp.API.snake.SnakeAPI;
+
 public class Main {
 	public static void main(String[] args) {
 		System.out.println("Välkommen");

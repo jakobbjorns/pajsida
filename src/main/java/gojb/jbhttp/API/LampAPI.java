@@ -1,3 +1,4 @@
+package gojb.jbhttp.API;
 import java.net.HttpURLConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;

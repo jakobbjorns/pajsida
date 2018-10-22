@@ -1,3 +1,4 @@
+package gojb.jbhttp.API;
 import static spark.Spark.halt;
 
 import java.security.MessageDigest;

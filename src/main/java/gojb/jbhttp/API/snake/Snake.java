@@ -1,3 +1,4 @@
+package gojb.jbhttp.API.snake;
 import java.util.Random;
 import java.util.Scanner;
 

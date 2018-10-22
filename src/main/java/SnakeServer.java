@@ -98,8 +98,8 @@ class SnakeServer{
 		highscoreBool=false;
 	}
 	public static void update() {
-		long date = System.currentTimeMillis(),date2,date3 = 0,date4=0,date5=0,date6=0,date7 = 0,date8=0;
-		date2 = System.currentTimeMillis() ;
+		long date2,date3 = 0,date4=0,date5=0,date6=0,date7 = 0,date8=0;
+		date2 = System.currentTimeMillis();
 		try{
 			//Gör alla förflyttningar
 			for (Snake snake : sessions.values()) {
@@ -177,18 +177,20 @@ class SnakeServer{
 			sendAll("E "+errors.toString());
 		}
 		date8 = System.currentTimeMillis();
-		long diff=date8-date;
+		long diff=date8-date2;
 		if (diff>4) {
 			JSONObject object=new JSONObject();
 			object.put("type", "delay");
-			object.put("delay", "Total:"+diff+
-					" Rem:"+(date2-date)+
+			String lagg=
+					"Total:"+diff+
 					" Move:"+(date3-date2)+
 					" Förl:"+(date4-date3)+
 					" Poäng:"+(date5-date4)+
 					" BuildLoad:"+(date6-date5)+
 					" Build:"+(date7-date6)+
-					" Send:"+(date8-date7));
+					" Send:"+(date8-date7);
+			System.out.println(lagg);
+			object.put("delay", lagg);
 			arrayBuilder.put(object);
 		}
 	}

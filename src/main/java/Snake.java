@@ -72,7 +72,6 @@ public class Snake {
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (errtimes++>100) {
-				//				removeList.add(this);
 				SnakeAPI.sessions.remove(session);
 			}
 

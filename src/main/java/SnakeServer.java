@@ -36,16 +36,16 @@ class SnakeServer{
 		public void run() {
 			while (true) {
 				try {
+					long i = System.currentTimeMillis();
+					if (!pause) {
+						update();
+					}
 					if (sessions.isEmpty()) {
 						System.out.println("Snakeserver inaktiv");
 						synchronized (INACTIVE) {
 							INACTIVE.wait();
 						}
 						System.out.println("Snakeserver aktiv");
-					}
-					long i = System.currentTimeMillis();
-					if (!pause) {
-						update();
 					}
 					try {
 						sleep(i+100-System.currentTimeMillis());
@@ -55,7 +55,6 @@ class SnakeServer{
 					}catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

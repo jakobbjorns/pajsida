@@ -8,8 +8,8 @@ import spark.Route;
 
 
 public class ManageAPI {
-	private Process ssh;
-	public ManageAPI() {
+	private static Process ssh;
+	static{
 		try {
 			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","-N");
 			pb.inheritIO();
@@ -42,15 +42,15 @@ public class ManageAPI {
 		//			}
 		//		}
 	}
-	Filter beforeAll=(request,response)->{
+	static Filter beforeAll=(request,response)->{
 		System.out.println();
 		System.out.println(request.requestMethod()+"-request (" +request.uri() +" "+ request.protocol()+") från: "+request.headers("X-Real-IP")+" ("+request.ip()+")");
 		System.out.println("hejsan");
 	};
-	Filter afterAll=(request,response)->{
+	static Filter afterAll=(request,response)->{
 		System.out.println("Responding with: " + response.status() + ", " + response.body());
 	};
-	Route stop=(request, response) -> {
+	static Route stop=(request, response) -> {
 		System.out.println("Avslutar");
 		stop();
 		ssh.destroy();
@@ -58,14 +58,14 @@ public class ManageAPI {
 		System.exit(0);
 		return response.body();
 	};
-	Route restart=(request, response) -> {
+	static Route restart=(request, response) -> {
 		System.out.println("Startar om");
 		ProcessBuilder pb = new ProcessBuilder("/etc/init.d/bjorns", "restart");
 		pb.inheritIO();
 		pb.start();
 		return response.body();
 	};
-	Route git=(request, response) -> {
+	static Route git=(request, response) -> {
 		System.out.println("Git refresh");
 		ProcessBuilder pb = new ProcessBuilder("sh", "autogit");
 		File homedir = new File(System.getProperty("user.home"));

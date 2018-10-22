@@ -10,11 +10,11 @@ import spark.Response;
 import spark.Route;
 
 public class LampAPI {
-	private Connection connect;
-	public LampAPI() {
+	private static Connection connect;
+	static{
 		sqlconnect();
 	}
-	private void sqlconnect(){
+	private static void sqlconnect(){
 		try {
 			connect = DriverManager
 					.getConnection("jdbc:mysql://localhost/styrning?"
@@ -24,7 +24,7 @@ public class LampAPI {
 			e.printStackTrace();
 		}
 	}
-	Route lampstatus =new Route() {
+	static Route lampstatus =new Route() {
 		@Override
 		public Object handle(Request request, Response response) throws Exception {
 			try {
@@ -41,7 +41,7 @@ public class LampAPI {
 			return response.body();
 		}
 	};
-	Route setstatus=(request, response) -> {
+	static Route setstatus=(request, response) -> {
 		if(request.body().startsWith("lampa")){
 			if(request.body().endsWith("true")){
 				System.err.println("tänd!");
@@ -56,7 +56,7 @@ public class LampAPI {
 		}
 		return response.body();
 	};
-	Route postDarkTimes=(request, response) -> {
+	static Route postDarkTimes=(request, response) -> {
 		try {
 			String body = request.body();
 			System.out.println(body);
@@ -78,7 +78,7 @@ public class LampAPI {
 		}
 		return response.body();
 	};
-	Route getDarkTimes=new Route() {
+	static Route getDarkTimes=new Route() {
 		@Override
 		public Object handle(Request request, Response response) throws Exception {
 			try {

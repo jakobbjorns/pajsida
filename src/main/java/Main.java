@@ -1,6 +1,4 @@
 import static spark.Spark.*;
-
-import java.util.ArrayList;
 public class Main {
 	public static void main(String[] args) {
 		System.out.println("Välkommen");
@@ -25,34 +23,29 @@ public class Main {
 		openHTTP();
 	}
 
-	private void openHTTP(){
-		LoginAPI loginAPI=new LoginAPI();
-		HueAPI hueAPI=new HueAPI();
-		LampAPI lampAPI=new LampAPI();
-		ManageAPI manageAPI= new ManageAPI();
-		
+	private void openHTTP(){		
 		webSocket("/ws/chat", ChatAPI.class);
 		webSocket("/ws/snake", SnakeAPI.class);
 		init();
 		
-		before("/*",manageAPI.beforeAll);
-		after("/*",manageAPI.afterAll);
+		before("/*",ManageAPI.beforeAll);
+		after("/*",ManageAPI.afterAll);
 		path("/spark", ()->{
 			path("/login", ()->{
-				before("/*",loginAPI.validated);
-				post("", loginAPI.login);
-				post("/F56/*",hueAPI.send);
-				get("/F56/*", hueAPI.send);
-				put("/F56/*", hueAPI.send);
-				get("/lampstatus",lampAPI.lampstatus);
-				get("/dark", lampAPI.getDarkTimes);
-				post("/dark", lampAPI.postDarkTimes);
-				post("/set", lampAPI.setstatus);});
+				before("/*",LoginAPI.validated);
+				post("", LoginAPI.login);
+				post("/F56/*",HueAPI.send);
+				get("/F56/*", HueAPI.send);
+				put("/F56/*", HueAPI.send);
+				get("/lampstatus",LampAPI.lampstatus);
+				get("/dark", LampAPI.getDarkTimes);
+				post("/dark", LampAPI.postDarkTimes);
+				post("/set", LampAPI.setstatus);});
 			
 			path("/manage", ()->{
-				get("/stop",manageAPI.stop);
-				get("/restart", manageAPI.restart);
-				get("/git", manageAPI.git);});
+				get("/stop",ManageAPI.stop);
+				get("/restart", ManageAPI.restart);
+				get("/git", ManageAPI.git);});
 		});
 		
 	}

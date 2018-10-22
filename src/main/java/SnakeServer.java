@@ -80,7 +80,6 @@ class SnakeServer{
 		}
 	};
 	static{
-		//		timer.start();
 		plupp();
 		gameloop.start();;
 		System.out.println("Running");

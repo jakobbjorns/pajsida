@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import spark.Route;
 
 public class HueAPI {
-	Route send = (request2, response2) -> {
+	static Route send = (request2, response2) -> {
 		System.out.println("HUE");
 		System.out.println(request2.body());
 		try {
@@ -32,7 +32,7 @@ public class HueAPI {
 		}
 		return response2.body();
 	};
-	private String connect(HttpURLConnection connection) throws IOException, InterruptedException {
+	private static String connect(HttpURLConnection connection) throws IOException, InterruptedException {
 		connection.connect();
 		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
 		BufferedReader bufferedReader = new BufferedReader(reader);

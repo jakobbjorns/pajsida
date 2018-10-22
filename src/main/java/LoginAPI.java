@@ -10,7 +10,7 @@ import spark.Route;
 
 public class LoginAPI {
 	private static String session;
-	Filter validated=(request, response) -> {
+	static Filter validated=(request, response) -> {
 		String remotehost=request.headers("Origin");
 		System.out.println("Remotehost: "+remotehost);
 		String cookie=request.cookie("sessionID");
@@ -22,7 +22,7 @@ public class LoginAPI {
 			halt(403);
 		}
 	};
-	Route login=(request, response) -> {
+	static Route login=(request, response) -> {
 		//						for (String string : request.headers()) {
 		//							System.out.println(string+"  "+request.headers(string));
 		//						}
@@ -48,7 +48,7 @@ public class LoginAPI {
 		return response.body();
 	};
 
-	private String createSessionID () {
+	private static String createSessionID () {
 		String id="";
 		try {
 			SecureRandom secureRandom= SecureRandom.getInstance("SHA1PRNG");

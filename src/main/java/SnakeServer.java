@@ -37,9 +37,11 @@ class SnakeServer{
 			while (true) {
 				try {
 					if (sessions.isEmpty()) {
+						System.out.println("Snakeserver inaktiv");
 						synchronized (INACTIVE) {
 							INACTIVE.wait();
 						}
+						System.out.println("Snakeserver aktiv");
 					}
 					long i = System.currentTimeMillis();
 					if (!pause) {

@@ -36,8 +36,8 @@ public class Main {
 		after("/*",ManageAPI.afterAll);
 		path("/spark", ()->{
 			path("/login", ()->{
-				before("/*",LoginAPI.validated);
 				post("", LoginAPI.login);
+				before("/*",LoginAPI.validated); //Kontrollerar så att användaren är inloggad
 				post("/F56/*",HueAPI.send);
 				get("/F56/*", HueAPI.send);
 				put("/F56/*", HueAPI.send);
@@ -45,12 +45,10 @@ public class Main {
 				get("/dark", LampAPI.getDarkTimes);
 				post("/dark", LampAPI.postDarkTimes);
 				post("/set", LampAPI.setstatus);});
-			
 			path("/manage", ()->{
 				get("/stop",ManageAPI.stop);
 				get("/restart", ManageAPI.restart);
 				get("/git", ManageAPI.git);});
 		});
-		
 	}
 }

@@ -18,8 +18,7 @@
             <span class="round"></span>
         </label>
         <div class="slidecontainer">
-            <input type="range" min="1" max="254" value="1" 
-            class="slider" id="ljusstyrka" oninput="lampa2()">
+            <input type="range" min="1" max="254" value="1" class="slider" id="ljusstyrka" oninput="slider()" onchange="lampa2()">
         </div>
         <h1>Serverhantering</h1>
         <button onclick="restart()">Starta om server</button>

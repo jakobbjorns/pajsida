@@ -1,8 +1,7 @@
 function change() {
     console.log("hejsan svejsan");
 }
-;
-function lampa(object) {
+;function lampa(object) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/spark/login/set', true);
     xhr.onload = function() {
@@ -41,7 +40,17 @@ function git(object) {
     ;
     xhr.send("hej");
 }
+var senast = 0;
+var fördröjning = 200;
+function slider() {
+    if (senast + fördröjning > Date.now()) {
+        return;
+    }
+    senast = Date.now();
+    lampa2();
+}
 function lampa2() {
+
     var xhr = new XMLHttpRequest();
     xhr.open('PUT', '/spark/login/F56/lights/2/state', true);
     xhr.onload = function() {
@@ -55,8 +64,8 @@ function lampa2() {
     ;
     var brytare = document.getElementById("brytare2");
     var slider = document.getElementById("ljusstyrka");
-    
-    var styrka=parseInt(slider.value);
+
+    var styrka = parseInt(slider.value);
     var data = JSON.stringify({
         "on": brytare.checked,
         "bri": styrka
@@ -65,42 +74,49 @@ function lampa2() {
 }
 console.log('window - onload');
 //4th
+function load() {
+    console.log("load");
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "/spark/login/lampstatus", true);
+    xmlHttp.onload = function() {
+        // do something to response
+        element = document.getElementById("brytare");
+        console.log(this.responseText);
+        var status = this.status
+        console.log(status);
+        if (status == 403) {
+            window.location.replace("/");
+        }
+        element.checked = (this.responseText == 'true');
 
-var xmlHttp = new XMLHttpRequest();
-xmlHttp.open("GET", "/spark/login/lampstatus", true);
-xmlHttp.onload = function() {
-    // do something to response
-    element = document.getElementById("brytare");
-    console.log(this.responseText);
-    var status = this.status
-    console.log(status);
-    if (status == 403) {
-        window.location.replace("/");
     }
-    element.checked = (this.responseText == 'true');
+    ;
+    xmlHttp.send(null);
+    //Hämta info från hue -server
+    var hue = new XMLHttpRequest();
+    hue.open("GET", "/spark/login/F56/lights/2", true);
+    hue.onload = function() {
+        // do something to response
+        var element = document.getElementById("brytare2");
+        var slider = document.getElementById("ljusstyrka");
+        console.log(this.responseText);
 
-};
-xmlHttp.send(null);
-//Hämta info från hue -server
-var hue = new XMLHttpRequest();
-hue.open("GET", "/spark/login/F56/lights/2", true);
-hue.onload = function() {
-    // do something to response
-    var element = document.getElementById("brytare2");
-    var slider = document.getElementById("ljusstyrka");
-    console.log(this.responseText);
+        var status = this.status
+        console.log(status);
+        if (status == 403) {
+            window.location.replace("/");
+        }
+        var json = JSON.parse(this.responseText);
+        element.checked = json.state.on;
+        slider.value = json.state.bri;
 
-    var status = this.status
-    console.log(status);
-    if (status == 403) {
-        window.location.replace("/");
     }
-    var json = JSON.parse(this.responseText);
-    element.checked = json.state.on;
-    slider.value = json.state.bri;
+    ;
+    hue.send(null);
 
-};
-hue.send(null);
+    setTimeout(load, 60000);
+}
+load();
 
 var servertider = new XMLHttpRequest();
 

@@ -17,7 +17,7 @@ public class HueAPI {
 			String[] splats=request2.splat();
 			String splat=String.join("/", splats);
 			System.out.println(splat);
-			URL url = new URL("http://localhost:10000/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
+			URL url = new URL("http://glennolsson.se:2017/api/1Ct9oM4V40HVsMkaWFq76MFchV3yygkBCTDl7SaH/"+splat);
 			HttpURLConnection connection= (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod(request2.requestMethod());
 			if (!request2.requestMethod().equals("GET")) {

@@ -9,16 +9,16 @@ import spark.Route;
 
 
 public class ManageAPI {
-	private static Process ssh;
+//	private static Process ssh;
 	static{
-		try {
-			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","-N");
-			pb.inheritIO();
-			ssh=pb.start();
-			System.out.println("ssh mot glenn");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","-N");
+//			pb.inheritIO();
+//			ssh=pb.start();
+//			System.out.println("ssh mot glenn");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		//		while(true){
 		//			try {
 		//				Process p = Runtime.getRuntime().exec("curl -k https://freedns.afraid.org/dynamic/update.php?SWZodlZ4Y3dRdlFramFoVDZEMVdlUlZDOjE3MjYwNzM2");
@@ -54,7 +54,7 @@ public class ManageAPI {
 	static Route stop=(request, response) -> {
 		System.out.println("Avslutar");
 		stop();
-		ssh.destroy();
+//		ssh.destroy();
 		System.out.println("Avslutad");
 		System.exit(0);
 		return response.body();

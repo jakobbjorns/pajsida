@@ -20,7 +20,7 @@ public class MailAPI {
 			}
 			if (LoginAPI.correctPassword(user,password)) {
 				response.header("Auth-Status","OK");
-				response.header("Auth-Server","localhost");
+				response.header("Auth-Server","127.0.0.1");
 				response.header("Auth-Port",port);
 			}
 			else {

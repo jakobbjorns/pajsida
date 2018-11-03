@@ -2,7 +2,6 @@ package gojb.jbhttp.API;
 import static spark.Spark.stop;
 
 import java.io.File;
-import java.io.IOException;
 
 import spark.Filter;
 import spark.Route;

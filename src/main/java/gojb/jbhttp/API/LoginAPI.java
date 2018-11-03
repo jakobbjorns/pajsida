@@ -34,12 +34,9 @@ public class LoginAPI {
 		@Override
 		public Object handle(Request request, Response response){
 			String remotehost=request.headers("Origin");
+			String user=request.queryParams("user");
 			String password=request.queryParams("password");
-			System.out.println(password);
-			password=getHash(password);
-			System.out.println(password);
-			if(password.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=")){
-				// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
+			if(correctPassword(user,password)){
 				response.body("Inloggad!!!!");
 				String id=createSessionID();
 				int age=60*60*24;
@@ -69,6 +66,13 @@ public class LoginAPI {
 		System.out.println("SessionID: " + id);
 
 		return id;
+	}
+	public static boolean correctPassword(String user,String password) {
+		// lösenhash LH2WA9HlvN5+QxR+P+idBq9x3OE=
+		String passwordHash=getHash(password);
+		boolean correct=passwordHash.equals("LH2WA9HlvN5+QxR+P+idBq9x3OE=");
+		System.out.println("Checking password: "+password+" ("+passwordHash+") Correct:"+correct);
+		return correct;
 	}
 	/**Returns the hash of the input string
 	 * @param string Input String

@@ -1,6 +1,7 @@
 package gojb.jbhttp.API;
 import static spark.Spark.*;
 
+import gojb.jbhttp.API.aktier.AktieAPI;
 import gojb.jbhttp.API.snake.SnakeAPI;
 
 public class Main {
@@ -31,24 +32,26 @@ public class Main {
 		webSocket("/ws/chat", ChatAPI.class);
 		webSocket("/ws/snake", SnakeAPI.class);
 		init();
-		
+
 		before("/*",ManageAPI.beforeAll);
 		after("/*",ManageAPI.afterAll);
+		get("/mailauth",MailAPI.auth);
 		path("/spark", ()->{
 			path("/login", ()->{
 				post("", LoginAPI.login);
 				before("/*",LoginAPI.validated); //Kontrollerar så att användaren är inloggad
+				//				get("/dark", LampAPI.getDarkTimes);
+				//				post("/dark", LampAPI.postDarkTimes);
+				//				post("/set", LampAPI.setstatus);
+				//				get("/lampstatus",LampAPI.lampstatus);
 				post("/F56/*",HueAPI.send);
 				get("/F56/*", HueAPI.send);
-				put("/F56/*", HueAPI.send);
-				get("/lampstatus",LampAPI.lampstatus);
-				get("/dark", LampAPI.getDarkTimes);
-				post("/dark", LampAPI.postDarkTimes);
-				post("/set", LampAPI.setstatus);});
+				put("/F56/*", HueAPI.send);});
 			path("/manage", ()->{
 				get("/stop",ManageAPI.stop);
 				get("/restart", ManageAPI.restart);
 				get("/git", ManageAPI.git);});
+			path("/aktier/", AktieAPI.aktier);
 		});
 	}
 }

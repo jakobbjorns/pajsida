@@ -1,6 +1,6 @@
-#Lista Ã¶ver aktier pÃ¥ stockholmsbÃ¶rsen. Senast uppdaterad 2018-11-06
+#Lista över aktier på stockholmsbörsen. Senast uppdaterad 2018-11-06
 #Formatering aza-id	Namn	PE	PS	Soliditet
-180729	A3 AllmÃ¤nna IT- och Telekom.	103,77	0,54	46,42
+180729	A3 Allmänna IT- och Telekom.	103,77	0,54	46,42
 26268	AAK	26,28	1,27	45,78
 5447	ABB Ltd	20,08	1,25	35,48
 667476	AcadeMedia	10,96	0,40	45,42

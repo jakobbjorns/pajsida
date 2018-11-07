@@ -1,0 +1,15 @@
+#Lista över aktier på stockholmsbörsen. Senast uppdaterad 2018-11-06. Encoding UTF-8
+#Formatering aza-id	Namn	PE	PS	Soliditet
+180729	A3 Allmänna IT- och Telekom.	103,77	0,54	46,42
+26268	AAK	26,28	1,27	45,78
+5447	ABB Ltd	20,08	1,25	35,48
+667476	AcadeMedia	10,96	0,40	45,42
+5358	Acando B	17,35	1,30	61,72
+742358	Actic Group	22,99	0,68	43,66
+5304	Active Biotech	-3,19	13,44	25,58
+643541	AddLife B	41,27	2,11	39,56
+5442	Addnode Group B	25,45	1,23	37,42
+5537	Addtech B	23,21	1,50	38,61
+250993	Africa Oil	-11,02	-	96,73
+80347	Agromino	-3,03	0,87	66,71
+700615	Ahlsell	12,82	0,70	36,20

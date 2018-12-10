@@ -28,6 +28,9 @@ public class Stockholmsbörsen {
 			return response;
 		}
 	};
+	public static void main(String[] args) {
+		getAktielista("2018-01-01", "2018-01-01");
+	}
 	public static Route omxs30 = new Route() {
 		@Override
 		public Object handle(Request request, Response response) throws Exception {
@@ -70,7 +73,7 @@ public class Stockholmsbörsen {
 					);
 
 
-
+			System.out.println(url.toString());
 			Document document = Jsoup.parse(url, 1000);
 
 			Elements elements2 = document.getElementsByClass("u-standardTable");

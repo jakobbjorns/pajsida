@@ -1,3 +1,343 @@
+* {
+	font-family: Bitter, serif;
+	/**
+*Anti-blink iphone
+*/
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	background-color: rgba(200, 200, 200, 0.2);
+	margin: 0;
+	height: 100%;
+}
+
+.header {
+	height: 90px;
+	background-color: rgba(58, 163, 158, 0.1);
+	padding: 0 2%;
+}
+
+.bred .menuKnapp {
+	display: none;
+	width: 0;
+}
+
+.bred .logo {
+	height: 70px;
+	width: 70px;
+	margin: 10px;
+	float: left;
+	background: url(images/rect8147.png) no-repeat;
+	background-size: cover;
+}
+
+.bred .rubrik {
+	float: left;
+	font-family: Audiowide, monospace;
+	line-height: 90px;
+	font-size: 45px;
+	font-weight: bold;
+	color: rgb(58, 163, 158);
+	text-decoration: none;
+	/*width: 565px;'*/
+}
+
+.bred .ChangeLang {
+	background-color: rgba(58, 163, 158, 0.5);
+	height: 30%;
+	border-radius: 11px;
+	float: right;
+	color: rgb(38, 113, 110);
+	margin-top: 0.5%;
+	padding: 5px;
+}
+
+.bred .ChangeLang:hover {
+	box-shadow: 0 0 2px;
+	text-shadow: 0 0 1px #083838;
+}
+
+.bred .meny {
+	float: right;
+	margin: 25px;
+}
+
+.bred .meny a {
+	text-decoration: none;
+	color: black;
+	display: block;
+	padding: 10px 20px;
+	height: 20px;
+	white-space: nowrap;
+}
+
+.bred .meny a.active {
+	color: rgb(58, 163, 158);
+}
+
+.bred .meny ul {
+	padding: 0;
+	margin: 0;
+	display: inline;
+}
+
+.bred .meny li {
+	float: left;
+	display: inline;
+	position: relative;
+	border-radius: 10px;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.3) 50%, transparent
+		50%);
+	background-size: 100% 200%;
+	background-position-y: 0;
+	transition: all 500ms ease-in-out;
+}
+
+.bred .meny li:hover {
+	background-position-y: -100%;
+}
+
+.bred .meny li:hover>ul {
+	box-shadow: 0px 0px 20px;
+}
+
+.bred .meny li>ul {
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	transition: all 500ms ease-in-out;
+}
+
+.bred .meny li>ul>li {
+	height: 0;
+	width: 100%;
+	overflow: hidden;
+}
+
+.bred .meny li:hover>ul>li {
+	height: 40px;
+}
+
+.bred .lang {
+	display: none;
+	background-color: rgba(23, 182, 176, 0.7);
+	border: 2px solid #3B8DA5;
+	height: 200px;
+	padding: 30px;
+	width: 400px;
+	margin: 0 5% 0 35%;
+	border-radius: 20%;
+	position: absolute;
+}
+
+.bred .swe {
+	background-image: url(images/swe.jpg);
+	width: 150px;
+	height: 150px;
+	float: left;
+	border-radius: 100%;
+	background-position: 40%;
+	text-align: center;
+	position: relative;
+}
+
+.bred .swe:hover>p {
+	text-shadow: 1px 1px 1px #17B6B0;
+}
+
+.bred .swe>p {
+	vertical-align: middle;
+	margin: 39% 0px;
+	color: #015293;
+	font-size: 130%;
+}
+
+.bred .uk {
+	background-image: url(images/uk.png);
+	width: 150px;
+	height: 150px;
+	float: right;
+	border-radius: 100%;
+	background-position: 50%;
+}
+
+.bred .uk {
+	/* outline: 2px solid black; */
+	
+}
+
+.bred .langList {
+	list-style: none;
+	margin-left: -10%;
+}
+
+.bred .uk:hover>p {
+	text-shadow: 0 0 4px #17B6B0;
+}
+
+.bred .langSelect {
+	width: auto;
+	font-size: 115%;
+	font-weight: bold;
+	margin: 2% 22%;
+	/* position: fixed; */
+}
+
+.bred .uk>p {
+	vertical-align: middle;
+	margin: 39% 17%;
+	color: #FFFFFF;
+	font-size: 130%;
+}
+
+.bred .stängKnapp {
+	display: none;
+}
+
+.middle {
+	width: 85%;
+	margin: 20px auto;
+	background-color: white;
+	padding: 20px;
+	border-radius: 30px;
+	min-height: calc(100% - 130px);
+	cursor: default;
+	display: table;
+}
+
+.smal .logo {
+	height: 70px;
+	width: 70px;
+	margin: 10px;
+	float: right;
+	background: url(images/rect8147.png) no-repeat;
+	background-size: cover;
+}
+
+.smal .meny {
+	background: rgba(0, 0, 0, 0.8)
+		url('http://s3.amazonaws.com/codecademy-content/courses/ltp2/img/uber/black-thread.png')
+		repeat left top;
+	text-decoration: none;
+	color: black;
+	height: 200%;
+	width: 0px;
+	height: 100%;
+	position: fixed;
+	left: 0px;
+	overflow: auto;
+}
+
+.smal .stängKnapp {
+	content: url("/images/X.png");
+	display: block;
+	height: 30px;
+	width: 30px;
+	margin: 5%;
+	cursor: pointer;
+}
+
+.smal .meny ul {
+	/*	height: 50px;*/
+	list-style: none;
+	padding-left: 0px;
+}
+
+.smal .meny>ul>li {
+	border-top: 1px solid #636366;
+}
+
+.smal .meny>ul>li:first-child {
+	border-top: none;
+}
+
+.smal .meny>ul ul {
+	padding-left: 10px;
+	display: none;
+}
+
+.smal li>a {
+	color: rgba(58, 163, 158, 0.5);
+	text-decoration: none;
+	transition: 300ms all ease-in-out;
+	display: block;
+	padding: 10% 5%;
+}
+
+.smal a.active {
+	color: rgb(58, 163, 158);
+}
+
+/*.smal li:hover {
+	background-color: rgba(0, 0, 0, 0.13);
+	cursor: pointer;
+	transition: 500ms all ease-in-out;
+}
+
+.smal li a:hover {
+	color: rgb(58, 163, 158);
+}*/
+.smal .ChangeLang {
+	display: none;
+}
+
+.smal .lang {
+	display: none;
+}
+
+.smal .rubrik {
+	float: right;
+	text-indent: -9999px;
+}
+
+.smal .header {
+	padding-left: 0;
+}
+
+.smal .menuKnapp {
+	background-color: rgba(195, 214, 234, 0.41);
+	float: left;
+	height: 100%;
+	width: 120px;
+	cursor: pointer;
+}
+
+.smal .menuKnapp>p {
+	vertical-align: middle;
+	text-align: center;
+	margin-top: 25%;
+}
+
+.smal {
+	left: 0;
+	margin: 0;
+	width: 100%;
+	overflow-x: hidden;
+	position: relative;
+}
+
+.acceptCookies{
+	display: none;
+	background-color: rgba(20,20,20,0.9);
+	width:90%;
+	height: 80px;
+	margin-left: 5%;
+	margin-top: -85px;
+	position: absolute;
+	border-radius: 20px
+
+}
+.acceptCookies>p{
+	color:white;
+	text-align:center;
+	line-height: 50%;
+}
+
 .snakeruta, .highscore {
 	float: left;
 }

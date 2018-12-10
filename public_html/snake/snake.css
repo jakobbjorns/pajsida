@@ -1,0 +1,52 @@
+.snakeruta, .highscore {
+	float: left;
+}
+
+script[type="text/plain"] {
+	display: block;
+}
+
+.highscore {
+	background-color: black;
+	font-size: 20px;
+}
+
+.highscore>tr {
+	background-color: white;
+}
+
+.smal .highscore {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	font-size: 12px;
+}
+
+.smal canvas {
+	position: fixed;
+	z-index: 50;
+}
+
+@media all and (display-mode: standalone) {
+	.menuKnapp {
+		display: none;
+	}
+	.highscore {
+		right: auto !important;
+		left: 0px;
+		bottom: 0px;
+		top:auto !important;
+	}
+	.middle {
+		min-height: calc(100% - 40px) !important;
+	}
+	.header {
+		height: 0px !important;
+		overflow: hidden;
+	}
+	.logo {
+		position: absolute;
+		right: 0px;
+		bottom: 0px;
+	}
+}

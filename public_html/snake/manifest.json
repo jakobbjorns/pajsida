@@ -1,0 +1,6 @@
+{
+	"name": "Snake",
+	"start_url": "index.shtml",
+	"display": "standalone",
+	"orientation": "portrait"
+}

@@ -1,4 +1,4 @@
-#Lista över aktier på stockholmsbörsen. Senast uppdaterad 2018-11-06
+﻿#Lista över aktier på stockholmsbörsen. Senast uppdaterad 2018-11-06
 #Formatering aza-id	Namn	PE	PS	Soliditet
 180729	A3 Allmänna IT- och Telekom.	103,77	0,54	46,42
 26268	AAK	26,28	1,27	45,78
@@ -33,7 +33,6 @@
 5236	Autoliv SDB	16,07	0,87	47,68
 5361	Avanza Bank Holding	39,43	14,49	1,23
 5465	Axfood	22,06	0,71	39,04
-5483	Axis	26,82	2,65	61,36
 665185	B3 Consulting Group	17,25	0,78	31,68
 488231	Bactiguard Holding B	-136,01	8,62	61,90
 790858	Balco Group	22,85	0,87	43,64

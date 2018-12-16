@@ -7,10 +7,7 @@ import spark.Route;
 
 public class TempAPI {
 	static Route F56 = (request, response) ->{
-		ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","\""
-				+ "curl -s 192.168.1.10/a && "
-				+ "curl -s 192.168.1.10/b && "
-				+ "curl -s 192.168.1.10/c\"");
+		ProcessBuilder pb = new ProcessBuilder("ssh", "glenn","'curl -s 192.168.1.10/a'");
 		pb.inheritIO();
 		Process process=pb.start();
 		process.waitFor();

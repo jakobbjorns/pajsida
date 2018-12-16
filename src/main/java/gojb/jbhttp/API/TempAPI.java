@@ -11,10 +11,7 @@ public class TempAPI {
 				"curl -s 192.168.1.10/a; curl -s 192.168.1.10/b; curl -s 192.168.1.10/c");
 		pb.redirectErrorStream();
 		Process process=pb.start();
-		process.waitFor();
-		byte[] buffer = new byte[1024];
-		process.getInputStream().read(buffer);
-		String s = new String(buffer);
+		String s = convertStreamToString(process.getInputStream());
 		System.out.println(s);
 		
 //		process.waitFor();

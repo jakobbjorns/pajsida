@@ -18,6 +18,12 @@ public class TempAPI {
 		curl.getInputStream().read(buffer);
 		String s = new String(buffer);
 		System.out.println(s);
+		
+		byte[] buffer2 = new byte[1024];
+		curl.getErrorStream().read(buffer2);
+		String s2 = new String(buffer2);
+		System.out.println(s2);
+		
 		response.body(s);
 		return response;
 	};

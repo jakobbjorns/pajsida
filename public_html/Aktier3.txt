@@ -1,0 +1,380 @@
+#Lista över aktier på stockholmsbörsen. Senast uppdaterad 2018-11-06
+#Formatering aza-id	Namn	PE	PS	Soliditet
+180729	A3 Allmänna IT- och Telekom.	103,77	0,54	46,42
+26268	AAK	26,28	1,27	45,78
+5447	ABB Ltd	20,08	1,25	35,48
+667476	AcadeMedia	10,96	0,40	45,42
+5358	Acando B	17,35	1,30	61,72
+742358	Actic Group	22,99	0,68	43,66
+5304	Active Biotech	-3,19	13,44	25,58
+643541	AddLife B	41,27	2,11	39,56
+5442	Addnode Group B	25,45	1,23	37,42
+5537	Addtech B	23,21	1,50	38,61
+250993	Africa Oil	-11,02	-	96,73
+80347	Agromino	-3,03	0,87	66,71
+700615	Ahlsell	12,82	0,70	36,20
+523282	Ahlstrom-Munksjö Oyj	15,36	0,58	43,31
+5580	Alfa Laval	22,76	2,47	39,01
+572678	Alimak Group	24,69	1,77	55,57
+707779	Alligator Bioscience	-21,25	35,65	96,10
+741458	Ambea	18,35	0,94	44,55
+5480	Anoto Group	39,32	2,52	68,99
+5534	AQ Group	15,93	0,64	61,37
+388806	Arctic Paper	8,73	0,08	41,64
+861076	Arion Banki SDB	-	-	-
+220127	Arise	-2,97	2,84	39,69
+810953	Arjo B	74,21	1,14	41,56
+5271	ASSA ABLOY B	56,03	2,43	50,94
+5431	AstraZeneca	36,60	4,39	26,27
+5234	Atlas Copco A	2,67	2,78	48,29
+5235	Atlas Copco B	2,67	2,78	48,29
+5374	Atrium Ljungberg B	8,14	7,85	42,61
+612517	Attendo	28,43	1,25	41,94
+5236	Autoliv SDB	16,07	0,87	47,68
+5361	Avanza Bank Holding	39,43	14,49	1,23
+5465	Axfood	22,06	0,71	39,04
+5483	Axis	26,82	2,65	61,36
+665185	B3 Consulting Group	17,25	0,78	31,68
+488231	Bactiguard Holding B	-136,01	8,62	61,90
+790858	Balco Group	22,85	0,87	43,64
+59050	BE Group	8,91	0,12	39,41
+5303	Beijer Alma B	19,35	1,97	58,07
+5478	Beijer Electronics Group	40,26	0,89	41,66
+5274	Beijer Ref B	22,48	1,54	44,14
+5275	Bergman & Beving B	14,48	0,61	42,91
+5306	Bergs Timber B	22,74	0,47	57,51
+483939	Besqab	5,81	0,88	71,83
+5482	Betsson B	12,13	2,23	53,78
+856638	Better Collective	-	-	-
+5276	Bilia A	12,61	0,30	23,91
+5556	BillerudKorsnäs	26,41	1,09	48,98
+791946	BioArctic B	340,24	36,65	55,78
+5349	BioGaia B	31,95	9,35	80,52
+5505	BioInvent International	-6,74	20,01	76,58
+5484	Biotage	51,12	10,22	81,02
+78529	Björn Borg	10,46	0,78	51,30
+85707	BlackPearl Resources SDB	-29,25	3,28	72,64
+5564	Boliden	7,91	1,12	62,73
+663401	Bonava A	0,97	0,08	33,67
+663399	Bonava B	0,97	0,08	33,67
+765299	BONESUPPORT HOLDING	-7,00	8,61	75,55
+5307	Bong	-7,42	0,10	42,81
+757760	Boozt	45,98	1,68	57,14
+299736	Boule Diagnostics	5,63	0,79	62,86
+602637	Bravida Holding	16,08	0,76	34,90
+694166	Brinova Fastigheter B	13,03	5,27	37,23
+5503	BTS Group B	24,40	2,01	47,37
+462932	Bufab	15,29	1,05	43,25
+290011	Bulten	13,05	0,68	66,76
+5277	Bure Equity	5,16	3,93	97,88
+838544	Bygghemma Group First	-	-	-
+233288	Byggmax Group	24,77	0,46	37,24
+88447	C-RAD B	-218,70	5,62	60,46
+863757	Calliditas Therapeutics	-	-	-
+613452	Camurus	-16,38	85,43	80,89
+549022	Cantargia	-18,95	-	89,68
+574978	Capio	23,62	0,52	40,98
+5353	Castellum	5,63	7,73	40,30
+159628	Catella A	12,77	0,78	30,38
+159629	Catella B	12,77	0,78	30,38
+41007	Catena	11,82	7,32	32,26
+632719	Catena Media	18,73	4,66	35,61
+319435	Cavotec	-4,58	0,74	49,59
+81967	CellaVision	89,17	20,86	80,12
+51127	Cherry B	39,45	2,81	34,06
+513577	Christian Berner Tech Trade B	14,52	0,77	50,81
+5457	Clas Ohlson B	16,11	0,60	53,91
+163148	Cloetta B	21,57	1,27	41,27
+599956	CLX Communications	39,16	1,50	49,31
+568621	Collector	9,64	2,41	13,76
+298354	Concentric	15,51	2,35	44,35
+5356	Concordia Maritime B	-0,68	0,55	41,16
+5279	Consilium B	65,96	0,47	30,80
+572375	Coor Service Management Hold.	295,65	0,69	40,16
+181790	Corem Property Group A	3,98	4,17	32,50
+811076	Corem Property Group B	3,98	4,17	32,50
+216649	Corem Property Group Pref	3,98	4,17	32,50
+338588	Creades A	12,56	-	94,55
+5425	CTT Systems	27,88	5,12	62,30
+286778	Dedicare B	12,21	0,62	47,00
+43267	Diös Fastigheter	7,45	4,33	34,94
+611718	Dometic Group	11,42	1,12	46,81
+5310	DORO	10,63	0,49	49,58
+102327	Duni	16,27	1,07	53,67
+5454	Duroc B	8,84	0,45	53,09
+538819	Dustin Group	24,56	0,63	35,62
+100687	Eastnine	9,09	-	99,57
+711276	Edgeware	-27,31	1,59	78,50
+5311	Elanders B	17,59	0,32	33,11
+178908	Electra Gruppen	11,71	0,14	33,57
+5237	Electrolux A	13,86	0,47	22,97
+5238	Electrolux B	13,86	0,47	22,97
+5280	Elekta B	35,46	3,75	35,51
+5346	Elos Medtech B	24,20	0,84	43,54
+537416	Eltel	-10,98	0,24	34,30
+5382	Empir Group B	11,37	0,23	57,41
+85488	Endomines	-4,65	1,80	28,26
+5416	Enea	18,90	2,72	64,83
+5491	Eniro	0,78	0,09	33,18
+362016	Eniro pref	0,78	0,09	33,18
+221108	EnQuest PLC	-10,61	0,59	15,10
+178628	Eolus Vind B	22,74	2,42	73,22
+861430	Epiroc A	-	-	-
+861431	Epiroc B	-	-	-
+255388	Episurf B	-2,35	46,56	91,73
+5239	Ericsson A	-14,16	1,30	38,45
+5240	Ericsson B	-14,16	1,30	38,45
+764223	Essity A	20,08	1,28	33,72
+764241	Essity B	20,08	1,28	33,72
+255391	Etrion	2,49	3,60	4,64
+549768	Evolution Gaming Group	31,06	10,44	65,66
+127201	eWork Group	19,74	0,14	5,40
+5300	Fabege	4,91	15,36	47,17
+5314	Fagerhult	18,37	1,74	31,01
+5357	Fast Partner	6,19	6,80	36,25
+420018	Fast Partner Pref	6,19	6,80	36,25
+5459	Fast. Balder B	5,71	6,66	35,50
+5477	Feelgood Svenska	12,15	0,47	48,98
+488741	Fenix Outdoor International B	17,58	2,11	62,09
+795795	Ferronordic Machines	9,88	0,68	43,20
+5468	Fingerprint Cards B	-6,21	2,26	65,62
+743016	FM Mattsson Mora Group B	16,78	0,86	50,43
+210208	FormPipe Software	28,56	2,65	53,99
+152492	G5 Entertainment	18,23	1,71	54,39
+643540	Garo	19,01	1,86	47,33
+5282	Getinge B	-38,96	1,30	47,04
+144168	GHP Specialty Care	23,97	0,82	50,74
+510194	Gränges	10,52	0,60	41,50
+5284	Gunnebo	-3,51	0,35	32,73
+5285	Haldex	17,66	0,67	45,32
+5264	Handelsbanken A	11,54	4,50	5,12
+5265	Handelsbanken B	11,54	4,50	5,12
+791758	Handicare Group	21,41	0,77	50,40
+98087	Hansa Medical	-58,35	3520,72	92,69
+5362	Havsfrun Investment B	-113,49	-	98,39
+5363	HEBA B	11,51	13,12	48,77
+472495	Hembla B	4,94	8,23	34,01
+470196	Hemfosa Fastigheter	5,57	7,39	40,39
+524117	Hemfosa Fastigheter Pref	5,57	7,39	40,39
+5364	Hennes & Mauritz B	20,25	1,30	56,04
+5286	Hexagon B	21,89	4,63	53,52
+299737	Hexatronic Group	20,21	1,15	53,44
+130828	HEXPOL B	17,92	2,31	67,73
+5433	HiQ International	19,74	1,65	68,35
+98412	HMS Networks	45,56	5,21	50,15
+550518	Hoist Finance	12,60	2,33	14,32
+5250	Holmen A	17,21	2,03	63,15
+5251	Holmen B	17,21	2,03	63,15
+5287	Hufvudstaden A	6,99	14,93	63,04
+5288	Hufvudstaden C	6,99	14,93	63,04
+644519	Humana	14,92	0,45	37,33
+45188	Husqvarna A	18,22	0,98	44,23
+45189	Husqvarna B	18,22	0,98	44,23
+5424	I.A.R Systems Group	40,42	8,96	70,81
+31607	ICA Gruppen	18,03	0,57	41,05
+5341	ICTA	-25,43	0,24	42,96
+5436	Image Systems	4,87	0,42	66,46
+409455	Immunicum	-3,68	-	77,01
+612775	Immunovia	-37,93	99,76	94,43
+5244	Industrivärden A	9,11	-	88,48
+5245	Industrivärden C	9,11	-	88,48
+26607	Indutrade	24,89	1,76	41,13
+645576	Infant Bacterial TherapeuticsB	-69,25	-	96,20
+752039	Instalco Intressenter	16,13	0,83	34,52
+694164	Int. Engelska Skolan	16,43	1,06	72,95
+746877	International Petroleum Corp.	6,49	1,13	52,05
+5583	Intrum	15,69	2,30	33,11
+5246	Investor A	7,29	-	82,32
+5247	Investor B	7,29	-	82,32
+43788	Invisio Communications	51,51	7,18	75,95
+507540	Inwido	11,22	0,55	47,61
+134988	ITAB Shop Concept B	6,56	0,29	31,54
+5501	JM	7,33	0,75	35,66
+5319	KABE Group B	10,08	0,54	62,42
+36687	KappAhl	9,26	0,44	57,59
+5446	Karo Pharma	7,63	3,72	38,30
+285632	Karolinska Development B	1,86	159,14	40,27
+56267	Kindred Group	14,17	2,26	41,07
+5368	Kinnevik A	-166,86	-	96,81
+5369	Kinnevik B	-166,86	-	96,81
+5594	Klövern A	4,75	3,08	32,77
+523632	Klövern B	4,75	3,08	32,77
+334718	Klövern pref	4,75	3,08	32,77
+5428	Knowit	15,55	1,12	53,02
+5434	Kungsleden	6,44	5,89	44,99
+5536	Lagercrantz Group B	20,06	1,68	35,88
+5399	Lammhults Design Group B	10,96	0,38	51,57
+5321	Latour B	29,65	6,62	74,11
+643616	LeoVegas	32,88	1,86	31,84
+520898	Lifco B	28,16	3,16	45,49
+59810	Lindab International	15,47	0,59	53,42
+154930	Loomis B	14,02	1,20	46,41
+325050	Lucara Diamond Corp	12,33	2,33	66,22
+5375	Lundbergföretagen B	12,86	3,56	70,72
+528238	Lundin Gold	-14,94	-	48,75
+7010	Lundin Mining Corporation	11,37	1,85	66,03
+5698	Lundin Petroleum	24,34	4,32	-6,34
+568304	Magnolia Bostad	5,83	0,84	32,99
+5429	Malmbergs Elektriska B	14,44	1,01	69,25
+46487	MedCap	2616,86	2,06	44,59
+756355	Medicover B	38,82	1,73	60,34
+5380	Medivir B	-2,46	32,64	83,43
+5474	Mekonomen	14,34	0,79	42,83
+330177	Micro Systemation B	23,69	3,76	57,24
+5443	Midsona A	24,56	1,19	54,25
+5444	Midsona B	24,56	1,19	54,25
+5291	Midway A	-31,19	0,27	36,28
+5292	Midway B	-31,19	0,27	36,28
+6048	Millicom Int. Cellular SDB	39,78	1,47	34,66
+740416	Mips	71,36	14,56	91,08
+262018	Moberg Pharma	31,22	2,07	45,16
+5437	Modern Times Group A	19,76	1,22	34,08
+5438	Modern Times Group B	19,76	1,22	34,08
+33127	Moment Group	19,99	0,30	27,67
+765297	Momentum Group B	11,08	0,37	42,79
+236254	MQ Holding	4,73	0,24	61,28
+421656	Mr Green & Co	31,17	1,98	59,31
+5464	MultiQ International	-102,65	0,66	57,53
+755803	Munters Group	17,07	0,89	40,75
+5466	Mycronic	12,79	3,12	55,59
+79667	NAXS	-92,20	-	99,88
+856458	NCAB Group	-	-	-
+5293	NCC A	-16,35	0,26	20,45
+5294	NCC B	-16,35	0,26	20,45
+80187	Nederman Holding	18,26	1,02	36,21
+5440	Net Insight B	-583,48	2,31	78,63
+158928	NetEnt B	18,47	6,31	73,84
+144172	NeuroVive Pharmaceutical	-4,41	169,29	88,13
+5324	New Wave B	10,18	0,64	50,78
+488230	NGEx Resources	-24,13	-	49,32
+659798	NGS Group	6,39	0,40	60,94
+5325	NIBE Industrier B	26,28	2,37	45,76
+569438	Nilörngruppen B	12,96	1,20	49,23
+5586	Nobia	9,94	0,79	57,86
+572897	Nobina	15,26	0,59	18,39
+5327	Nolato B	14,85	1,34	45,43
+5249	Nordea Bank Abp	9,94	3,47	5,73
+663500	Nordic Waterproofing Holding	12,43	0,74	57,51
+6331	NOTE	11,92	0,53	48,84
+5452	NOVOTEK B	15,42	1,29	54,24
+522855	NP3 Fastigheter	7,76	4,21	32,47
+832753	NP3 Fastigheter Pref	7,76	4,21	32,47
+619275	Nuevolution	-11,13	141,17	81,23
+237353	Oasmia Pharmaceutical	-19,37	177,92	60,74
+85228	Odd Molly International	-3,87	0,20	50,08
+5329	OEM International B	19,08	1,59	54,25
+730897	Oncopeptides	-14,82	-	87,12
+40307	Opus Group	41,10	0,78	28,42
+28567	Orexo	18,95	2,87	32,78
+573165	Oriflame Holding	12,01	0,90	30,25
+5389	Ortivus A	-4,03	0,79	45,03
+5390	Ortivus B	-4,03	0,79	45,03
+460955	Oscar Properties Holding	-3,00	0,20	33,70
+563251	Oscar Properties Holding PREF	-3,00	0,20	33,70
+656979	Oscar Properties Holding PREFB	-3,00	0,20	33,70
+572898	Pandox B	8,16	5,44	36,65
+5330	Peab B	11,37	0,45	32,10
+445784	Platzer Fastigheter Holding B	0,00	0,01	37,41
+5450	Poolia B	-273,97	0,21	34,92
+5490	Precise Biometrics	-20,47	8,56	76,89
+5394	Prevas B	20,19	0,25	41,05
+5395	Pricer B	19,14	1,38	78,25
+5453	Proact IT Group	13,20	0,50	21,33
+7009	Probi	92,22	8,77	79,65
+5331	Profilgruppen B	10,52	0,56	43,74
+861575	Projektengagemang Sweden B	-	-	-
+262988	Qliro Group	381,04	0,59	31,13
+59547	Radisson Hospitality	31,71	0,62	49,42
+839314	Railcare Group	28,37	1,15	31,72
+5396	Ratos A	-27,31	0,36	45,59
+5397	Ratos B	-27,31	0,36	45,59
+5410	RaySearch Laboratories B	41,55	7,50	63,43
+472000	Recipharm B	-303,66	1,41	41,55
+62367	Rejlers B	-88,20	0,50	52,66
+653461	Resurs Holding	10,82	3,74	19,38
+5507	RNB RETAIL AND BRANDS	6,06	0,10	31,77
+5332	Rottneros	8,79	0,79	60,14
+5401	SAAB B	33,04	1,24	32,18
+96768	Sagax A	6,35	9,25	41,69
+405815	Sagax B	6,35	9,25	41,69
+703653	Sagax D	6,35	9,25	41,69
+96767	Sagax pref	6,35	9,25	41,69
+5471	Sandvik	11,13	1,87	45,66
+475457	Saniona	-12,47	40,81	77,78
+5535	SAS	5,46	0,17	24,75
+465955	SAS PREF	5,46	0,17	24,75
+5262	SCA A	17,97	2,88	64,81
+5263	SCA B	17,97	2,88	64,81
+488892	Scandi Standard	20,26	0,44	28,23
+613140	Scandic Hotels Group	13,18	0,51	43,36
+5255	SEB A	9,46	4,47	5,62
+5256	SEB C	9,46	4,47	5,62
+5426	SECTRA B	46,66	7,28	49,09
+5270	Securitas B	19,27	0,57	31,04
+319556	Semafo	-585,73	2,92	73,96
+5403	Semcon	11,90	0,54	61,16
+5497	Sensys Gatso Group	-38,27	4,89	67,29
+707959	Serneke Group B	7,80	0,23	41,35
+5406	SinterCast	22,88	7,48	90,60
+5257	Skanska B	16,56	0,36	24,84
+5258	SKF A	9,85	0,83	36,73
+5259	SKF B	9,85	0,83	36,73
+5339	SkiStar B	23,70	4,00	46,37
+5418	Softronic B	12,74	1,05	66,61
+379415	Sportamore	211,97	0,98	49,34
+5260	SSAB A	9,86	0,43	60,92
+5261	SSAB B	9,86	0,43	60,92
+742234	SSM Holding	4,55	1,27	59,20
+569319	Starbreeze A	-39,11	4,16	52,15
+5528	Starbreeze B	-39,11	4,16	52,15
+273449	Stendörren Fastigheter B	5,43	5,31	36,22
+5373	Stockwik Förvaltning	2,24	0,63	42,95
+5421	Stora Enso A	12,34	1,03	51,44
+5422	Stora Enso R	12,34	1,03	51,44
+5481	Strax	36,91	0,29	26,69
+5500	Studsvik	-22,53	0,48	34,96
+5335	Svedbergs B	13,26	0,90	33,29
+5336	Svolder A	3,73	-	99,66
+5337	Svolder B	3,73	-	99,66
+5408	SWECO A	20,34	1,45	41,87
+5409	SWECO B	20,34	1,45	41,87
+5241	Swedbank A	10,75	5,13	6,04
+5266	Swedish Match	22,62	5,87	-30,62
+51308	Swedish Orphan Biovitrum	23,71	6,12	61,46
+131348	Swedol B	11,65	0,83	45,96
+97407	Systemair	22,79	0,69	42,30
+5385	Tele2 A	102,47	2,43	43,21
+5386	Tele2 B	102,47	2,43	43,21
+5479	Telia Company	35,47	2,16	43,15
+6081	Tethys Oil	8,53	2,63	93,38
+666685	TF Bank	10,90	3,08	12,03
+521491	Thule Group	25,58	3,04	47,59
+5455	Tieto Oyj	16,53	0,17	41,46
+556803	Tobii	-20,27	2,96	78,83
+5472	Traction B	19,37	-	99,79
+28527	TradeDoubler	-270,16	0,17	28,62
+5267	Trelleborg B	15,56	1,33	55,99
+5423	Trention	5,76	4,42	98,26
+551073	Troax Group	24,73	3,15	40,13
+5342	VBG GROUP B	14,21	1,03	54,72
+5345	Venue Retail Group B	65,92	0,15	19,43
+864354	Veoneer SDB	-	-	-
+102328	Victoria Park A	5,91	7,69	37,84
+479955	Victoria Park B	5,91	7,69	37,84
+425935	Victoria Park Pref	5,91	7,69	37,84
+5352	Viking Supply Ships B	-3,34	5,80	33,66
+5526	Vitec Software Group B	26,81	2,26	31,55
+5508	Vitrolife	56,60	15,10	86,38
+709195	Volati	13,98	0,56	47,23
+568098	Volati Pref	13,98	0,56	47,23
+5268	Volvo A	10,51	0,76	26,43
+5269	Volvo B	10,51	0,76	26,43
+87027	Vostok New Ventures	3,82	-	92,26
+5344	Wallenstam B	11,04	14,25	44,44
+18813	Wihlborgs Fastigheter	6,07	5,98	34,66
+74787	Wise Group	12,92	0,44	37,16
+5415	XANO Industri B	16,65	1,53	35,59
+376275	Xvivo Perfusion	278,36	22,14	93,65
+283038	ZetaDisplay	-35,40	1,31	34,18
+5301	ÅF B	17,37	1,13	43,85
+5302	Öresund	9,62	-	95,21

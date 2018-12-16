@@ -52,6 +52,7 @@ public class Main {
 				get("/restart", ManageAPI.restart);
 				get("/git", ManageAPI.git);});
 			path("/aktier/", AktieAPI.aktier);
+			get("/temp", TempAPI.F56);
 		});
 	}
 }

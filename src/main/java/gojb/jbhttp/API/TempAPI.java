@@ -13,7 +13,7 @@ public class TempAPI {
 //		Process process=pb.start();
 //		process.waitFor();
 //		response.body(convertStreamToString(process.getInputStream()));
-		Process curl = Runtime.getRuntime().exec("ssh glenn curl -s 192.168.1.10/a ; curl -s 192.168.1.10/b'");
+		Process curl = Runtime.getRuntime().exec("ssh glenn curl -s 192.168.1.10/a ; curl -s 192.168.1.10/b");
 		byte[] buffer = new byte[1024];
 		curl.getInputStream().read(buffer);
 		String s = new String(buffer);

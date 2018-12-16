@@ -19,6 +19,7 @@ function load() {
 
 	};
 
-	setTimeout(load, 60000);
+    xmlHttp.send(null);
+	setTimeout(load, 15000);
 }
 load();

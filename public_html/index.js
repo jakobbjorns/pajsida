@@ -12,9 +12,9 @@ function load() {
 
 		console.log(this.responseText);
 		siffror=this.responseText.split('\n')
-		inne_temp.innerHTML  = siffror[0]+"°C";
-		inne_fukt.innerHTML  = siffror[1]+"%";
-		ute_temp.innerHTML  = siffror[2]+"°C";
+		inne_temp.innerHTML  = siffror[0].toFixed(0)+"°C";
+		inne_fukt.innerHTML  = siffror[1].toFixed(0)+"%";
+		ute_temp.innerHTML  = siffror[2].toFixed(1)+"°C";
 
 
 	};

@@ -1,6 +1,6 @@
 console.log('window - onload');
 //4th
-function load() {
+window.onload = function load() {
 	console.log("load");
 	
 	setdata("a","°C",0,"inne_temp")

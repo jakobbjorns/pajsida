@@ -3,16 +3,16 @@ console.log('window - onload');
 function load() {
 	console.log("load");
 	
-	setdata("a","°C",0,document.getElementById("inne_temp"))
-	setdata("b","%",0,document.getElementById("inne_fukt"))
-	setdata("c","°C",1,document.getElementById("ute_temp"))
+	setdata("a","°C",0,"inne_temp")
+	setdata("b","%",0,"inne_fukt")
+	setdata("c","°C",1,"ute_temp")
 	setTimeout(load, 15000);
 }
-function setdata(id,sign,decimals,element){
+function setdata(id,sign,decimals,elementid){
 	var req = new XMLHttpRequest();
 	req.open("GET", "/F56/"+id, true);
 	req.onload = function() {
-		element.innerHTML  = parseFloat(this.responseText).toFixed(decimals)+sign;
+		document.getElementById(elementid).innerHTML  = parseFloat(this.responseText).toFixed(decimals)+sign;
 	};
 	req.send(null);
 }

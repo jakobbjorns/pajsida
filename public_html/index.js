@@ -2,24 +2,18 @@ console.log('window - onload');
 //4th
 function load() {
 	console.log("load");
-	var xmlHttp = new XMLHttpRequest();
-	xmlHttp.open("GET", "/spark/temp", true);
-	xmlHttp.onload = function() {
-		// do something to response
-		inne_temp = document.getElementById("inne_temp");
-		inne_fukt = document.getElementById("inne_fukt");
-		ute_temp = document.getElementById("ute_temp");
-
-		console.log(this.responseText);
-		siffror=this.responseText.split('\n')
-		inne_temp.innerHTML  =  parseFloat(siffror[0]).toFixed(0)+"°C";
-		inne_fukt.innerHTML  =  parseFloat(siffror[1]).toFixed(0)+"%";
-		ute_temp.innerHTML  =   parseFloat(siffror[2]).toFixed(1)+"°C";
-
-
-	};
-
-	xmlHttp.send(null);
+	
+	setdata("a","°C",0,document.getElementById("inne_temp"))
+	setdata("b","%",0,document.getElementById("inne_fukt"))
+	setdata("c","°C",1,document.getElementById("ute_temp"))
 	setTimeout(load, 15000);
+}
+function setdata(id,sign,deciamals,element){
+	var req = new XMLHttpRequest();
+	req.open("GET", "/F56/"+id, true);
+	req.onload = function() {
+		element.innerHTML  = parseFloat(this.responseText).toFixed(decimals)+sign;
+	};
+	req.send(null);
 }
 load();

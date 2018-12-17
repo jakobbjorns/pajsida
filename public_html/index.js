@@ -8,7 +8,7 @@ function load() {
 	setdata("c","°C",1,document.getElementById("ute_temp"))
 	setTimeout(load, 15000);
 }
-function setdata(id,sign,deciamals,element){
+function setdata(id,sign,decimals,element){
 	var req = new XMLHttpRequest();
 	req.open("GET", "/F56/"+id, true);
 	req.onload = function() {

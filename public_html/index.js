@@ -16,4 +16,3 @@ function setdata(id,sign,decimals,elementid){
 	};
 	req.send(null);
 }
-load();

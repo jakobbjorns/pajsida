@@ -7,7 +7,33 @@
 <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-	<h1>Logga in här</h1>
+	<h1>Välkommen till bjorns.tk!</h1>
+	<h2>Nuvarande temperaturer:</h2>
+	<b>Folkungagatan 56, Stockholm</b>
+	<table>
+		<tr>
+			<th>Inne</th>
+		</tr>
+		<tr>
+			<td>Temperatur</td>
+			<td id="inne_temp"></td>
+		</tr>
+		<tr>
+			<td>Luftfuktighet</td>
+			<td id="inne_fukt"></td>
+		</tr>
+		<tr>
+			<th>Ute</th>
+		</tr>
+		<tr>
+			<td>Temperatur</td>
+			<td id="ute_temp"></td>
+		</tr>
+
+	</table>
+	<br>
+	<p><a href="/NAS/">NAS</a></p>
+	<p><a href="/phpmyadmin/">phpmyadmin</a></p>
 	<form action="spark/login" method="post">
 		<table>
 			<tr>
@@ -24,34 +50,6 @@
 
 		</table>
 	</form>
-	<br>
-	<h1>Temperatur Folkungagatan 56</h1>
-	<table>
-		<tr>
-			<th>Inne</th>
-		</tr>
-		<tr>
-			<td>Temperatur</td>
-			<td id="inne_temp">0</td>
-		</tr>
-		<tr>
-			<td>Luftfuktighet</td>
-			<td id="inne_fukt">0</td>
-		</tr>
-		<tr>
-			<th>Ute</th>
-		</tr>
-		<tr>
-			<td>Temperatur</td>
-			<td id="ute_temp">0</td>
-		</tr>
-
-	</table>
-	<br>
-	<h1>Filserver</h1>
-	<p><a href="/NAS/">NAS</a></p>
-	<br>
-	<br>
 	<br>
 	<p>© Jakob Björns</p>
 </body>

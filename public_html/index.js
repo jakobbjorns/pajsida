@@ -3,14 +3,15 @@ console.log('window - onload');
 window.onload = function load() {
 	console.log("load");
 	
-	setdata("a","°C",0,"inne_temp")
-	setdata("b","%",0,"inne_fukt")
-	setdata("c","°C",1,"ute_temp")
+	setdata("/F56/a","°C",0,"inne_temp")
+	setdata("/F56/b","%",0,"inne_fukt")
+	setdata("/F56/c","°C",1,"ute_temp")
+	setdata("/GU/","°C",1,"gu_ute_temp")
 	setTimeout(load, 15000);
 }
 function setdata(id,sign,decimals,elementid){
 	var req = new XMLHttpRequest();
-	req.open("GET", "/F56/"+id, true);
+	req.open("GET", id, true);
 	req.onload = function() {
 		document.getElementById(elementid).innerHTML  = parseFloat(this.responseText).toFixed(decimals)+sign;
 	};

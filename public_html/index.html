@@ -4,42 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Välkommen till bjorns.tk</title>
-<script type="text/javascript" src="index.js"></script>
+<script src="index.js"></script>
+<link href="index.css" rel=stylesheet type="text/css">
+
 </head>
 <body>
 	<h1>Välkommen till bjorns.tk!</h1>
-	<h2>Nuvarande temperaturer:</h2>
-	<b>Folkungagatan 56, Stockholm</b>
 	<table>
 		<tr>
-			<th>Inne</th>
+			<th>Plats</th>
+			<th>Temp</th>
+			<th>Fukt</th>
 		</tr>
 		<tr>
-			<td>Temperatur</td>
+			<td>Folkungagatan - ute</td>
+			<td id="ute_temp"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Folkungagatan - inne</td>
 			<td id="inne_temp"></td>
-		</tr>
-		<tr>
-			<td>Luftfuktighet</td>
 			<td id="inne_fukt"></td>
 		</tr>
 		<tr>
-			<th>Ute</th>
-		</tr>
-		<tr>
-			<td>Temperatur</td>
-			<td id="ute_temp"></td>
-		</tr>
-		
-		<tr>
-			<th>Ute - Gubbängen</th>
-		</tr>
-		<tr>
-			<td>Temperatur</td>
+			<td>Gubbängen - ute</td>
 			<td id="gu_ute_temp"></td>
+			<td id="gu_ute_fukt"></td>
+		</tr>
+		<tr>
+			<td>Gubbängen - inne</td>
+			<td id="gu_inne_temp"></td>
+			<td id="gu_inne_fukt"></td>
 		</tr>
 
 	</table>
 	<br>
+	<b>Avgångar från Gubbängen</b>
+	<table>
+		<tr><td><b>&emsp;&emsp;Norrgående</b></td></tr>
+		<tbody id=depaturesGUN></tbody>
+		<tr><td><b>&emsp;&emsp;Södergående</b></td></tr>
+		<tbody id=depaturesGUS></tbody>
+	</table>
+	<table id=depaturesGUI></table>
 	<p><a href="/NAS/">NAS</a></p>
 	<p><a href="/phpmyadmin/">phpmyadmin</a></p>
 	<form action="spark/login" method="post">
@@ -59,6 +66,7 @@
 		</table>
 	</form>
 	<br>
+	
 	<p>© Jakob Björns</p>
 </body>
 </html>

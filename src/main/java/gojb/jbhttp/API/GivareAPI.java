@@ -1,6 +1,6 @@
 package gojb.jbhttp.API;
 
-import static spark.Spark.get;
+import static spark.Spark.*;
 
 import java.util.HashMap;
 
@@ -22,11 +22,12 @@ public class GivareAPI {
 		String id=String.join("/",splats);
 		String data=request2.body();
 		givardata.put(id,new GivarObjekt(data));
-		return request2;
+		response2.body("OK");
+		return response2.body();
 	};
 	public static RouteGroup givare = ()->{
 		get("/read/*", read);
-		get("/write/*",write);
+		post("/write/*",write);
 	};
 }
 class GivarObjekt{

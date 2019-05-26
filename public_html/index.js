@@ -19,14 +19,8 @@ function setdata(id,sign,decimals,elementid){
 		document.getElementById(elementid).innerHTML  = parseFloat(this.responseText).toFixed(decimals)+sign;
 	};
 	req.send(null);
-	navigator.vibrate(1000);
 }
-function example2() {
-  // For a single value you can pass in a Number rather than an Array
-  var x = document.getElementById("alarm");
-  x.play();
-  navigator.vibrate([500,100,500,100,500,100,500,100,500,100,500,100,500,100,500,100,500,100]);
-}
+
 function SL(){
 	console.log("sl");
 

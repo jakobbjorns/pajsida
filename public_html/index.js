@@ -25,7 +25,9 @@ function SL(){
 	console.log("sl");
 
 	var req = new XMLHttpRequest();
-	req.open("GET", "/SL&siteid=9183", true);
+	var sel = document.getElementById("station");
+	var stnid = sel.value;
+	req.open("GET", "/SL&siteid="+stnid, true);
 	req.onload = function() {
 		json = JSON.parse(this.responseText);
 		document.getElementById("depaturesGUN").innerHTML=""

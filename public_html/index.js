@@ -33,7 +33,7 @@ function SL(){
 		document.getElementById("depaturesGUN").innerHTML=""
 		document.getElementById("depaturesGUS").innerHTML=""
 		document.getElementById("depaturesGUI").innerHTML=""
-		for (i=0;i<6;i++){
+		for (i=0;i<json.ResponseData.Metros.length;i++){
 			metro=json.ResponseData.Metros[i]
 			if (metro.JourneyDirection==1){
 				appendDep("depaturesGUN",metro)
@@ -59,7 +59,11 @@ function appendDep(tableid,depature){
 	var d1 = document.createElement("td");
 	var d2 = document.createElement("td");
 	d1.append(depature.LineNumber+" "+depature.Destination)
-	d2.append(depature.DisplayTime)
+	dev=""
+	for (i=0;depature.Deviations!=null&&i<depature.Deviations.length;i++){
+		dev+=" " + depature.Deviations[i].Text +" (" + depature.Deviations[i].Consequence + ")";
+	}
+	d2.append(depature.DisplayTime + " " + dev)
 	rad.appendChild(d1);rad.appendChild(d2);
 	document.getElementById(tableid).appendChild(rad)
 }

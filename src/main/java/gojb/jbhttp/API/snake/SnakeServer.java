@@ -261,10 +261,10 @@ class SnakeServer{
 				INACTIVE.notify();
 			}
 			if (pause) {
-				newsnake.send(new JSONObject()
-						.put("data", new JSONArray()
-								.put(new JSONObject()
-										.put("type", "pause")))
+				newsnake.send(
+						new JSONObject().put("data", 
+								new JSONArray().put(
+										new JSONObject().put("type", "pause")))
 						.toString());
 				databuild();
 				sendAll();

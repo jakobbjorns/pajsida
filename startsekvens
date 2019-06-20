@@ -5,4 +5,4 @@ sh autogit
 mvn compile exec:java
 python3 gubbserver.py
 cd /home/pi/Desktop
-sh test.js
+nodejs test.js

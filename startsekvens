@@ -4,4 +4,5 @@ cd /home/pi/git/pajsida
 sh autogit
 mvn compile exec:java
 python3 gubbserver.py
-./home/pi/Desktop/test.js
+cd /home/pi/Desktop
+./test.js

@@ -2,6 +2,7 @@ console.log('window - onload');
 //4th
 window.onload = function load() {
 	console.log("load");
+	fu();
 	SL();
 	setdata("/F56/a","°C",0,"inne_temp")
 	setdata("/F56/b","%",0,"inne_fukt")
@@ -10,6 +11,7 @@ window.onload = function load() {
 	setdata("/GU/givare/d","%",0,"gu_ute_fukt")
 	setdata("/GU/givare/a","°C",1,"gu_inne_temp")
 	setdata("/GU/givare/b","%",0,"gu_inne_fukt")
+	
 	setTimeout(load, 10000);
 }
 function setdata(id,sign,decimals,elementid){
@@ -20,7 +22,16 @@ function setdata(id,sign,decimals,elementid){
 	};
 	req.send(null);
 }
-
+function fu(){
+var req = new XMLHttpRequest();
+	req.open("GET", "/FU", true);
+	req.onload = function() {
+		var json = JSON.parse(this.responseText);
+		var temp = json.value;
+		document.getElementById("fu_ute_temp").innerHTML  = parseFloat(temp).toFixed(1)+"°C";
+	};
+	req.send(null);
+}
 function SL(){
 	console.log("sl");
 

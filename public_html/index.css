@@ -1,0 +1,8 @@
+th, td {
+  padding-right: 15px;
+  padding-bottom: 2px;
+  text-align: left;
+}
+#depaturesGUI{
+  color: red;
+}

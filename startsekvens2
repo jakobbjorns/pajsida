@@ -1,0 +1,4 @@
+#!/bin/sh
+# Bash script by Jakob
+cd /home/pi/git/pajsida
+python3 gubbserver.py

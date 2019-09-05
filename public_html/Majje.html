@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MAJJE ROBOT</title>
+    <style>
+        
+        .slidecontainer {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 20px;
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: #ccc;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #2196F3;
+        }
+    </style>
+    <script>
+        function setspeed() {
+            var slider = document.getElementById("speed");
+            var styrka = parseInt(slider.value);
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/MOTOR/SETSPEED/' + styrka, true);
+            xhr.send(null);
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <h1>MAJJE Omrörare</h1>
+    <button onclick="location.href='/MOTOR/START'">START</button>
+    <button onclick="location.href='/MOTOR/STOP'">STOP</button>
+    <h1>Speed</h1>
+    <div class="slidecontainer">
+        <input type="range" min="70" max="255" value="1" class="slider" id="speed" onchange="setspeed()"> 
+	</div>
+</body>

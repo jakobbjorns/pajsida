@@ -54,6 +54,7 @@ public class Main {
 			path("/aktier/", AktieAPI.aktier);
 			path("/givare/",GivareAPI.givare);
 			get("/temp", TempAPI.F56);
+			path("/webhook/",Webhook.routeGroup);
 		});
 	}
 }

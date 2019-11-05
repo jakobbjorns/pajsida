@@ -22,6 +22,7 @@ public class Webhook {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		try {
 			properties.store(new FileOutputStream("spark.prop"), "Prop-file for pajsida spark server");
 		} catch (IOException e) {

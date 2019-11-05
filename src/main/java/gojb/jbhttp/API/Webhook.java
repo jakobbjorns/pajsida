@@ -33,6 +33,7 @@ public class Webhook {
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
 		ManageAPI.autogit();
+		response.body("OK");
 		return response.body();
 	};
 	//Hash: Zk7itmP+rC0UQrtprvKWkzrlIzo=

@@ -32,7 +32,10 @@ public class Webhook {
 	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
+		System.out.println("Sign-right: "+ properties.getProperty("sign"));
+		System.out.println(request.headers("X-Hub-Signature"));
 		ManageAPI.autogit();
+		
 		response.body("OK");
 		return response.body();
 	};

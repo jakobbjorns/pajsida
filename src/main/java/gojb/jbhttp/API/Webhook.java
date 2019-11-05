@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Webhook {
-	static String propfile="spark.prop";
+	static String propfile="/home/pi/.spark.prop";
 	static Properties properties = new Properties();
 	static {
 		try {

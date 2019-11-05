@@ -7,7 +7,8 @@ import static spark.Spark.*;
 
 public class Webhook {
 	static Route github = (request, response) ->{
-		System.out.println(request.body());
+		System.out.println("Webhook! Refreshing git");
+		ManageAPI.autogit();
 		return response.body();
 	};
 	//Hash: Zk7itmP+rC0UQrtprvKWkzrlIzo=

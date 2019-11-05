@@ -1,5 +1,5 @@
 #!/bin/sh
-# Bash script by Jakob
+# Bash script by Jakob Björns
 cd /home/pi/git/pajsida
 sh autogit
 mvn compile exec:java

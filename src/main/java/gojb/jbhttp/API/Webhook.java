@@ -34,7 +34,11 @@ public class Webhook {
 	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
-		if (properties.getProperty("sign").equals(request.headers("X-Hub-Signature"))) {
+		String sign = properties.getProperty("sign");
+		String xhub = request.headers("X-Hub-Signature");
+		System.out.println(sign);
+		System.out.println(xhub);
+		if (sign.equals(xhub)) {
 			ManageAPI.autogit();
 		}
 		else {

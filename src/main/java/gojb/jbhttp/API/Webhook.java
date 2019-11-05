@@ -39,7 +39,7 @@ public class Webhook {
 	
 		String sign = "sha1="+toHexString(hmac(request.bodyAsBytes()));
 		String xhub = request.headers("X-Hub-Signature");
-		System.out.println(request.body());
+		//System.out.println(request.body());
 		if (sign.equals(xhub)) {
 			ManageAPI.autogit();
 			JSONObject obj = new JSONObject(request.body().substring(8));

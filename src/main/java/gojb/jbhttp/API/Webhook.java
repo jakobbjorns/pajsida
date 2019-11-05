@@ -58,8 +58,8 @@ public class Webhook {
 	};
 	static byte[] hmac(byte[] body) {
 		try {
-		Mac mac = Mac.getInstance("hmacSHA256");
-		mac.init(new SecretKeySpec(properties.getProperty("secret").getBytes(), "hmacSHA256"));
+		Mac mac = Mac.getInstance("HMAC_SHA1_ALGORITHM");
+		mac.init(new SecretKeySpec(properties.getProperty("secret").getBytes(), "HMAC_SHA1_ALGORITHM"));
 		return mac.doFinal(body);
 		}
 		catch (Exception e) {

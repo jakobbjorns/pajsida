@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 public class Webhook {
 	static String propfile="/home/pi/.spark.prop";
 	static Properties properties = new Properties();
@@ -34,8 +37,8 @@ public class Webhook {
 	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
-		String sign = properties.getProperty("sign");
-		String xhub = request.headers("X-Hub-Signature");
+		byte[] sign = hmac(request.bodyAsBytes());
+		byte[] xhub = request.headers("X-Hub-Signature").getBytes();
 		System.out.println(sign);
 		System.out.println(xhub);
 		if (sign.equals(xhub)) {
@@ -52,4 +55,15 @@ public class Webhook {
 	static RouteGroup routeGroup = () -> {
 		post("/github/", github);
 	};
+	static byte[] hmac(byte[] body) {
+		try {
+		Mac mac = Mac.getInstance("hmacSHA256");
+		mac.init(new SecretKeySpec(properties.getProperty("secret").getBytes(), "hmacSHA256"));
+		return mac.doFinal(body);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -5,7 +5,30 @@ import spark.RouteGroup;
 
 import static spark.Spark.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class Webhook {
+	static String propfile="spark.prop";
+	static Properties properties = new Properties();
+	static {
+		try {
+			properties.load(new FileInputStream(propfile));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			properties.store(new FileOutputStream("spark.prop"), "Prop-file for pajsida spark server");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
 		ManageAPI.autogit();

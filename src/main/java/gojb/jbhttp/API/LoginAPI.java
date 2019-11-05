@@ -83,6 +83,7 @@ public class LoginAPI {
 		Encoder encoder=Base64.getEncoder();
 		try {
 			sha=MessageDigest.getInstance("SHA-1");
+			
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			return null;

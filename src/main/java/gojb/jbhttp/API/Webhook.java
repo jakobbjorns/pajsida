@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Formatter;
 import java.util.Properties;
 
 import javax.crypto.Mac;
@@ -37,8 +38,8 @@ public class Webhook {
 	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
-		byte[] sign = hmac(request.bodyAsBytes());
-		byte[] xhub = request.headers("X-Hub-Signature").getBytes();
+		String sign = "sha1="+toHexString(hmac(request.bodyAsBytes()));
+		String xhub = request.headers("X-Hub-Signature");
 		System.out.println(sign);
 		System.out.println(xhub);
 		if (sign.equals(xhub)) {
@@ -65,5 +66,14 @@ public class Webhook {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	private static String toHexString(byte[] bytes) {
+		Formatter formatter = new Formatter();
+		
+		for (byte b : bytes) {
+			formatter.format("%02x", b);
+		}
+
+		return formatter.toString();
 	}
 }

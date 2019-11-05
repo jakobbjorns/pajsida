@@ -1,6 +1,6 @@
 #!/bin/sh
 # Bash script by Jakob
-su pi
+cd /home/pi/git/pajsida/
 git commit --all --message="Auto commit"
 git pull
 git push

@@ -1,5 +1,6 @@
 #!/bin/sh
 # Bash script by Jakob
+su pi
 git commit --all --message="Auto commit"
 git pull
 git push

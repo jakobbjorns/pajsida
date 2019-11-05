@@ -1,6 +1,8 @@
 package gojb.jbhttp.API;
 import static spark.Spark.stop;
 
+import java.io.IOException;
+
 import spark.Filter;
 import spark.Route;
 
@@ -65,14 +67,22 @@ public class ManageAPI {
 	};
 	static Route git=(request, response) -> {
 		System.out.println("Git refresh");
+		autogit();
+		response.body("OK");
+		return response.body();
+	};
+	static void autogit() {
 		ProcessBuilder pb = new ProcessBuilder("su","pi","-c","sh /home/pi/git/pajsida/autogit");
 //		File homedir = new File(System.getProperty("user.home"));
 //		File file = new File(homedir, "git/pajsida");
 //		pb.directory(file);
 		pb.inheritIO();
-		pb.start();
-		response.body("OK");
-		return response.body();
-	};
+		try {
+			pb.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

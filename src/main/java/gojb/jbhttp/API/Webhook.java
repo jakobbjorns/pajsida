@@ -1,15 +1,10 @@
 package gojb.jbhttp.API;
 
-import spark.HaltException;
 import spark.Route;
 import spark.RouteGroup;
-import spark.http.matching.Halt;
-
 import static spark.Spark.*;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Formatter;
@@ -17,6 +12,9 @@ import java.util.Properties;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Webhook {
 	static String propfile="/home/pi/.spark.prop";
@@ -38,12 +36,18 @@ public class Webhook {
 	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
+	
 		String sign = "sha1="+toHexString(hmac(request.bodyAsBytes()));
 		String xhub = request.headers("X-Hub-Signature");
-		System.out.println(sign);
-		System.out.println(xhub);
 		if (sign.equals(xhub)) {
 			ManageAPI.autogit();
+			JSONObject obj = new JSONObject(request.body());
+			JSONObject headcommit=obj.getJSONObject("head_commit");
+			JSONArray modified=headcommit.getJSONArray("modified");
+			for (Object object : modified) {
+				String s = (String)object;
+				System.out.println(s);
+			}
 		}
 		else {
 			halt(403);

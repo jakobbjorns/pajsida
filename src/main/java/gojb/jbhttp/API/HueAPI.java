@@ -38,7 +38,6 @@ public class HueAPI {
 		InputStreamReader reader = new InputStreamReader(connection.getInputStream());
 		BufferedReader bufferedReader = new BufferedReader(reader);
 		String string=bufferedReader.lines().collect(Collectors.joining(System.lineSeparator()));
-		System.out.println(string);
 		return string;
 	}
 }

@@ -73,7 +73,8 @@ public class Webhook {
 		for (byte b : bytes) {
 			formatter.format("%02x", b);
 		}
-
-		return formatter.toString();
+		String s = formatter.toString();
+		formatter.close();
+		return s;
 	}
 }

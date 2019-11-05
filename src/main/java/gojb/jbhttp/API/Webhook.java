@@ -1,7 +1,9 @@
 package gojb.jbhttp.API;
 
+import spark.HaltException;
 import spark.Route;
 import spark.RouteGroup;
+import spark.http.matching.Halt;
 
 import static spark.Spark.*;
 
@@ -32,9 +34,12 @@ public class Webhook {
 	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
-		System.out.println("Sign-right: "+ properties.getProperty("sign"));
-		System.out.println(request.headers("X-Hub-Signature"));
-		ManageAPI.autogit();
+		if (properties.getProperty("sign").equals(request.headers("X-Hub-Signature"))) {
+			ManageAPI.autogit();
+		}
+		else {
+			halt(403);
+		}
 		
 		response.body("OK");
 		return response.body();

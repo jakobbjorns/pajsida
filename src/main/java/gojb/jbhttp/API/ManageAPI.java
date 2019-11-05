@@ -67,7 +67,7 @@ public class ManageAPI {
 	};
 	static Route git=(request, response) -> {
 		System.out.println("Git refresh");
-		ProcessBuilder pb = new ProcessBuilder("su","pi","-c","'sh autogit'");
+		ProcessBuilder pb = new ProcessBuilder("/bin/su","pi","-c","'sh autogit'");
 		File homedir = new File(System.getProperty("user.home"));
 		File file = new File(homedir, "git/pajsida");
 		pb.directory(file);

@@ -42,7 +42,7 @@ public class Webhook {
 		//System.out.println(request.body());
 		if (sign.equals(xhub)) {
 			ManageAPI.autogit();
-			JSONObject obj = new JSONObject(request.body().substring(8));
+			JSONObject obj = new JSONObject(request.body());
 			
 			JSONObject headcommit=obj.getJSONObject("head_commit");
 			JSONArray modified=headcommit.getJSONArray("modified");

@@ -49,6 +49,7 @@ public class Webhook {
 			for (Object object : modified) {
 				String s = (String)object;
 				System.out.println(s);
+				if (s.startsWith("src/main/java/"));
 			}
 		}
 		else {

@@ -84,5 +84,16 @@ public class ManageAPI {
 			e.printStackTrace();
 		}
 	}
+	static void gitPull() {
+		ProcessBuilder pb = new ProcessBuilder("su","pi","-c","sh /home/pi/git/pajsida/git_pull");
+
+		pb.inheritIO();
+		try {
+			pb.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

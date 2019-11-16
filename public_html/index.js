@@ -7,7 +7,7 @@ window.onload = function load() {
 	setdata("/F56/a","°C",0,"inne_temp")
 	setdata("/F56/b","%",1,"inne_fukt")
 	setdata("/F56/c","°C",1,"ute_temp")
-	setdata("/F56/e","%",1,"ute_fukt")
+	setdata("/F56/d","%",1,"ute_fukt")
 	setdata("/GU/givare/c","°C",1,"gu_ute_temp")
 	setdata("/GU/givare/d","%",0,"gu_ute_fukt")
 	setdata("/GU/givare/a","°C",1,"gu_inne_temp")

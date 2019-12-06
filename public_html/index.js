@@ -12,7 +12,8 @@ window.onload = function load() {
 	setdata("/GU/givare/d","%",0,"gu_ute_fukt")
 	setdata("/GU/givare/a","°C",1,"gu_inne_temp")
 	setdata("/GU/givare/b","%",0,"gu_inne_fukt")
-	setdata("/FUi/","°C",1,"fu_inne_temp")
+	setdata("/FUi/a","°C",1,"fu_inne_temp")
+	setdata("/FUi/b","%",0,"fu_inne_fukt")
 	setTimeout(load, 10000);
 }
 function setdata(id,sign,decimals,elementid){

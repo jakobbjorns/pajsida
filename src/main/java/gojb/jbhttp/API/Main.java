@@ -1,10 +1,17 @@
 package gojb.jbhttp.API;
 import static spark.Spark.*;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import gojb.jbhttp.API.aktier.AktieAPI;
 import gojb.jbhttp.API.snake.SnakeAPI;
 
 public class Main {
+	static String propfile="/home/pi/.spark.prop";
+	static Properties properties = new Properties();
 	public static void main(String[] args) {
 		System.out.println("Välkommen");
 		System.out.println(args);
@@ -25,7 +32,18 @@ public class Main {
 	}
 	public Main(int port) throws ClassNotFoundException {
 		port(port);
+		loadprop();
 		openHTTP();
+	}
+	
+	private void loadprop() {
+		try {
+			properties.load(new FileInputStream(propfile));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void openHTTP(){		

@@ -4,12 +4,7 @@ import spark.Route;
 import spark.RouteGroup;
 import static spark.Spark.*;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Formatter;
-import java.util.Properties;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -17,23 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Webhook {
-	static String propfile="/home/pi/.spark.prop";
-	static Properties properties = new Properties();
-	static {
-		try {
-			properties.load(new FileInputStream(propfile));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			properties.store(new FileOutputStream(propfile), "Prop-file for pajsida spark server");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	static Route github = (request, response) ->{
 		System.out.println("Webhook! Refreshing git");
 	
@@ -69,7 +47,7 @@ public class Webhook {
 	static byte[] hmac(byte[] body) {
 		try {
 		Mac mac = Mac.getInstance("HmacSHA1");
-		mac.init(new SecretKeySpec(properties.getProperty("secret").getBytes(), "HmacSHA1"));
+		mac.init(new SecretKeySpec(Main.properties.getProperty("secret").getBytes(), "HmacSHA1"));
 		return mac.doFinal(body);
 		}
 		catch (Exception e) {

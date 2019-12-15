@@ -18,8 +18,7 @@ public class LampAPI {
 	private static void sqlconnect(){
 		try {
 			connect = DriverManager
-					.getConnection("jdbc:mysql://localhost/styrning?"
-							+ "user=jakob&password=furugatan10&serverTimezone=UTC");
+					.getConnection(Main.properties.getProperty("mysql"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

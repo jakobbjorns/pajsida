@@ -5,6 +5,7 @@ html, body {
     background-image: url("IMG_0333.jpeg");
     color: white;
     overflow: hidden;
+    background-position: center;
 }
 th, td {
     padding-right: 15px;

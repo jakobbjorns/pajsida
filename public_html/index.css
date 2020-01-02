@@ -1,8 +1,59 @@
-th, td {
-  padding-right: 15px;
-  padding-bottom: 2px;
-  text-align: left;
+html, body {
+    margin: 0;
+    height: 100%;
+    background-color: black;
+    color: white;
+    overflow: hidden;
 }
-#depaturesGUI{
-  color: red;
+th, td {
+    padding-right: 15px;
+    padding-bottom: 2px;
+    text-align: left;
+}
+* {
+    font-family: Bitter, serif;
+}
+
+#datum {
+    text-align: center;
+    font-size: 3em;
+}
+
+#klocka {
+    text-align: center;
+    font-size: 10em;
+}
+
+#tunnelbana {
+    display: inline-block
+}
+
+#tunnelbanaW {
+    text-align: center;
+}
+
+.avgångar {
+    padding-right: 20px;
+    padding-left: 20px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 2em;
+}
+
+
+
+#depaturesGUI {
+    color: red;
+    display: block;
+    font-size: 1.5em;
+}
+.temps>div{
+    display:inline-block;
+    margin:20px;
+    margin-bottom:0;
+
+}
+.temps {
+    font-size:3em;
+    text-align: center;
 }

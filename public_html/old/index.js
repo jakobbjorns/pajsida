@@ -2,16 +2,18 @@ console.log('window - onload');
 //4th
 window.onload = function load() {
 	console.log("load");
-//	fu();
+	fu();
 	SL();
-//	setdata("/F56/a","°C",0,"inne_temp")
-//	setdata("/F56/b","%",0,"inne_fukt")
-//	setdata("/F56/c","°C",1,"ute_temp")
+	setdata("/F56/a","°C",0,"inne_temp")
+	setdata("/F56/b","%",0,"inne_fukt")
+	setdata("/F56/c","°C",1,"ute_temp")
+	setdata("/F56/d","%",0,"ute_fukt")
 	setdata("/GU/givare/c","°C",1,"gu_ute_temp")
 	setdata("/GU/givare/d","%",0,"gu_ute_fukt")
 	setdata("/GU/givare/a","°C",1,"gu_inne_temp")
 	setdata("/GU/givare/b","%",0,"gu_inne_fukt")
-//	setdata("/FUi/","°C",1,"fu_inne_temp")
+	setdata("/FUi/a","°C",1,"fu_inne_temp")
+	setdata("/FUi/b","%",0,"fu_inne_fukt")
 	setTimeout(load, 10000);
 }
 function setdata(id,sign,decimals,elementid){
@@ -37,7 +39,7 @@ function SL(){
 
 	var req = new XMLHttpRequest();
 	var sel = document.getElementById("station");
-	var stnid = 9183;
+	var stnid = sel.value;
 	req.open("GET", "/SL&siteid="+stnid, true);
 	req.onload = function() {
 		json = JSON.parse(this.responseText);
@@ -69,7 +71,7 @@ function appendDep(tableid,depature){
 	var rad = document.createElement("tr");
 	var d1 = document.createElement("td");
 	var d2 = document.createElement("td");
-	d1.append(depature.LineNumber+" "+depature.Destination + "")
+	d1.append(depature.LineNumber+" "+depature.Destination)
 	dev=""
 	for (i=0;depature.Deviations!=null&&i<depature.Deviations.length;i++){
 		dev+=" " + depature.Deviations[i].Text +" (" + depature.Deviations[i].Consequence + ")";
@@ -78,25 +80,4 @@ function appendDep(tableid,depature){
 	rad.appendChild(d1);rad.appendChild(d2);
 	document.getElementById(tableid).appendChild(rad)
 }
-function getTid(){
-	var day = new Date();
-  	var hh = ("0"+day.getHours()).slice(-2);
-  	var mm = ("0"+day.getMinutes()).slice(-2);
-  	var ss = ("0"+day.getSeconds()).slice(-2);
-
-	return hh+":"+mm+":"+ss;
-}
-function getDatum(){
-	daglista=["Söndag","Måndag","Tisdag","Onsdag","Torsdag","Fredag","Lördag"]
-	månadslista=["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"]
-	var day = new Date();
-	return daglista[day.getDay()]+" " + 
-		day.getDate() + " "+ 
-		månadslista[day.getMonth()]+" "+
-		day.getFullYear();
-}
-function klocka(){
-	document.getElementById("klocka").innerHTML= getTid();
-	document.getElementById("datum").innerHTML= getDatum();
-	setTimeout(klocka, 200);
-}
+load()

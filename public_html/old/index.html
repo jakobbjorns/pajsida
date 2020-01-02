@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Välkommen till Björns.nu</title>
+<script src="index.js"></script>
+<link href="index.css" rel=stylesheet type="text/css">
+
+</head>
+<body>
+	<h1>Välkommen till Björns.nu</h1>
+	<table>
+		<tr>
+			<th>Plats</th>
+			<th>Temp ute</th>
+			<th>Fukt ute</th>
+			<th>Temp inne</th>
+			<th>Fukt inne</th>
+
+		</tr>
+		<tr>
+			<td>Södermalm</td>
+			<td id="ute_temp"></td>
+			<td id="ute_fukt"></td>
+			<td id="inne_temp"></td>
+			<td id="inne_fukt"></td>
+		</tr>
+		<tr>
+			<td>Gubbängen</td>
+			<td id="gu_ute_temp"></td>
+			<td id="gu_ute_fukt"></td>
+			<td id="gu_inne_temp"></td>
+			<td id="gu_inne_fukt"></td>
+		</tr>
+		<tr>
+			<td>Hede</td>
+			<td id="fu_ute_temp"></td>
+			<td ></td>
+			<td id="fu_inne_temp"></td>
+			<td id="fu_inne_fukt"></td>
+		</tr>
+
+	</table>
+	<br>
+	<b>Avgångar från </b>
+	<select id=station onchange="SL()">
+	 <option value="9183">Gubbängen</option>
+	 <option value="9204">Tekniska Högskolan</option>
+	 <option value="1323">Medborgarplatsen</option>
+	 <option value="9192">Slussen</option>
+	</select>
+	<table>
+		<tr><td><b>&emsp;&emsp;Norrgående</b></td></tr>
+		<tbody id=depaturesGUN></tbody>
+		<tr><td><b>&emsp;&emsp;Södergående</b></td></tr>
+		<tbody id=depaturesGUS></tbody>
+	</table>
+	<table id=depaturesGUI></table>
+	<p><a href="/NAS/">NAS</a></p>
+	<p><a href="/phpmyadmin/">phpmyadmin</a></p>
+	<form action="spark/login" method="post">
+		<table>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" name="name"></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Logga in"></td>
+			</tr>
+
+		</table>
+	</form>
+	<br>
+	<a href="https://epotential.se/">ePotential</a>	
+	<p>© Jakob Björns - 2019</p>
+</body>
+</html>

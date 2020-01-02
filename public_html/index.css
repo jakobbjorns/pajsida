@@ -20,16 +20,6 @@ h1 {
     font-family: Bitter, serif;
 }
 
-#datum {
-    text-align: center;
-    font-size: 3em;
-}
-
-#klocka {
-    text-align: center;
-    font-size: 10em;
-}
-
 #tunnelbana {
     display: inline-block
 }
@@ -43,7 +33,6 @@ h1 {
     padding-left: 20px;
     display: inline-block;
     vertical-align: top;
-    font-size: 2em;
 }
 
 

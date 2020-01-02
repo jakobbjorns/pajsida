@@ -7,6 +7,7 @@ html, body {
     overflow: hidden;
     background-position: right;
     background-size: cover, contain;
+    text-align: center;
 }
 th, td {
     padding-right: 15px;

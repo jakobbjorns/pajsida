@@ -37,7 +37,7 @@ function SL(){
 
 	var req = new XMLHttpRequest();
 	var sel = document.getElementById("station");
-	var stnid = sel.value;
+	var stnid = 9183;
 	req.open("GET", "/SL&siteid="+stnid, true);
 	req.onload = function() {
 		json = JSON.parse(this.responseText);

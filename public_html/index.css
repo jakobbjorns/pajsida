@@ -40,7 +40,7 @@ th, td {
     color: red;
     display: block;
 }
-.temps>div{
+.temps>table{
     display:inline-block;
     margin:20px;
     margin-bottom:0;

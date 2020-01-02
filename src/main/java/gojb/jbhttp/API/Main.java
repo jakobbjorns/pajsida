@@ -2,12 +2,12 @@ package gojb.jbhttp.API;
 import static spark.Spark.*;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 import gojb.jbhttp.API.aktier.AktieAPI;
 import gojb.jbhttp.API.snake.SnakeAPI;
+import spark.Route;
 
 public class Main {
 	static String propfile="/home/pi/.spark.prop";
@@ -55,6 +55,7 @@ public class Main {
 		after("/*",ManageAPI.afterAll);
 		get("/mailauth",MailAPI.auth);
 		path("/spark", ()->{
+			get("",status);
 			path("/login", ()->{
 				post("", LoginAPI.login);
 				before("/*",LoginAPI.validated); //Kontrollerar så att användaren är inloggad
@@ -75,4 +76,8 @@ public class Main {
 			path("/webhook/",Webhook.routeGroup);
 		});
 	}
+	Route status = (request, response) -> {
+		response.body("OK");
+		return response;
+	};
 }

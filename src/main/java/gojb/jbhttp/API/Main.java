@@ -55,7 +55,7 @@ public class Main {
 		after("/*",ManageAPI.afterAll);
 		get("/mailauth",MailAPI.auth);
 		path("/spark", ()->{
-			get("",status);
+			get("/",status);
 			path("/login", ()->{
 				post("", LoginAPI.login);
 				before("/*",LoginAPI.validated); //Kontrollerar så att användaren är inloggad

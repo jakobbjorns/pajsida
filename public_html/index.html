@@ -1,55 +1,53 @@
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Björns.nu</title>
-        <script src="index.js"></script>
-        <link href="index.css" rel=stylesheet type="text/css">
-        <link href='https://fonts.googleapis.com/css?family=Bitter:400,700,400italic|Audiowide' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
-    	<h1>Välkommen till Björns.nu</h1>
-    		<br>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Björns.nu</title>
+<script src="index.js"></script>
+<link href="index.css" rel=stylesheet type="text/css">
+<link
+	href='https://fonts.googleapis.com/css?family=Bitter:400,700,400italic|Audiowide'
+	rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<h1>Välkommen till Björns.nu</h1>
+	<br>
 	<b>Avgångar från </b>
 	<select id=station onchange="SL()">
-	 <option value="9183">Gubbängen</option>
-	 <option value="9204">Tekniska Högskolan</option>
-	 <option value="1323">Medborgarplatsen</option>
-	 <option value="9192">Slussen</option>
+		<option value="9183">Gubbängen</option>
+		<option value="9204">Tekniska Högskolan</option>
+		<option value="1323">Medborgarplatsen</option>
+		<option value="9192">Slussen</option>
 	</select>
-        <div id=tunnelbanaW>
-            <div id=tunnelbana>
-                <table class="avgångar">
-                    <thead>
-                        <tr>
-                            <td>
-                                <b>Norrgående</b>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody id=depaturesGUN></tbody>
-                </table>
-                <table class="avgångar">
-                    <thead>
-                        <tr>
-                            <td>
-                                <b>Södergående</b>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody id=depaturesGUS></tbody>
-                </table>
-                <table id=depaturesGUI class=info></table>
-            </div>
-        </div>
-        <div class=temps>
-            Ute:
-            <div id=gu_ute_temp></div>
-            <div id=gu_ute_fukt></div>
-        </div>
-        <div class=temps>
-            Inne:
-            <div id=gu_inne_temp></div>
-            <div id=gu_inne_fukt></div>
-        </div>
-    </body>
+	<div id=tunnelbanaW>
+		<div id=tunnelbana>
+			<table class="avgångar">
+				<thead>
+					<tr>
+						<td><b>Norrgående</b></td>
+					</tr>
+				</thead>
+				<tbody id=depaturesGUN></tbody>
+			</table>
+			<table class="avgångar">
+				<thead>
+					<tr>
+						<td><b>Södergående</b></td>
+					</tr>
+				</thead>
+				<tbody id=depaturesGUS></tbody>
+			</table>
+			<table id=depaturesGUI class=info></table>
+		</div>
+	</div>
+	<div class=temps>
+		Ute:
+		<div id=gu_ute_temp></div>
+		<div id=gu_ute_fukt></div>
+	</div>
+	<div class=temps>
+		Inne:
+		<div id=gu_inne_temp></div>
+		<div id=gu_inne_fukt></div>
+	</div>
+</body>

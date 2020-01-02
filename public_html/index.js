@@ -2,7 +2,7 @@ console.log('window - onload');
 //4th
 window.onload = function load() {
 	console.log("load");
-//	fu();
+    fu();
 	SL();
 	setdata("/F56/a","°C",0,"inne_temp")
 	setdata("/F56/b","%",0,"inne_fukt")

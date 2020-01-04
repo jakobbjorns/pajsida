@@ -81,7 +81,29 @@
 	<div id="datum"></div>
 	<div id="klocka"></div>
 	<script type="text/javascript">
-            klocka()
-        </script>
+		klocka()
+	</script>
+	<p>
+		<a href="/NAS/">NAS</a>
+	</p>
+	<p>
+		<a href="/phpmyadmin/">phpmyadmin</a>
+	</p>
+	<form action="spark/login" method="post">
+		<table>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" name="name"></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Logga in"></td>
+			</tr>
+
+		</table>
+	</form>
 	<p>© Jakob Björns - 2020</p>
 </body>

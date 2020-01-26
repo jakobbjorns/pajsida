@@ -47,7 +47,8 @@ function appendDep(tableid,depature){
 	for (i=0;depature.Deviations!=null&&i<depature.Deviations.length;i++){
 		dev+=" " + depature.Deviations[i].Text +" (" + depature.Deviations[i].Consequence + ")";
 	}
-	d2.append(depature.DisplayTime + "("+depature.TimeTabledDateTime+") " + dev)
+	var tabelltid = depature.TimeTabledDateTime.split("T")[1]
+	d2.append(depature.DisplayTime + "("+tabelltid+") " + dev)
 	rad.appendChild(d1);rad.appendChild(d2);
 	document.getElementById(tableid).appendChild(rad)
 }

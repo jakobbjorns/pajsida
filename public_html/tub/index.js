@@ -50,9 +50,9 @@ function appendDep(tableid,depature){
 	var tabelltid = depature.TimeTabledDateTime.split("T")[1]
 	var bertid = depature.ExpectedDateTime.split("T")[1]
 	if tabelltid.localeCompare(bertid)!=0{
-		tabelltid=tabelltid+ "NY TID: "+bertid
+		tabelltid=tabelltid+ " NY TID: "+bertid
 	}
-	d2.append(depature.DisplayTime + "("+tabelltid+") " + dev)
+	d2.append(depature.DisplayTime + " ("+tabelltid+") " + dev)
 	rad.appendChild(d1);rad.appendChild(d2);
 	document.getElementById(tableid).appendChild(rad)
 }

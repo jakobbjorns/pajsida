@@ -36,7 +36,7 @@ $(window).load(function(){
 	document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
 	res();
 	if ('WebSocket' in window) {
-		socket = new WebSocket("wss://bjorns.tk/ws/snake");
+		socket = new WebSocket("wss://björns.nu/ws/snake");
 	}  else {
 		console.log('Error: WebSocket stöds inte.');
 	}
@@ -55,7 +55,7 @@ $(window).load(function(){
 		socket.send("INIT "+color+" "+namn);
 	}
 	socket.onclose = function () {
-		socket = new WebSocket("wss://bjorns.tk/ws/snake");
+		socket = new WebSocket("wss://björns.nu/ws/snake");
 
 	};
 

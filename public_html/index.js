@@ -18,6 +18,7 @@ window.onload = function load() {
 }
 function setdata(id,sign,decimals,elementid){
 	var req = new XMLHttpRequest();
+	req.timeout = 2000; // time in milliseconds
 	req.open("GET", id, true);
 	req.onload = function() {
 		document.getElementById(elementid).innerHTML  = parseFloat(this.responseText).toFixed(decimals)+sign;
@@ -25,8 +26,10 @@ function setdata(id,sign,decimals,elementid){
 	req.send(null);
 }
 function fu(){
-var req = new XMLHttpRequest();
+	var req = new XMLHttpRequest();
+	req.timeout = 2000; // time in milliseconds
 	req.open("GET", "/FU", true);
+	
 	req.onload = function() {
 		var json = JSON.parse(this.responseText);
 		var temp = json.value;

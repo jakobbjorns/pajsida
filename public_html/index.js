@@ -17,7 +17,7 @@ window.onload = function load() {
 	setTimeout(load, 10000);
 }
 function setdata(id,sign,decimals,elementid){
-	var req = new XDomainRequest();
+	var req = new XMLHttpRequest();
 	req.timeout = 10000; // time in milliseconds
 	req.open("GET", id, true);
 	req.onload = function() {

@@ -8,10 +8,10 @@ window.onload = function load() {
 	setdata("/F56/b","%",0,"inne_fukt")
 	setdata("/F56/c","°C",1,"ute_temp")
 	setdata("/F56/d","%",0,"ute_fukt")
-	setdata("/GU/givare/c","°C",1,"gu_ute_temp")
-	setdata("/GU/givare/d","%",0,"gu_ute_fukt")
-	setdata("/GU/givare/a","°C",1,"gu_inne_temp")
-	setdata("/GU/givare/b","%",0,"gu_inne_fukt")
+	setdata("sthlm."+window.location.host+"/c","°C",1,"la_ute_temp")
+	setdata("sthlm."+window.location.host+"/d","%",0,"la_ute_fukt")
+	setdata("sthlm."+window.location.host+"/a","°C",1,"la_inne_temp")
+	setdata("sthlm."+window.location.host+"/b","%",0,"la_inne_fukt")
 	setdata("/FUi/a","°C",1,"fu_inne_temp")
 	setdata("/FUi/b","%",0,"fu_inne_fukt")
 	setTimeout(load, 10000);
@@ -29,7 +29,7 @@ function fu(){
 	var req = new XMLHttpRequest();
 	req.timeout = 2000; // time in milliseconds
 	req.open("GET", "/FU", true);
-	
+
 	req.onload = function() {
 		var json = JSON.parse(this.responseText);
 		var temp = json.value;
@@ -95,8 +95,8 @@ function getDatum(){
 	daglista=["Söndag","Måndag","Tisdag","Onsdag","Torsdag","Fredag","Lördag"]
 	månadslista=["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"]
 	var day = new Date();
-	return daglista[day.getDay()]+" " + 
-		day.getDate() + " "+ 
+	return daglista[day.getDay()]+" " +
+		day.getDate() + " "+
 		månadslista[day.getMonth()]+" "+
 		day.getFullYear();
 }

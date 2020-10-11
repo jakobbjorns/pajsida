@@ -13,7 +13,7 @@ window.onload = function load() {
 	setdata("https://sthlm."+window.location.host+"/termometer/a","°C",1,"la_inne_temp")
 	// setdata("https://sthlm."+window.location.host+"/termometer/b","%",0,"la_inne_fukt")
 	setdata("/FUi/a","°C",1,"fu_inne_temp")
-	setdata("/FUi/b","%",0,"fu_inne_fukt")
+	// setdata("/FUi/b","%",0,"fu_inne_fukt")
 	setTimeout(load, 10000);
 }
 function setdata(id,sign,decimals,elementid){

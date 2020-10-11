@@ -5,13 +5,13 @@ window.onload = function load() {
     fu();
 	SL();
 	setdata("/F56/a","°C",0,"inne_temp")
-	setdata("/F56/b","%",0,"inne_fukt")
+	// setdata("/F56/b","%",0,"inne_fukt")
 	setdata("/F56/c","°C",1,"ute_temp")
-	setdata("/F56/d","%",0,"ute_fukt")
+	// setdata("/F56/d","%",0,"ute_fukt")
 	setdata("https://sthlm."+window.location.host+"/termometer/c","°C",1,"la_ute_temp")
-	setdata("https://sthlm."+window.location.host+"/termometer/d","%",0,"la_ute_fukt")
+	// setdata("https://sthlm."+window.location.host+"/termometer/d","%",0,"la_ute_fukt")
 	setdata("https://sthlm."+window.location.host+"/termometer/a","°C",1,"la_inne_temp")
-	setdata("https://sthlm."+window.location.host+"/termometer/b","%",0,"la_inne_fukt")
+	// setdata("https://sthlm."+window.location.host+"/termometer/b","%",0,"la_inne_fukt")
 	setdata("/FUi/a","°C",1,"fu_inne_temp")
 	setdata("/FUi/b","%",0,"fu_inne_fukt")
 	setTimeout(load, 10000);

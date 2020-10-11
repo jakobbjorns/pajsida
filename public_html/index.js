@@ -18,7 +18,7 @@ window.onload = function load() {
 }
 function setdata(id,sign,decimals,elementid){
 	var req = new XMLHttpRequest();
-	req.timeout = 2000; // time in milliseconds
+	req.timeout = 10000; // time in milliseconds
 	req.open("GET", id, true);
 	req.onload = function() {
 		document.getElementById(elementid).innerHTML  = parseFloat(this.responseText).toFixed(decimals)+sign;

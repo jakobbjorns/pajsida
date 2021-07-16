@@ -10,7 +10,7 @@ import gojb.jbhttp.API.snake.SnakeAPI;
 import spark.Route;
 
 public class Main {
-	static String propfile="~/.spark.prop";
+	static String propfile="/home/jakob/.spark.prop";
 	static Properties properties = new Properties();
 	public static void main(String[] args) {
 		System.out.println("Välkommen");

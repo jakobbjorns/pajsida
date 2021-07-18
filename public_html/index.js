@@ -99,8 +99,7 @@ function appendtext(tableid, text) {
 	var rad = document.createElement("tr");
 	var d1 = document.createElement("td");
 	d1.appped(text)
-	d2.append(depature.DisplayTime + " " + dev)
-	rad.appendChild(d1); rad.appendChild(d2);
+	rad.appendChild(d1);
 	document.getElementById(tableid).appendChild(rad)
 }
 

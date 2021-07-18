@@ -58,7 +58,7 @@ function SL() {
 				appendDep("depaturesGUS", metro)
 			}
 		}
-		appendtext("depaturesGUN","<b>Bussar</b>")
+		appendtext("depaturesGUN","Bussar")
 
 		for (i = 0; i < json.ResponseData.Buses.length; i++) {
 			metro = json.ResponseData.Buses[i]

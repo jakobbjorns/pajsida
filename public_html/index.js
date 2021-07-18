@@ -98,7 +98,9 @@ function appendDep(tableid, depature) {
 function appendtext(tableid, text) {
 	var rad = document.createElement("tr");
 	var d1 = document.createElement("td");
-	d1.append(text)
+	var b = document.createElement("b");
+	b.append(text)
+	d1.append(b)
 	rad.appendChild(d1);
 	document.getElementById(tableid).appendChild(rad)
 }

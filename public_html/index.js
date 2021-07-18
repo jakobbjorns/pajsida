@@ -58,6 +58,8 @@ function SL() {
 				appendDep("depaturesGUS", metro)
 			}
 		}
+		appendtext("depaturesGUN","<b>Bussar</b>")
+
 		for (i = 0; i < json.ResponseData.Buses.length; i++) {
 			metro = json.ResponseData.Buses[i]
 			if (metro.JourneyDirection == 1) {
@@ -92,6 +94,16 @@ function appendDep(tableid, depature) {
 	rad.appendChild(d1); rad.appendChild(d2);
 	document.getElementById(tableid).appendChild(rad)
 }
+
+function appendtext(tableid, text) {
+	var rad = document.createElement("tr");
+	var d1 = document.createElement("td");
+	d1.appped(text)
+	d2.append(depature.DisplayTime + " " + dev)
+	rad.appendChild(d1); rad.appendChild(d2);
+	document.getElementById(tableid).appendChild(rad)
+}
+
 function getTid() {
 	var day = new Date();
 	var hh = ("0" + day.getHours()).slice(-2);
